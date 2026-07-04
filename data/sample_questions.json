@@ -1,0 +1,158 @@
+[
+  {
+    "id": "q001",
+    "question": "Türkiye'nin başkenti neresidir?",
+    "choices": {
+      "A": "İstanbul",
+      "B": "Ankara",
+      "C": "İzmir",
+      "D": "Bursa"
+    },
+    "answer": "B",
+    "category": "genel_bilgi",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q002",
+    "question": "Bir yıl kaç aydan oluşur?",
+    "choices": {
+      "A": "10",
+      "B": "11",
+      "C": "12",
+      "D": "13"
+    },
+    "answer": "C",
+    "category": "genel_bilgi",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q003",
+    "question": "8 ile 7'nin çarpımı kaçtır?",
+    "choices": {
+      "A": "54",
+      "B": "56",
+      "C": "58",
+      "D": "64"
+    },
+    "answer": "B",
+    "category": "matematik",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q004",
+    "question": "Bir üçgenin iç açılarının toplamı kaç derecedir?",
+    "choices": {
+      "A": "90",
+      "B": "120",
+      "C": "180",
+      "D": "360"
+    },
+    "answer": "C",
+    "category": "matematik",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q005",
+    "question": "15 sayısının 3'e bölümü kaçtır?",
+    "choices": {
+      "A": "3",
+      "B": "4",
+      "C": "5",
+      "D": "6"
+    },
+    "answer": "C",
+    "category": "matematik",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q006",
+    "question": "Bütün kediler hayvandır. Pamuk bir kedidir. Buna göre aşağıdaki çıkarımlardan hangisi doğrudur?",
+    "choices": {
+      "A": "Pamuk bir hayvandır.",
+      "B": "Pamuk bir bitkidir.",
+      "C": "Bütün hayvanlar kedidir.",
+      "D": "Kediler hayvan değildir."
+    },
+    "answer": "A",
+    "category": "mantik",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q007",
+    "question": "Ali, Ayşe'den uzundur. Ayşe, Mehmet'ten uzundur. Buna göre kim en uzundur?",
+    "choices": {
+      "A": "Mehmet",
+      "B": "Ayşe",
+      "C": "Ali",
+      "D": "Üçü eşittir"
+    },
+    "answer": "C",
+    "category": "mantik",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q008",
+    "question": "Suyun kimyasal formülü hangisidir?",
+    "choices": {
+      "A": "H2O",
+      "B": "CO2",
+      "C": "O2",
+      "D": "NaCl"
+    },
+    "answer": "A",
+    "category": "fen",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q009",
+    "question": "Bitkiler fotosentez yaparken havadan hangi gazı alır?",
+    "choices": {
+      "A": "Oksijen",
+      "B": "Azot",
+      "C": "Karbondioksit",
+      "D": "Helyum"
+    },
+    "answer": "C",
+    "category": "fen",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q010",
+    "question": "Dünya'nın doğal uydusu hangisidir?",
+    "choices": {
+      "A": "Mars",
+      "B": "Ay",
+      "C": "Venüs",
+      "D": "Güneş"
+    },
+    "answer": "B",
+    "category": "fen",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q011",
+    "question": "'Hızlı' kelimesinin zıt anlamlısı hangisidir?",
+    "choices": {
+      "A": "Çabuk",
+      "B": "Süratli",
+      "C": "Atik",
+      "D": "Yavaş"
+    },
+    "answer": "D",
+    "category": "turkce",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q012",
+    "question": "Aşağıdaki kelimelerden hangisi bir fiildir?",
+    "choices": {
+      "A": "Mavi",
+      "B": "Koşmak",
+      "C": "Kalem",
+      "D": "Sessiz"
+    },
+    "answer": "B",
+    "category": "turkce",
+    "difficulty": "easy"
+  }
+]
