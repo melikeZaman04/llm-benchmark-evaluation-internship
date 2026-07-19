@@ -22,9 +22,27 @@ import json
 import os
 import subprocess
 import tempfile
+import uuid
 from pathlib import Path
 
 IMAJ = "trc-sandbox:latest"
+
+
+def _konteyneri_temizle(ad: str) -> None:
+    """
+    Kaçak container'ı en iyi çabayla durdurur.
+
+    KRİTİK: host tarafındaki `subprocess` timeout'u yalnızca `docker run`
+    CLI istemcisini öldürür; container Docker daemon'ında çalışmaya DEVAM
+    edebilir. Sonsuz döngü üreten kod için container'ı açıkça öldürmezsek
+    %100 CPU'da sonsuza dek döner (gerçek kaynak sızıntısı). `docker kill`
+    çıkışı tetikler; `--rm` sayesinde container ardından silinir.
+    """
+    for komut in (["docker", "kill", ad], ["docker", "rm", "-f", ad]):
+        try:
+            subprocess.run(komut, capture_output=True, text=True, timeout=10)
+        except (subprocess.TimeoutExpired, OSError):
+            pass
 
 
 def sandboxta_calistir(
@@ -64,8 +82,11 @@ def sandboxta_calistir(
         for ad in ("solution.py", "tests.json", "harness.py"):
             os.chmod(d / ad, 0o644)
 
+        # Container'a bilinen bir ad ver: timeout'ta onu adıyla öldürebilelim.
+        konteyner = f"trc-sandbox-{uuid.uuid4().hex[:12]}"
         komut = [
             "docker", "run", "--rm",
+            "--name", konteyner,
             "--network", "none",
             "--memory", bellek, "--memory-swap", bellek,
             "--cpus", cpu,
@@ -84,6 +105,9 @@ def sandboxta_calistir(
                 komut, capture_output=True, text=True, timeout=timeout_sn
             )
         except subprocess.TimeoutExpired:
+            # Container daemon'da hâlâ dönüyor olabilir; açıkça öldür (aksi
+            # halde sonsuz döngü kodu %100 CPU'da kalır — bkz. _konteyneri_temizle).
+            _konteyneri_temizle(konteyner)
             return {"gecti": False, "hata_tipi": "timeout",
                     "gecen": 0, "toplam": len(test_cases), "sonuclar": []}
 
