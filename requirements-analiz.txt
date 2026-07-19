@@ -1,0 +1,12 @@
+# İleri faz (analiz / görselleştirme) bağımlılıkları — henüz gerekmiyor.
+#   Gün 15 metrik motoru, Gün 16 figürler, Gün 18 Gradio dashboard.
+# Kurulum: pip install -r requirements-analiz.txt
+#
+# Not: Gün 1-10 kodu bunlara İHTİYAÇ DUYMAZ (CSV için stdlib `csv` kullanılır).
+# Bu ayrım, çekirdek ortamı hafif ve tekrarlanabilir tutmak içindir.
+
+pandas>=2.2
+matplotlib>=3.8
+scikit-learn>=1.4
+jupyter>=1.0
+notebook>=7.0

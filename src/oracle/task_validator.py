@@ -26,6 +26,7 @@ def gorevi_dogrula(gorev: dict) -> dict:
         kod=gorev["referans_cozum"],
         fonksiyon_adi=gorev["fonksiyon_adi"],
         test_cases=gorev["test_cases"],
+        karsilastirma=gorev.get("karsilastirma"),
     )
     return {
         "id": gorev.get("id"),

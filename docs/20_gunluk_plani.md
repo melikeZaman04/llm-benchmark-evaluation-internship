@@ -137,3 +137,9 @@ Plandaki her sapma buraya `tarih — değişiklik — sebep` olarak işlenir.
   matris runner'a `--tekrar K` çok-örnekleme eklendi; pass@1 yerine çok-örnekli
   ölçüm esas alınacak. Bu, Gün 15 (pass@k) tasarımını netleştirir — aşağı-akış
   güçlenir, gün sayısı değişmez.
+- **2026-07-20 — v1.3** — Gün 11 öncesi sağlamlaştırma arası (yeni gün açmaz).
+  Seçici jüri öz-değerlendirmesiyle mühendislik açıkları kapatıldı: sandbox
+  stdout açığı + `--cap-drop ALL`/`no-new-privileges`, harness karşılaştırma
+  modları, gerçek pass@k (`--sicaklik>0`), pytest paketi + CI, izole `.venv` +
+  pinli bağımlılıklar, README yeniden yazımı. Sebep: veri setini büyütmeden önce
+  zeminin testli ve tekrarlanabilir olması. Aşağı-akış güçlendi; süre değişmedi.

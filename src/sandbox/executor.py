@@ -52,9 +52,13 @@ def sandboxta_calistir(
     timeout_sn: int = 10,
     bellek: str = "256m",
     cpu: str = "1.0",
+    karsilastirma: dict | None = None,
 ) -> dict:
     """
     Bir kod parçasını izole Docker sandbox'ında verilen testlere karşı çalıştırır.
+
+    karsilastirma: {"mod": "tam|yaklasik|sirasiz", "tol": float} — çıktı
+      karşılaştırma modu (varsayılan tam eşitlik).
 
     Dönüş (dict):
       {
@@ -68,7 +72,8 @@ def sandboxta_calistir(
         d = Path(gecici)
         (d / "solution.py").write_text(kod, encoding="utf-8")
         (d / "tests.json").write_text(
-            json.dumps({"fonksiyon_adi": fonksiyon_adi, "test_cases": test_cases}),
+            json.dumps({"fonksiyon_adi": fonksiyon_adi, "test_cases": test_cases,
+                        "karsilastirma": karsilastirma or {"mod": "tam"}}),
             encoding="utf-8",
         )
         # harness.py'yi de gecici klasore kopyala (container /work'u salt-okunur gorur)
@@ -93,6 +98,8 @@ def sandboxta_calistir(
             "--pids-limit", "64",
             "--read-only",
             "--tmpfs", "/tmp:size=16m",
+            "--cap-drop", "ALL",                     # tüm Linux yeteneklerini düşür
+            "--security-opt", "no-new-privileges",   # setuid ile yetki yükseltme yok
             "-e", "PYTHONDONTWRITEBYTECODE=1",
             "--user", "1000:1000",
             "-v", f"{d}:/work:ro",
@@ -112,8 +119,10 @@ def sandboxta_calistir(
                     "gecen": 0, "toplam": len(test_cases), "sonuclar": []}
 
         cikti = proc.stdout.strip()
+        # Harness yalnız SON satırda JSON üretir; savunmacı olarak son satırı al.
+        son_satir = cikti.splitlines()[-1] if cikti else ""
         try:
-            sonuc = json.loads(cikti)
+            sonuc = json.loads(son_satir)
         except json.JSONDecodeError:
             # harness beklenen JSON'u üretemedi (ör. container hatası)
             return {"gecti": False, "hata_tipi": "harness_hatasi",

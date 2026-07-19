@@ -269,3 +269,36 @@ Metodolojik gürültünün ötesinde, projenin ana araştırma sinyali güçlü 
 ### Bir Sonraki Adım
 
 Bir sonraki gün (Gün 11) veri seti büyütülmeye başlanacak: dizi/string/matematik kategorilerinde 8–10 yeni kanonik görev yazılıp her biri Oracle ile doğrulanacak; böylece matris tek görevden çıkıp anlamlı bir kapsama ulaşacaktır.
+
+## Ara Çalışma - Mühendislik Sağlamlaştırması (Jüri Eleştirileri)
+
+Gün 11'e geçmeden önce, projeye sert bir öz-değerlendirme (seçici jüri bakışı) uygulandı ve tespit edilen mühendislik açıkları kapatıldı. Bu ara çalışma yeni bir gün numarası açmaz; plandaki tampon mantığına yaslanır ve kalan günlerin değerini artırır.
+
+Kapatılan açıklar:
+
+* **Güvenlik/doğruluk — sandbox stdout açığı:** Değerlendirilen kod `print` yaparsa host'un JSON ayrıştırması bozuluyordu ve çıktı host belleğine sınırsız akıyordu. Harness artık kodun tüm stdout'unu baskılıyor; yalnızca kendi tek JSON satırını gerçek stdout'a yazıyor. Host ayrıca yalnızca son satırı ayrıştırıyor.
+* **Güvenlik sertleştirmesi:** Container'a `--cap-drop ALL` ve `--security-opt no-new-privileges` eklendi (yetenek düşürme + setuid ile yetki yükseltmeyi engelleme).
+* **Doğruluk — karşılaştırma modları:** Harness artık tam eşitliğin yanında `yaklasik` (float toleransı) ve `sirasiz` (sıra önemsiz) modlarını destekliyor; görev şemasına `karsilastirma` alanı eklendi. Bu, yazılabilecek görev tiplerini genişletir.
+* **Metodoloji — pass@k düzeltmesi:** Önceki "K örnek = pass@k" çerçevesi hatalıydı; `temperature=0`'da örnekler yalnız donanım gürültüsüyle oynar. Artık gerçek pass@k için `--sicaklik>0` örnekleme (her örneğe farklı seed) ve yansız pass@k tahmincisi var. `sicaklik=0` ise açıkça "kararlılık" ölçümü olarak konumlandırıldı; ikisi karıştırılmıyor.
+* **Test altyapısı:** Bir test aracının kendi testi yoktu. `tests/` altında pytest paketi kuruldu (12 birim + 10 Docker entegrasyon = 22 test, hepsi geçiyor). GitHub Actions CI eklendi (imajı derleyip tüm testleri koşuyor).
+* **Tekrarlanabilir ortam:** Bağımlılıklar pinlenmemişti ve `pandas` listede olmasına rağmen kurulu değildi. İzole `.venv` kuruldu; `requirements.txt` çekirdek+test için sadeleştirildi; analiz/görselleştirme bağımlılıkları `requirements-analiz.txt`'e ayrıldı.
+* **README kimlik krizi:** README eski (çoktan-seçmeli) projeyi anlatıyordu. Gerçek mimariyi (iki-düzlem, sandbox, kod-değerlendirme, determinizm uyarısı) yansıtacak biçimde baştan yazıldı; çoktan-seçmeli track'i açıkça "Faz 1 öğrenme arşivi" olarak konumlandırıldı.
+
+### Bugün Öğrenilenler
+
+* Bir test aracının kendi testlerinin ve CI'sının olmasının, "güvenilir cetvel" iddiasının olmazsa olmazı olduğu pekişti.
+* Güvenlik sandbox'ında en sinsi açığın (stdout taşması) doğruluk hatasıyla iç içe olabildiği görüldü.
+* pass@k gibi metriklerin ancak doğru örnekleme koşulunda (sıcaklık>0) anlamlı olduğu, metodolojik terimlerin gevşek kullanılmaması gerektiği anlaşıldı.
+* Tekrarlanabilirliği vaaz eden bir projenin kendi ortamının da pinlenmiş ve izole olması gerektiği pekişti.
+
+### Oluşturulan Çıktılar
+
+* Güncellenmiş src/sandbox/harness.py, src/sandbox/executor.py (sertleştirme, karşılaştırma modları)
+* Güncellenmiş src/run_matrix.py (gerçek pass@k), src/run_task.py, src/oracle/task_validator.py
+* tests/ (conftest, test_unit, test_sandbox_integration), pytest.ini
+* .github/workflows/tests.yml (CI)
+* Yeniden yazılan README.md, requirements.txt, yeni requirements-analiz.txt
+
+### Bir Sonraki Adım
+
+Sağlam zemin hazır. Gün 11'de veri seti büyütmeye güvenle geçilebilir; yeni görevler artık testli oracle, karşılaştırma modları ve tekrarlanabilir ortam üzerine oturacaktır.

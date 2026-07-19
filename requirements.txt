@@ -1,6 +1,12 @@
-pandas
-scikit-learn
-matplotlib
-jupyter
-notebook
-requests
+# Çekirdek çalışma zamanı + test bağımlılıkları.
+# Bu dosya, Gün 1-10 kod hattını (sandbox, oracle, model istemcisi, matris,
+# testler) tam çalıştırmak için YETERLİDİR ve kurulu ortamla birebir uyumludur.
+#
+# Kurulum (izole ve tekrarlanabilir ortam önerilir):
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# İleri fazların analiz/görselleştirme bağımlılıkları için: requirements-analiz.txt
+
+requests>=2.31,<3
+pytest>=8,<10

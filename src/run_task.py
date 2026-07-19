@@ -35,6 +35,7 @@ def gorevi_calistir(gorev: dict, istemci: ModelIstemcisi, dil: str = "tr") -> di
         kod=uretim["kod"],
         fonksiyon_adi=gorev["fonksiyon_adi"],
         test_cases=gorev["test_cases"],
+        karsilastirma=gorev.get("karsilastirma"),
     )
     return {
         "id": gorev.get("id"),

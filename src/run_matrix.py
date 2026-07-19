@@ -25,6 +25,7 @@ import argparse
 import csv
 import glob
 import json
+import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -40,6 +41,22 @@ VARSAYILAN_MODELLER = [
 VARSAYILAN_DILLER = ["tr", "en"]
 
 
+def pass_at_k(n: int, c: int, k: int) -> float:
+    """
+    pass@k'nin yansız (unbiased) tahmincisi (Chen et al., 2021 / HumanEval):
+        pass@k = 1 - C(n-c, k) / C(n, k)
+    n: toplam örnek, c: geçen örnek sayısı, k: hedef.
+    NOT: pass@k ancak örnekler GERÇEKTEN çeşitliyken (sıcaklık>0) anlamlıdır;
+    sıcaklık=0'da örnekler yalnızca donanım gürültüsüyle oynar, bu bir
+    örnekleme dağılımı değildir (bkz. 'kararlilik' alanı).
+    """
+    if k > n:
+        k = n
+    if n - c < k:
+        return 1.0
+    return 1.0 - math.comb(n - c, k) / math.comb(n, k)
+
+
 def _tokenlar(kullanim: dict | None) -> dict:
     """Token kullanımını sabit anahtarlara indirger (eksikse None)."""
     k = kullanim or {}
@@ -50,18 +67,21 @@ def _tokenlar(kullanim: dict | None) -> dict:
     }
 
 
-def matris_kosu(gorevler: list[dict], modeller: list[str],
-                diller: list[str], tekrar: int = 1) -> list[dict]:
+def matris_kosu(gorevler: list[dict], modeller: list[str], diller: list[str],
+                tekrar: int = 1, sicaklik: float = 0.0) -> list[dict]:
     """
     Görev × model × dil matrisini koşar; her hücre `tekrar` kez örneklenir.
-    Her kayıt, o hücrenin K örneğini ve özetini (gecti_sayisi/K, gecen aralığı)
-    içerir — böylece yerel çıkarımın gürültüsü şeffaf saklanır.
+
+    sicaklik=0  -> greedy; örnekler yalnız donanım gürültüsüyle oynar. Burada
+                   anlamlı olan 'kararlilik' (K örnek aynı mı?), pass@k DEĞİL.
+    sicaklik>0  -> gerçek örnekleme; her örnek farklı seed alır. Burada pass@k
+                   anlamlıdır ('pass_at_1', 'pass_at_k' alanları).
     """
     kayitlar: list[dict] = []
     toplam = len(gorevler) * len(modeller) * len(diller)
     sayac = 0
     for model in modeller:
-        istemci = ModelIstemcisi.ollama(model=model)
+        istemci = ModelIstemcisi.ollama(model=model, temperature=sicaklik)
         erisim = istemci.erisilebilir_mi()
         for gorev in gorevler:
             for dil in diller:
@@ -72,7 +92,9 @@ def matris_kosu(gorevler: list[dict], modeller: list[str],
                     kayitlar.append(_hata_kaydi(gorev, model, dil, "sunucu_yok", tekrar))
                     continue
                 ornekler = []
-                for _ in range(tekrar):
+                for i in range(tekrar):
+                    # Her örneğe farklı seed: sicaklik>0'da gerçek çeşitlilik verir.
+                    istemci.seed = i
                     try:
                         r = gorevi_calistir(gorev, istemci, dil=dil)
                         ornekler.append({
@@ -86,31 +108,35 @@ def matris_kosu(gorevler: list[dict], modeller: list[str],
                                          "toplam": len(gorev.get("test_cases", [])),
                                          "hata_tipi": "istemci_hatasi",
                                          "tokenlar": _tokenlar(None)})
-                kayitlar.append(_hucre_kaydi(gorev, model, dil, ornekler))
-                gecti_sayisi = sum(1 for o in ornekler if o["gecti"])
-                gecenler = [o["gecen"] for o in ornekler]
-                aralik = (f"{min(gecenler)}-{max(gecenler)}"
-                          if min(gecenler) != max(gecenler) else str(gecenler[0]))
-                print(f"{onek} -> geçen={aralik}/{ornekler[0]['toplam']}  "
-                      f"pass {gecti_sayisi}/{tekrar}")
+                kayitlar.append(_hucre_kaydi(gorev, model, dil, ornekler, sicaklik))
+                k = kayitlar[-1]
+                print(f"{onek} -> geçen={k['gecen_min']}-{k['gecen_max']}"
+                      f"/{k['toplam']}  pass {k['gecti_sayisi']}/{tekrar}"
+                      f"  pass@1={k['pass_at_1']:.2f}")
     return kayitlar
 
 
-def _hucre_kaydi(gorev: dict, model: str, dil: str, ornekler: list[dict]) -> dict:
-    """Bir hücrenin K örneğini özetleyip kayıt nesnesine çevirir."""
+def _hucre_kaydi(gorev: dict, model: str, dil: str, ornekler: list[dict],
+                 sicaklik: float) -> dict:
+    """Bir hücrenin K örneğini özetler; pass@k tahminlerini ekler."""
     gecenler = [o["gecen"] for o in ornekler]
     toklar = [o["tokenlar"]["completion"] for o in ornekler
               if o["tokenlar"]["completion"] is not None]
+    n = len(ornekler)
+    c = sum(1 for o in ornekler if o["gecti"])
     return {
         "gorev": gorev.get("id"), "kategori": gorev.get("kategori"),
         "model": model, "dil": dil,
-        "tekrar": len(ornekler),
-        "gecti_sayisi": sum(1 for o in ornekler if o["gecti"]),
+        "tekrar": n,
+        "gecti_sayisi": c,
+        "pass_at_1": round(c / n, 4) if n else 0.0,          # = c/n (yansız)
+        "pass_at_k": round(pass_at_k(n, c, n), 4) if n else 0.0,  # k=n
+        "pass_at_k_gecerli": sicaklik > 0,   # pass@k yalnız sicaklik>0'da anlamlı
         "gecen_min": min(gecenler), "gecen_max": max(gecenler),
         "toplam": ornekler[0]["toplam"],
         "hata_tipleri": sorted({o["hata_tipi"] for o in ornekler if o["hata_tipi"]}),
         "ort_completion_tok": round(sum(toklar) / len(toklar)) if toklar else None,
-        "kararli": min(gecenler) == max(gecenler),  # K örnek aynı mı?
+        "kararli": min(gecenler) == max(gecenler),  # greedy'de tekrarlanabilir mi?
         "ornekler": ornekler,
     }
 
@@ -119,20 +145,24 @@ def _hata_kaydi(gorev: dict, model: str, dil: str, hata: str, tekrar: int) -> di
     n = len(gorev.get("test_cases", []))
     ornekler = [{"gecti": False, "gecen": 0, "toplam": n, "hata_tipi": hata,
                  "tokenlar": _tokenlar(None)} for _ in range(tekrar)]
-    return _hucre_kaydi(gorev, model, dil, ornekler)
+    return _hucre_kaydi(gorev, model, dil, ornekler, 0.0)
 
 
-def ozet_yazdir(kayitlar: list[dict]) -> None:
-    """Model × dil bazında pass oranı, geçen-aralığı ve kararlılık özeti."""
+def ozet_yazdir(kayitlar: list[dict], sicaklik: float) -> None:
+    """Model × dil bazında pass@1, kararlılık/pass@k ve token özeti."""
     print("\n=== ÖZET (model × dil) ===")
-    print(f"{'model':<14} {'dil':<3} {'pass':>6} {'geçen':>7} {'kararlı':>8} {'ort_tok':>8}")
+    olcu = "pass@k" if sicaklik > 0 else "kararlı"
+    print(f"{'model':<14} {'dil':<3} {'pass@1':>7} {olcu:>8} {'geçen':>7} {'ort_tok':>8}")
     for k in sorted(kayitlar, key=lambda x: (x["model"], x["dil"])):
         aralik = (f"{k['gecen_min']}-{k['gecen_max']}"
                   if k["gecen_min"] != k["gecen_max"] else str(k["gecen_min"]))
-        kararli = "evet" if k["kararli"] else "HAYIR"
+        sag = f"{k['pass_at_k']:.2f}" if sicaklik > 0 else ("evet" if k["kararli"] else "HAYIR")
         ort = k["ort_completion_tok"] if k["ort_completion_tok"] is not None else "-"
-        print(f"{k['model']:<14} {k['dil']:<3} {k['gecti_sayisi']:>3}/{k['tekrar']:<2} "
-              f"{aralik:>7} {kararli:>8} {ort:>8}")
+        print(f"{k['model']:<14} {k['dil']:<3} {k['pass_at_1']:>7.2f} {sag:>8} "
+              f"{aralik:>7} {ort:>8}")
+    if sicaklik == 0:
+        print("Not: sicaklik=0 -> 'pass@k' anlamsız; 'kararlı' sütunu "
+              "greedy tekrarlanabilirliği gösterir. Gerçek pass@k için --sicaklik>0.")
 
 
 def csv_yaz(kayitlar: list[dict], yol: Path) -> None:
@@ -140,12 +170,14 @@ def csv_yaz(kayitlar: list[dict], yol: Path) -> None:
     with yol.open("w", newline="", encoding="utf-8") as f:
         yazici = csv.writer(f)
         yazici.writerow(["gorev", "kategori", "model", "dil", "tekrar",
-                         "gecti_sayisi", "gecen_min", "gecen_max", "toplam",
-                         "kararli", "hata_tipleri", "ort_completion_tok"])
+                         "gecti_sayisi", "pass_at_1", "pass_at_k", "pass_at_k_gecerli",
+                         "gecen_min", "gecen_max", "toplam", "kararli",
+                         "hata_tipleri", "ort_completion_tok"])
         for k in kayitlar:
             yazici.writerow([k["gorev"], k["kategori"], k["model"], k["dil"],
-                             k["tekrar"], k["gecti_sayisi"], k["gecen_min"],
-                             k["gecen_max"], k["toplam"], k["kararli"],
+                             k["tekrar"], k["gecti_sayisi"], k["pass_at_1"],
+                             k["pass_at_k"], k["pass_at_k_gecerli"],
+                             k["gecen_min"], k["gecen_max"], k["toplam"], k["kararli"],
                              ";".join(k["hata_tipleri"]), k["ort_completion_tok"]])
 
 
@@ -155,7 +187,9 @@ def main() -> int:
     a.add_argument("--modeller", default=",".join(VARSAYILAN_MODELLER))
     a.add_argument("--diller", default=",".join(VARSAYILAN_DILLER))
     a.add_argument("--tekrar", type=int, default=1,
-                   help="Hücre başına örnek sayısı (gürültü/pass@k için)")
+                   help="Hücre başına örnek sayısı (kararlılık/pass@k için)")
+    a.add_argument("--sicaklik", type=float, default=0.0,
+                   help="Örnekleme sıcaklığı; pass@k için >0 (ör. 0.4) kullan")
     a.add_argument("--cikti", default="results/matris.json")
     args = a.parse_args()
 
@@ -168,19 +202,22 @@ def main() -> int:
     diller = [d.strip() for d in args.diller.split(",") if d.strip()]
 
     print(f"Görev: {len(gorevler)} | Model: {len(modeller)} | Dil: {len(diller)} "
-          f"| Tekrar: {args.tekrar} "
+          f"| Tekrar: {args.tekrar} | Sıcaklık: {args.sicaklik} "
           f"| Toplam koşum: {len(gorevler)*len(modeller)*len(diller)*args.tekrar}\n")
 
-    kayitlar = matris_kosu(gorevler, modeller, diller, tekrar=args.tekrar)
+    kayitlar = matris_kosu(gorevler, modeller, diller,
+                           tekrar=args.tekrar, sicaklik=args.sicaklik)
 
     cikti = {
         "meta": {
             "tarih_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "seed": 0, "temperature": 0.0, "tekrar": args.tekrar,
+            "temperature": args.sicaklik, "tekrar": args.tekrar,
             "modeller": modeller, "diller": diller,
             "gorev_sayisi": len(gorevler),
-            "not": ("Yerel çıkarım düşük VRAM'de bit-tekrarlanabilir değil; "
-                    "'kararli=false' hücreler K örnek arasında oynamıştır."),
+            "not": ("sicaklik=0: greedy; 'kararli' greedy tekrarlanabilirliğidir, "
+                    "pass@k anlamsızdır. sicaklik>0: her örnek farklı seed alır; "
+                    "pass@k anlamlıdır. Yerel çıkarım düşük VRAM'de bit-tekrarlanabilir "
+                    "değildir, bu yüzden greedy'de bile 'kararli=false' görülebilir."),
         },
         "kayitlar": kayitlar,
     }
@@ -191,7 +228,7 @@ def main() -> int:
     csv_yol = json_yol.with_suffix(".csv")
     csv_yaz(kayitlar, csv_yol)
 
-    ozet_yazdir(kayitlar)
+    ozet_yazdir(kayitlar, args.sicaklik)
     print(f"\nKaydedildi: {json_yol}  ve  {csv_yol}")
     return 0
 
