@@ -1,0 +1,11 @@
+gorev,kategori,model,dil,tekrar,gecti_sayisi,gecen_min,gecen_max,toplam,kararli,hata_tipleri,ort_completion_tok
+trc_001,diziler,qwen2.5:0.5b,tr,3,0,0,0,6,True,,100
+trc_001,diziler,qwen2.5:0.5b,en,3,1,2,6,6,False,,168
+trc_001,diziler,qwen2.5:1.5b,tr,3,0,1,5,6,False,,111
+trc_001,diziler,qwen2.5:1.5b,en,3,1,5,6,6,False,,174
+trc_001,diziler,qwen2.5:3b,tr,3,0,0,0,6,True,syntax,55
+trc_001,diziler,qwen2.5:3b,en,3,0,2,2,6,True,,81
+trc_001,diziler,llama3.2:3b,tr,3,0,2,2,6,True,,40
+trc_001,diziler,llama3.2:3b,en,3,0,2,2,6,True,,62
+trc_001,diziler,gemma2:2b,tr,3,0,1,1,6,True,,378
+trc_001,diziler,gemma2:2b,en,3,3,6,6,6,True,,376

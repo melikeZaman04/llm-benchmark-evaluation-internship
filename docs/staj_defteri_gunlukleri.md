@@ -241,3 +241,31 @@ Sabit seed altında dürüst sonuç şu oldu: küçük modeller trc_001'i determ
 ### Bir Sonraki Adım
 
 Bir sonraki gün (Gün 10) koşum çok-modelli ve çok-dilli hale getirilecek; sonuçlar `results/` altında yapılandırılmış bir şemada (model × dil × görev) toplanacak ve metrik motorunun (Gün 15) girdisi hazırlanacaktır.
+
+## 10. Gün - Çoklu-Model Koşum Matrisi ve Determinizm Gerçeği
+
+Bugün koşum çok-modelli ve çok-dilli hale getirildi. `src/run_matrix.py`, bir görev kümesini (görev × model × dil) matrisi olarak koşup sonuçları hem JSON hem CSV biçiminde `results/` altına kaydediyor. Beş yerel model (`qwen2.5` 0.5B/1.5B/3B, `llama3.2:3b`, `gemma2:2b`) trc_001 üzerinde TR ve EN dillerinde koşuldu.
+
+Gün 9'da sabit seed + temperature=0 ile ardışık iki koşumun birebir aynı çıktığını gözlemlemiştik. Bugün bu bulgu daha geniş koşulda sınandı ve dürüstçe rafine edildi: sabit seed **yalnızca koşullar birebir aynıyken** determinizm sağlıyor. Beş model art arda koşulup VRAM'de takas edildiğinde (4 GB VRAM'de kısmi GPU offload + kayan-nokta işlemlerinin sırasının değişmesi), aynı hücre koşumdan koşuma ±1 test oynayabiliyor. Yani yerel çıkarım bu donanımda **bit-tekrarlanabilir değil**; pass@1 tek başına gürültülü bir ölçüdür.
+
+Bu gerçeğe verilen yanıt olarak runner'a `--tekrar K` eklendi: her hücre K kez örnekleniyor ve tüm örnekler saklanıyor. Kayıt her hücre için `gecti_sayisi/K`, geçen-test aralığı (min–max) ve bir `kararli` bayrağı (K örnek birbirinin aynı mı?) tutuyor. Bu, gürültüyü gizlemek yerine şeffaf biçimde kaydediyor ve Gün 15'te hesaplanacak pass@k metriğinin ham girdisini oluşturuyor. K=3 ile koşulan matriste 10 hücrenin 3'ü kararsız çıktı — pass@1'e güvenmemek gerektiğinin somut kanıtı.
+
+Metodolojik gürültünün ötesinde, projenin ana araştırma sinyali güçlü biçimde belirdi. **Türkçe muhakeme vergisi** her modelde görünür: İngilizce geçme oranı Türkçe'den yüksek ya da eşit. En çarpıcı örnek gemma2:2b — İngilizce'de 3/3 kararlı biçimde geçerken Türkçe'de 0/3. gemma2:2b bu görevde en güçlü ve en kararlı model oldu; llama3.2:3b ise her iki dilde de yetersiz/çok kısa kod üretti. Sonuçlar `results/gun10_matris.json` ve `results/gun10_matris.csv` dosyalarına yazıldı.
+
+### Bugün Öğrenilenler
+
+* Yerel çıkarımın düşük VRAM'de sabit seed'le bile bit-tekrarlanabilir olmadığı, dolayısıyla pass@1 yerine çok-örnekli pass@k'ye ihtiyaç duyulduğu görüldü.
+* Ölçüm gürültüsünü gizlemek yerine (kararlılık bayrağıyla) şeffaf kaydetmenin bilimsel dürüstlük açısından doğru yaklaşım olduğu pekişti.
+* Türkçe vergisinin küçük modellerde çok belirgin olduğu (gemma2:2b: EN 3/3, TR 0/3) somut veriyle doğrulandı.
+* Yapılandırılmış JSON + düz CSV çıktının, ileride metrik motoru ve dashboard için ortak bir sözleşme oluşturduğu görüldü.
+
+### Oluşturulan Çıktılar
+
+* src/run_matrix.py
+* results/gun10_matris.json
+* results/gun10_matris.csv
+* Güncellenmiş docs/staj_defteri_gunlukleri.md
+
+### Bir Sonraki Adım
+
+Bir sonraki gün (Gün 11) veri seti büyütülmeye başlanacak: dizi/string/matematik kategorilerinde 8–10 yeni kanonik görev yazılıp her biri Oracle ile doğrulanacak; böylece matris tek görevden çıkıp anlamlı bir kapsama ulaşacaktır.
