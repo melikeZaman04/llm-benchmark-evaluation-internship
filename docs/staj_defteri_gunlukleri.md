@@ -151,3 +151,35 @@ Bu gün herhangi bir model çalıştırılmadı, model çıktısı alınmadı ve
 ### Bir Sonraki Adım
 
 Bir sonraki gün modelden cevap alma sürecinin temel yapısı planlanacaktır. `src/run_model.py` dosyası hazırlanacak ve model çıktılarının nasıl kaydedileceği belirlenecektir. Gerçek deneylere geçmeden önce bu yapı küçük örnekler üzerinden kontrollü şekilde ilerletilecektir.
+
+## 7. Gün - Docker Sandbox ve Referans-Çözüm Oracle'ının Kurulması
+
+Bugün projenin iki-düzlemli mimarisindeki "Deterministik Oracle" katmanının çekirdeği kuruldu. Amaç, değerlendirilecek kodun (referans çözüm ya da ileride model çıktısı) ana sisteme zarar veremeyecek şekilde izole bir Docker container'ında çalıştırılıp gizli testlere sokulmasıdır. Bu sayede geçti/kaldı kararı bir LLM'e değil, gerçek kod yürütmesine bırakılır.
+
+`src/sandbox/` altında güvenli çalıştırma altyapısı hazırlandı. `Dockerfile` root olmayan bir kullanıcıyla çalışan sade bir Python 3.11 imajı tanımlar. Container içinde çalışan `harness.py`, kodu bir modül olarak yükleyip her test case'ini çalıştırır ve sonucu tek bir JSON satırı olarak döndürür; syntax, import, eksik fonksiyon, runtime ve mantık hatalarını ayrı ayrı sınıflar. Host tarafındaki `executor.py`, kodu geçici bir klasöre yazıp Docker'ı sertleştirme bayraklarıyla çağırır ve çıktıyı deterministik biçimde ayrıştırır.
+
+Güvenlik önlemleri gerçek saldırı senaryolarıyla sınandı: ağ erişimi (`--network none`) engellendi, kök dosya sistemine yazma (`--read-only`) reddedildi, sonsuz döngü duvar-saati `timeout` ile kesildi ve fork bombası `--pids-limit` ile durduruldu. Host dosya sisteminin dokunulmadan kaldığı doğrulandı.
+
+`src/oracle/task_validator.py` ile guardrail'in temeli kuruldu: bir görevin geçerli sayılması için kendi referans çözümünün kendi testlerini Sandbox'ta eksiksiz geçmesi gerekir. İlk kanonik görev `data/tasks/trc_001.json` (bütçeyle maksimum ürün) bu doğrulamadan 6/6 ile geçti. Ayrıca projenin genel yönünü açıklayan `docs/proje_yon_raporu.md` eklendi.
+
+### Bugün Öğrenilenler
+
+* Değerlendirme kararının deterministik olması için pass/fail yargısının koda bırakılması gerektiği pekişti.
+* Güvenli sandbox tasarımında ağ, dosya sistemi, süreç ve süre limitlerinin birlikte ele alınması gerektiği görüldü.
+* Bir görevin veri setine alınmadan önce referans çözümüyle doğrulanmasının benchmark güvenilirliği için kritik olduğu anlaşıldı.
+* Ayırt edici (sırasız liste gibi) test case'lerin, zayıf çözümleri yakalamak için benchmark kalitesini artırdığı görüldü.
+
+### Oluşturulan Çıktılar
+
+* src/sandbox/Dockerfile
+* src/sandbox/harness.py
+* src/sandbox/executor.py
+* src/sandbox/README.md
+* src/oracle/task_validator.py
+* data/tasks/trc_001.json
+* docs/proje_yon_raporu.md
+* Güncellenmiş docs/staj_defteri_gunlukleri.md
+
+### Bir Sonraki Adım
+
+Bir sonraki gün yerel model istemcisi (Ollama / LM Studio, OpenAI-uyumlu endpoint) hazırlanacak ve tek bir görev için modelden kod alınıp Sandbox'tan geçirileceği uçtan-uca dikey dilim denenecektir.

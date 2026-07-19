@@ -1,0 +1,29 @@
+{
+  "id": "trc_001",
+  "kategori": "diziler",
+  "zorluk": "kolay",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Bir markette ürünlerin fiyatları bir liste olarak veriliyor. Elinde `butce` lira var. Bu bütçeyle satın alabileceğin MAKSİMUM ürün sayısını döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a market, product prices are given as a list. You have `butce` liras. Write a function that returns the MAXIMUM number of products you can buy with this budget.",
+
+  "fonksiyon_imzasi": "def max_urun(fiyatlar: list[int], butce: int) -> int:",
+  "fonksiyon_adi": "max_urun",
+
+  "referans_cozum": "def max_urun(fiyatlar, butce):\n    fiyatlar = sorted(fiyatlar)\n    sayac = 0\n    for f in fiyatlar:\n        if butce >= f:\n            butce -= f\n            sayac += 1\n        else:\n            break\n    return sayac\n",
+
+  "test_cases": [
+    {"girdi": [[10, 20, 30], 40], "beklenen": 2},
+    {"girdi": [[5, 5, 5, 5], 12], "beklenen": 2},
+    {"girdi": [[100], 50], "beklenen": 0},
+    {"girdi": [[], 100], "beklenen": 0},
+    {"girdi": [[1, 1, 1, 1, 1], 3], "beklenen": 3},
+    {"girdi": [[10, 3, 3, 3], 10], "beklenen": 3}
+  ],
+
+  "sablon": {
+    "market": ["market", "kütüphane", "kırtasiye"],
+    "urun": ["ürün", "kitap", "kalem"],
+    "fiyat": ["fiyat", "sayfa sayısı", "ağırlık"]
+  }
+}
