@@ -1,0 +1,65 @@
+{
+  "aciklama": "Gun 9 dikey dilim kaniti: gorev->model->sandbox->sonuc, uctan uca.",
+  "kosul": {
+    "seed": 0,
+    "temperature": 0.0,
+    "tekrarlanabilir": true
+  },
+  "gorev": "trc_001",
+  "kosumlar": [
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:3b",
+      "dil": "tr",
+      "gecti": false,
+      "gecen": 0,
+      "toplam": 6,
+      "hata_tipi": "syntax"
+    },
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:3b",
+      "dil": "en",
+      "gecti": false,
+      "gecen": 2,
+      "toplam": 6,
+      "hata_tipi": null
+    },
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:1.5b",
+      "dil": "tr",
+      "gecti": false,
+      "gecen": 5,
+      "toplam": 6,
+      "hata_tipi": null
+    },
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:1.5b",
+      "dil": "en",
+      "gecti": false,
+      "gecen": 5,
+      "toplam": 6,
+      "hata_tipi": null
+    },
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:0.5b",
+      "dil": "tr",
+      "gecti": false,
+      "gecen": 1,
+      "toplam": 6,
+      "hata_tipi": null
+    },
+    {
+      "gorev": "trc_001",
+      "model": "qwen2.5:0.5b",
+      "dil": "en",
+      "gecti": false,
+      "gecen": 3,
+      "toplam": 6,
+      "hata_tipi": null
+    }
+  ]
+}

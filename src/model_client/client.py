@@ -45,6 +45,7 @@ class ModelIstemcisi:
         timeout_sn: int = 120,
         temperature: float = 0.0,
         max_tokens: int | None = 1024,
+        seed: int | None = 0,
     ) -> None:
         self.model = model
         self.base_url = base_url.rstrip("/")
@@ -52,6 +53,9 @@ class ModelIstemcisi:
         self.timeout_sn = timeout_sn
         self.temperature = temperature
         self.max_tokens = max_tokens
+        # Sabit seed + temperature=0: pass@1'in tekrarlanabilir olması için.
+        # (Ollama temp=0'da bile seed vermezsen çıktı koşumdan koşuma oynayabilir.)
+        self.seed = seed
 
     # --- Sağlayıcıya özel kısayollar -------------------------------------
     @classmethod
@@ -96,6 +100,8 @@ class ModelIstemcisi:
         }
         if self.max_tokens is not None:
             govde["max_tokens"] = self.max_tokens
+        if self.seed is not None:
+            govde["seed"] = self.seed
 
         url = f"{self.base_url}/chat/completions"
         try:

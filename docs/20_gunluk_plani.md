@@ -75,8 +75,8 @@ Her satır: **Girdi** (hangi önceki günün çıktısına dayanır) ve **Çıkt
 |-----|-----|-------|-------|-------|
 | 7 | Docker Sandbox + Oracle | G1 (yapı) | `sandbox/`, `oracle/`, `trc_001` | ✅ |
 | 8 | Yerel model istemcisi (Ollama/LM Studio) | G6 (prompt) | `model_client/` | ✅ |
-| 9 | **Uçtan-uca dikey dilim** (görev→model→sandbox→sonuç) | G7+G8 | `run_task.py` çalışır | 🔄 |
-| 10 | Çoklu model + TR/EN koşumu; sonuçları `results/`'a yaz | G9 | `results/*.json` şeması | ⏳ |
+| 9 | **Uçtan-uca dikey dilim** (görev→model→sandbox→sonuç) | G7+G8 | `run_task.py` çalışır | ✅ |
+| 10 | Çoklu model + TR/EN koşumu; sonuçları `results/`'a yaz | G9 | `results/*.json` şeması | 🔄 |
 
 ### F3 — Veri Seti & Yaratıcı Ajanlar (11–14)
 
@@ -128,3 +128,7 @@ Plandaki her sapma buraya `tarih — değişiklik — sebep` olarak işlenir.
 
 - **2026-07-20 — v1.0** — İlk 20 günlük plan oluşturuldu. Gün 1–8 tamamlanmış
   durumda; Gün 9 (dikey dilim) başladı. Yol haritası §7 ile hizalı.
+- **2026-07-20 — v1.1** — Gün 9 tamamlandı (✅). Kapsam eki: koşum sırasında
+  Ollama'nın seed'siz tam tekrarlanabilir olmadığı görülünce model istemcisine
+  sabit `seed` eklendi (pass@1 determinizmi). Sebep: benchmark için ölçümün
+  tekrarlanabilir olması şart. Aşağı-akış etkilenmedi; Gün 10 başladı (🔄).

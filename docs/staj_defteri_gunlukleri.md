@@ -213,3 +213,31 @@ Model gerektirmeyen kısımlar (prompt üretimi ve kod ayıklama) çevrimdışı
 ### Bir Sonraki Adım
 
 Bir sonraki gün küçük bir model (ör. `gemma2:2b`) indirilip uçtan-uca dikey dilim tamamlanacaktır: tek bir görev modele sorulacak, dönen kod Sandbox'ta gizli testlere karşı çalıştırılacak ve pass/fail sonucu alınacaktır (yol haritası 4. adım).
+
+## 9. Gün - Uçtan-Uca Dikey Dilim ve Tekrarlanabilirlik
+
+Bugün yol haritasının 4. adımı olan uçtan-uca dikey dilim tamamlandı: tek bir görev `görev → prompt → yerel model → kod → Sandbox → pass/fail` zincirinin tamamından geçirildi. `src/run_task.py` bu akışı tek komutla çalıştırıyor ve `--model`, `--dil` (tr/en), `--saglayici` bayraklarını destekliyor. Böylece iki-düzlemli mimari küçük ölçekte fiilen kanıtlandı: model (test edilen özne) kodu üretti, doğru/yanlış kararını ise yalnızca deterministik Sandbox verdi.
+
+4 GB VRAM'e uygun küçük modeller indirildi (`qwen2.5` ailesi 0.5B/1.5B/3B, ayrıca `llama3.2:3b`, `gemma2:2b`). İlk kanonik görev trc_001, üç Qwen boyutu ile hem Türkçe hem İngilizce koşuldu. Boru hattının doğru çalıştığı net biçimde görüldü; örneğin qwen2.5:3b Türkçe koşumda sözdizimi hatalı kod üretti ve Sandbox bunu deterministik olarak `syntax` hatasıyla yakaladı (0/6).
+
+Koşumlar sırasında önemli bir metodolojik sorun keşfedildi: `temperature=0` olmasına rağmen aynı model+dil ikilisi koşumdan koşuma farklı sonuç verebiliyordu (bir denemede 6/6, diğerinde 5/6). Bunun nedeni Ollama'nın seed sabitlenmediğinde tam tekrarlanabilir olmamasıdır. Bir benchmark için pass@1'in anlamlı olması koşumun deterministik olmasına bağlı olduğundan, model istemcisine sabit `seed` (varsayılan 0) parametresi eklendi. Sabit seed + temperature=0 ile aynı tarama iki kez çalıştırıldığında sonuçların birebir aynı olduğu doğrulandı.
+
+Sabit seed altında dürüst sonuç şu oldu: küçük modeller trc_001'i deterministik olarak tam geçemedi (en iyi 5/6). Bu aslında olumlu bir bulgudur; görevdeki ayırt edici test case ([10, 3, 3, 3] bütçe 10 → 3) sıralama yapmayan zayıf çözümleri yakalayarak benchmark'ın ayrıştırıcı olduğunu gösterdi. Ayrıca "Türkçe muhakeme vergisi"nin ilk işareti de belirdi: aynı modeller İngilizce'de Türkçe'ye göre daha yüksek puan aldı. Koşum kanıtı `results/gun09_dikey_dilim.json` dosyasına kaydedildi.
+
+### Bugün Öğrenilenler
+
+* Uçtan-uca dikey dilimin, mimarinin tamamını küçük ölçekte doğrulayan en değerli erken adım olduğu görüldü.
+* Ollama'nın temperature=0'da bile seed olmadan tam tekrarlanabilir olmadığı; benchmark için sabit seed'in şart olduğu öğrenildi.
+* Ayırt edici test case'lerin, zayıf çözümleri deterministik biçimde eleyerek benchmark kalitesini belirlediği pekişti.
+* Aynı görevin TR/EN koşulabilmesinin, dil vergisi sinyalini daha ilk koşumda görünür kıldığı gözlendi.
+
+### Oluşturulan Çıktılar
+
+* src/run_task.py
+* results/gun09_dikey_dilim.json
+* Güncellenmiş src/model_client/client.py (sabit seed)
+* Güncellenmiş docs/staj_defteri_gunlukleri.md
+
+### Bir Sonraki Adım
+
+Bir sonraki gün (Gün 10) koşum çok-modelli ve çok-dilli hale getirilecek; sonuçlar `results/` altında yapılandırılmış bir şemada (model × dil × görev) toplanacak ve metrik motorunun (Gün 15) girdisi hazırlanacaktır.
