@@ -183,3 +183,33 @@ Güvenlik önlemleri gerçek saldırı senaryolarıyla sınandı: ağ erişimi (
 ### Bir Sonraki Adım
 
 Bir sonraki gün yerel model istemcisi (Ollama / LM Studio, OpenAI-uyumlu endpoint) hazırlanacak ve tek bir görev için modelden kod alınıp Sandbox'tan geçirileceği uçtan-uca dikey dilim denenecektir.
+
+## 8. Gün - Yerel Model İstemcisinin Hazırlanması
+
+Bugün, benchmark'ın değerlendirdiği yerel dil modellerinden kod çıktısı almak için bir istemci katmanı hazırlandı. Yol haritasındaki 3. adıma karşılık gelen bu iş, iki-düzlemli mimarinin "test edilen özne" tarafına dokunur; üretilen kod güvenilmez kabul edilir ve doğru/yanlış kararı önceki günlerde kurulan Sandbox + Oracle'a bırakılır.
+
+Ollama ve LM Studio'nun ikisinin de OpenAI-uyumlu `/v1/chat/completions` arayüzü sunduğu gözlemlendi; bu yüzden her ikisiyle de çalışan tek bir `ModelIstemcisi` sınıfı yazıldı. Sağlayıcı yalnızca `base_url` ile ayrışıyor: Ollama için `localhost:11434/v1`, LM Studio için `localhost:1234/v1`. Model adı ve endpoint `TRC_MODEL` / `TRC_MODEL_BASE_URL` ortam değişkenleriyle de verilebiliyor. İstemci; bağlantı hatası, timeout, HTTP hata kodu ve beklenmeyen yanıt biçimi durumlarını açık Türkçe mesajlarla `ModelBaglantiHatasi` olarak yükseltiyor.
+
+`code_task.py` içinde görev ile model arasındaki köprü kuruldu. `kod_prompt_olustur` bir görevi (trc_*.json) modele verilecek kod-üretim prompt'una çeviriyor ve TR/EN dili seçilebiliyor; bu, ilerideki "Türkçe muhakeme vergisi" ölçümünün temelini oluşturuyor. `kod_ayikla` ise modelin çoğu zaman markdown kod bloğu ve açıklama içeren ham yanıtından yalnızca çalıştırılabilir Python fonksiyonunu güvenilir biçimde çıkarıyor (`def` içeren ilk blok tercih ediliyor). `modelden_cozum_al` bu adımları tek çağrıda birleştirip Sandbox'a verilmeye hazır kodu döndürüyor.
+
+Model gerektirmeyen kısımlar (prompt üretimi ve kod ayıklama) çevrimdışı doğrulandı. Ollama servisi ayağa kaldırıldı; henüz bir model indirilmediği için istemci beklendiği gibi net bir "model not found" mesajı verdi. Bu, gerçek uçtan-uca çalıştırmadan önce küçük bir modelin (ör. `gemma2:2b`) indirilmesi gerektiğini gösterdi.
+
+### Bugün Öğrenilenler
+
+* Ollama ve LM Studio'nun ortak OpenAI-uyumlu arayüz sayesinde tek bir istemciyle soyutlanabildiği görüldü.
+* Model çıktısının ham metin olduğu ve prompt/kod ayıklamanın deterministik biçimde ayrı tutulmasının değerlendirmeyi kolaylaştırdığı anlaşıldı.
+* Aynı görevin TR ve EN sorulabilmesinin dil-vergisi metriği için tasarıma baştan yerleştirilmesi gerektiği pekişti.
+* Yerel model istemcisinde bağlantı/timeout/hata durumlarının açık mesajlarla ele alınmasının hata ayıklamayı kolaylaştırdığı görüldü.
+
+### Oluşturulan Çıktılar
+
+* src/model_client/client.py
+* src/model_client/code_task.py
+* src/model_client/README.md
+* src/model_client/__init__.py
+* Güncellenmiş requirements.txt (requests)
+* Güncellenmiş docs/staj_defteri_gunlukleri.md
+
+### Bir Sonraki Adım
+
+Bir sonraki gün küçük bir model (ör. `gemma2:2b`) indirilip uçtan-uca dikey dilim tamamlanacaktır: tek bir görev modele sorulacak, dönen kod Sandbox'ta gizli testlere karşı çalıştırılacak ve pass/fail sonucu alınacaktır (yol haritası 4. adım).
