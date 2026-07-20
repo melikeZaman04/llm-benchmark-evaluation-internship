@@ -1,0 +1,15 @@
+gorev,kategori,model,dil,tekrar,gecti_sayisi,pass_at_1,pass_at_k,pass_at_k_gecerli,gecen_min,gecen_max,toplam,kararli,hata_tipleri,ort_completion_tok
+trc_001,diziler,qwen2.5:0.5b,tr,3,0,0.0,0.0,False,0,0,6,True,,100
+trc_001,diziler,qwen2.5:0.5b,en,3,1,0.3333,1.0,False,2,6,6,False,,168
+trc_001,diziler,qwen2.5:1.5b,tr,3,0,0.0,0.0,False,0,2,6,False,,174
+trc_001,diziler,qwen2.5:1.5b,en,3,0,0.0,0.0,False,5,5,6,True,,170
+trc_001,diziler,qwen2.5:3b,tr,3,0,0.0,0.0,False,0,0,6,True,syntax,55
+trc_001,diziler,qwen2.5:3b,en,3,0,0.0,0.0,False,2,2,6,True,,81
+trc_001,diziler,qwen2.5-coder:1.5b,tr,3,0,0.0,0.0,False,5,5,6,True,,229
+trc_001,diziler,qwen2.5-coder:1.5b,en,3,0,0.0,0.0,False,5,5,6,True,,74
+trc_001,diziler,qwen2.5-coder:3b,tr,3,0,0.0,0.0,False,2,2,6,True,,69
+trc_001,diziler,qwen2.5-coder:3b,en,3,0,0.0,0.0,False,2,2,6,True,,94
+trc_001,diziler,llama3.2:3b,tr,3,0,0.0,0.0,False,2,2,6,True,,40
+trc_001,diziler,llama3.2:3b,en,3,0,0.0,0.0,False,2,2,6,True,,62
+trc_001,diziler,gemma2:2b,tr,3,0,0.0,0.0,False,1,1,6,True,,378
+trc_001,diziler,gemma2:2b,en,3,3,1.0,1.0,False,6,6,6,True,,376

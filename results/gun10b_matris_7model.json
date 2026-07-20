@@ -1,0 +1,754 @@
+{
+  "meta": {
+    "tarih_utc": "2026-07-20T00:04:42+00:00",
+    "temperature": 0.0,
+    "tekrar": 3,
+    "modeller": [
+      "qwen2.5:0.5b",
+      "qwen2.5:1.5b",
+      "qwen2.5:3b",
+      "qwen2.5-coder:1.5b",
+      "qwen2.5-coder:3b",
+      "llama3.2:3b",
+      "gemma2:2b"
+    ],
+    "diller": [
+      "tr",
+      "en"
+    ],
+    "gorev_sayisi": 1,
+    "not": "sicaklik=0: greedy; 'kararli' greedy tekrarlanabilirliğidir, pass@k anlamsızdır. sicaklik>0: her örnek farklı seed alır; pass@k anlamlıdır. Yerel çıkarım düşük VRAM'de bit-tekrarlanabilir değildir, bu yüzden greedy'de bile 'kararli=false' görülebilir."
+  },
+  "kayitlar": [
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:0.5b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 0,
+      "gecen_max": 0,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 100,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 75,
+            "total": 296
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 113,
+            "total": 334
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 113,
+            "total": 334
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:0.5b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 1,
+      "pass_at_1": 0.3333,
+      "pass_at_k": 1.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 6,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 168,
+      "kararli": false,
+      "ornekler": [
+        {
+          "gecti": true,
+          "gecen": 6,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 156,
+            "total": 338
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 174,
+            "total": 356
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 174,
+            "total": 356
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:1.5b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 0,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 174,
+      "kararli": false,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 183,
+            "total": 404
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 170,
+            "total": 391
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 170,
+            "total": 391
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:1.5b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 5,
+      "gecen_max": 5,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 170,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 170,
+            "total": 352
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 170,
+            "total": 352
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 170,
+            "total": 352
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:3b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 0,
+      "gecen_max": 0,
+      "toplam": 6,
+      "hata_tipleri": [
+        "syntax"
+      ],
+      "ort_completion_tok": 55,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": "syntax",
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 55,
+            "total": 276
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": "syntax",
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 55,
+            "total": 276
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 0,
+          "toplam": 6,
+          "hata_tipi": "syntax",
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 55,
+            "total": 276
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5:3b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 81,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 81,
+            "total": 263
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 81,
+            "total": 263
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 81,
+            "total": 263
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5-coder:1.5b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 5,
+      "gecen_max": 5,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 229,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 229,
+            "total": 450
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 229,
+            "total": 450
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 229,
+            "total": 450
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5-coder:1.5b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 5,
+      "gecen_max": 5,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 74,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 74,
+            "total": 256
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 74,
+            "total": 256
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 5,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 74,
+            "total": 256
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5-coder:3b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 69,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 64,
+            "total": 285
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 72,
+            "total": 293
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 221,
+            "completion": 72,
+            "total": 293
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "qwen2.5-coder:3b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 94,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 95,
+            "total": 277
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 94,
+            "total": 276
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 182,
+            "completion": 94,
+            "total": 276
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "llama3.2:3b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 40,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 208,
+            "completion": 40,
+            "total": 248
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 208,
+            "completion": 40,
+            "total": 248
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 208,
+            "completion": 40,
+            "total": 248
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "llama3.2:3b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 2,
+      "gecen_max": 2,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 62,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 184,
+            "completion": 62,
+            "total": 246
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 184,
+            "completion": 62,
+            "total": 246
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 2,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 184,
+            "completion": 62,
+            "total": 246
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "gemma2:2b",
+      "dil": "tr",
+      "tekrar": 3,
+      "gecti_sayisi": 0,
+      "pass_at_1": 0.0,
+      "pass_at_k": 0.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 1,
+      "gecen_max": 1,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 378,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": false,
+          "gecen": 1,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 194,
+            "completion": 375,
+            "total": 569
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 1,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 194,
+            "completion": 379,
+            "total": 573
+          }
+        },
+        {
+          "gecti": false,
+          "gecen": 1,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 194,
+            "completion": 379,
+            "total": 573
+          }
+        }
+      ]
+    },
+    {
+      "gorev": "trc_001",
+      "kategori": "diziler",
+      "model": "gemma2:2b",
+      "dil": "en",
+      "tekrar": 3,
+      "gecti_sayisi": 3,
+      "pass_at_1": 1.0,
+      "pass_at_k": 1.0,
+      "pass_at_k_gecerli": false,
+      "gecen_min": 6,
+      "gecen_max": 6,
+      "toplam": 6,
+      "hata_tipleri": [],
+      "ort_completion_tok": 376,
+      "kararli": true,
+      "ornekler": [
+        {
+          "gecti": true,
+          "gecen": 6,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 173,
+            "completion": 412,
+            "total": 585
+          }
+        },
+        {
+          "gecti": true,
+          "gecen": 6,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 173,
+            "completion": 358,
+            "total": 531
+          }
+        },
+        {
+          "gecti": true,
+          "gecen": 6,
+          "toplam": 6,
+          "hata_tipi": null,
+          "tokenlar": {
+            "prompt": 173,
+            "completion": 358,
+            "total": 531
+          }
+        }
+      ]
+    }
+  ]
+}

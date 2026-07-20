@@ -36,7 +36,12 @@ from model_client import ModelIstemcisi, ModelBaglantiHatasi  # noqa: E402
 from run_task import gorevi_calistir  # noqa: E402
 
 VARSAYILAN_MODELLER = [
-    "qwen2.5:0.5b", "qwen2.5:1.5b", "qwen2.5:3b", "llama3.2:3b", "gemma2:2b",
+    # Qwen2.5 genel aile (ölçek trendi: 0.5 -> 1.5 -> 3B)
+    "qwen2.5:0.5b", "qwen2.5:1.5b", "qwen2.5:3b",
+    # Qwen2.5-Coder: aynı boylarda koda-özel eğitilmiş (genel vs kod karşılaştırması)
+    "qwen2.5-coder:1.5b", "qwen2.5-coder:3b",
+    # Farklı aileler (çapraz karşılaştırma)
+    "llama3.2:3b", "gemma2:2b",
 ]
 VARSAYILAN_DILLER = ["tr", "en"]
 
