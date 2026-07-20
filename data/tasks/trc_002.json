@@ -1,0 +1,27 @@
+{
+  "id": "trc_002",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Bir `metin` veriliyor. Metin tersten okunduğunda kendisiyle aynıysa (palindrom) True, değilse False döndüren bir fonksiyon yaz. Büyük/küçük harf ve boşlukları OLDUĞU GİBİ dikkate al.",
+  "prompt_en": "A string `metin` is given. Write a function that returns True if the text reads the same backwards (a palindrome), otherwise False. Consider case and spaces EXACTLY as they are.",
+
+  "fonksiyon_imzasi": "def palindrom_mu(metin: str) -> bool:",
+  "fonksiyon_adi": "palindrom_mu",
+
+  "referans_cozum": "def palindrom_mu(metin):\n    return metin == metin[::-1]\n",
+
+  "test_cases": [
+    {"girdi": ["kayak"], "beklenen": true},
+    {"girdi": ["ev"], "beklenen": false},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["a"], "beklenen": true},
+    {"girdi": ["abba"], "beklenen": true},
+    {"girdi": ["abc"], "beklenen": false}
+  ],
+
+  "sablon": {
+    "nesne": ["metin", "kelime", "dizge"]
+  }
+}

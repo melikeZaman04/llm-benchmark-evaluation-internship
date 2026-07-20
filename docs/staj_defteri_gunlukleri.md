@@ -302,3 +302,77 @@ Kapatılan açıklar:
 ### Bir Sonraki Adım
 
 Sağlam zemin hazır. Gün 11'de veri seti büyütmeye güvenle geçilebilir; yeni görevler artık testli oracle, karşılaştırma modları ve tekrarlanabilir ortam üzerine oturacaktır.
+
+## 11. Gün - Veri Seti Büyütme I: Sekiz Kanonik Görev ve Guardrail Kanıtı
+
+Bugün benchmark tek görevlik iskeleden çıkıp anlamlı bir kapsama ulaştı. Veri setine sekiz yeni kanonik görev eklendi ve toplam dokuz göreve (`trc_001`–`trc_009`) çıkıldı. Görevler üç kategoriye dengeli dağıtıldı: **diziler** (max_ürün, ikinci en büyük, benzersiz elemanlar), **string** (palindrom, anagram, Türkçe sesli harf sayımı) ve **matematik** (asallık, basamak toplamı, ortalama). Her görev; Türkçe ve İngilizce prompt, fonksiyon imzası, referans çözüm, altı test case (kenar durumlar dahil: boş liste, boş metin, tek eleman) ve ileride Mutator ajanının kullanacağı bir `sablon` alanı içeriyor.
+
+Görevler bilinçli olarak sandbox'ın üç karşılaştırma modunu da gerçek veriyle sınayacak şekilde seçildi: çoğu görev `tam` eşitlik kullanırken, `benzersizler` (trc_007) sıranın önemsiz olduğu `sirasiz` modunu, `ortalama` (trc_009) ise float toleranslı `yaklasik` modunu kullanıyor. Böylece ara çalışmada eklenen karşılaştırma altyapısı soyut bir yetenek olmaktan çıkıp fiilen kullanılan bir sözleşmeye dönüştü. `sesli_sayisi` (trc_008) görevi ayrıca Türkçe karakterlerin (ı, ö, ü) sandbox'a UTF-8 olarak sorunsuz taşındığını doğruladı.
+
+Günün asıl disiplini **guardrail**'di: hiçbir görev, kendi referans çözümü kendi test case'lerini sandbox'ta EKSİKSİZ geçmeden veri setine kabul edilmedi. Dokuz görevin tamamı oracle'dan 6/6 ile geçti. Bu, iki-düzlemli mimarinin temel ilkesinin (LLM asla değil, yalnızca deterministik oracle "geçerli"liğe karar verir) elle yazılan görevlere de uygulandığı ilk andı. Bu ilkeyi kalıcı kılmak için, önceden yalnızca trc_001'i sınayan pytest testi tüm `data/tasks/*.json` üzerinde parametrik bir teste dönüştürüldü; artık veri seti her büyüdüğünde guardrail otomatik olarak sınanıyor. Test paketi 22'den 30'a çıktı, hepsi geçiyor.
+
+### Bugün Öğrenilenler
+
+* Bir benchmark'ın "kapsam"ının, kategori çeşitliliği (dizi/string/matematik) ve kenar durum titizliğiyle (boş girdi, tek eleman) ölçüldüğü; birkaç görevin çokluktan değil çeşitlilikten değer kazandığı görüldü.
+* Karşılaştırma modlarının (tam/sirasiz/yaklasik) ancak onları kullanan gerçek görevlerle birlikte "tamamlanmış" sayılabileceği; altyapının kullanımla doğrulandığı pekişti.
+* Guardrail'in soyut bir ilke değil, çalıştırılabilir ve testle korunan bir kapı olduğu somutlaştı: geçmeyen görev veri setine giremez, ve bu kural artık CI'da yaşıyor.
+* Türkçe'ye özgü karakterlerin uçtan uca (JSON → host → container → karşılaştırma) doğru aktığının erkenden doğrulanmasının, ileriki Türkçe-vergisi ölçümleri için zemini güvenceye aldığı görüldü.
+
+### Oluşturulan Çıktılar
+
+* data/tasks/trc_002.json … trc_009.json (8 yeni kanonik görev)
+* Güncellenmiş tests/test_sandbox_integration.py (parametrik guardrail regresyon testi)
+* Güncellenmiş docs/staj_defteri_gunlukleri.md, docs/20_gunluk_plani.md
+
+### Bir Sonraki Adım
+
+Gün 12'de veri seti mantık/özyineleme/sayma kategorileriyle ~20 göreve büyütülecek; ardından Gün 13'te Mutator ajanı (Claude API) bu kanonik görevlerden oracle-onaylı parametrik varyantlar üretmeye başlayacak. Bugün eklenen `sablon` alanları bu varyant üretiminin girdisi olacak.
+
+## Ara Bulgu - Türkçe/İngilizce Karşılaştırmasında Confound (Kullanıcı Tespiti)
+
+Gün 11'in canlı demolarını kullanıcının kendi terminalinde koşup yorumlarken, kullanıcı önemli bir metodolojik itiraz yaptı: "İngilizce" koşumda bile fonksiyon adı ve parametre adları (`ikinci_en_buyuk`, `sayilar`) Türkçe kalıyor — bu, "Türkçe muhakeme vergisi" iddiasını (acc(en) − acc(tr)) bulandırmıyor mu?
+
+Kod okunarak iki ayrı sorun tespit edildi:
+
+1. **Tanımlayıcı isimleri (identifier) paylaşılıyor** — `fonksiyon_imzasi`/`fonksiyon_adi` görev şemasında tek alan; TR ve EN koşumlarına aynı Türkçe isim gidiyor. Bu bilinçli bir tasarım tercihi olarak bırakıldı (bkz. karar aşağıda).
+2. **Daha ciddi olan, gerçek bir hata:** `src/model_client/code_task.py` içinde sistem promptu `dil` parametresinden bağımsız olarak HER ZAMAN Türkçe'ydi (`SISTEM_TR`). Yani "İngilizce" koşumda bile modele Türkçe talimat veriliyordu — kodun kendi docstring'inin vaat ettiği "tek değişken problem dili" iddiasıyla doğrudan çelişen, kontrolsüz bir confound'du.
+
+Kullanıcıyla birlikte kapsam kararlaştırıldı: sistem promptu düzeltilecek (açık hata), tanımlayıcı isimleri ise BİLİNÇLİ sabit olarak bırakılacak (kapsamlı çözüm — her göreve ayrı `fonksiyon_imzasi_en` eklemek — ileri bir güne ertelendi). `SISTEM_EN` eklendi; `modelden_cozum_al` artık `dil`e göre doğru sistem promptunu seçiyor. Karar koda yorum olarak da işlendi ki gelecekte biri "neden tanımlayıcılar hâlâ Türkçe?" diye sorduğunda cevap kodun içinde dursun.
+
+### Bugün Öğrenilenler
+
+* Bir benchmark'ın "iki dilde aynı görevi sorma" iddiasının, yalnızca görünür prompt metnini değil, modele giden HER metni (sistem promptu dahil) kapsaması gerektiği görüldü — gizli/sabit kalan bir kanal bile confound olabilir.
+* Kullanıcının kod yazmadan, yalnızca çıktıyı okuyarak deneysel tasarım hatası bulabilmesi, sistemin "kara kutu" değil "anlaşılır" olmasının değerini gösterdi.
+* Tam temizlik (tanımlayıcıları da ayırmak) ile hızlı düzeltme (yalnız sistem promptu) arasındaki ayrımın açıkça karara bağlanıp kayıt altına alınmasının, ileride "neden böyle bırakıldı?" sorusuna hazır cevap ürettiği görüldü.
+
+### Oluşturulan Çıktılar
+
+* Güncellenmiş src/model_client/code_task.py (`SISTEM_EN` eklendi, dil'e göre seçim)
+* Güncellenmiş docs/staj_defteri_gunlukleri.md
+
+### Bilinen Sınırlılık (açıkça kayıtlı)
+
+Tanımlayıcı isimleri (fonksiyon/parametre adları) hâlâ TR/EN koşumları arasında paylaşılıyor ve her zaman Türkçe. Ölçülen "Türkçe vergisi" bu yüzden şu an saf "problem cümlesi dili" etkisidir + sabit bir Türkçe-tanımlayıcı zemini üzerine oturur; tanımlayıcı dilinin ayrı bir etkisi (varsa) şimdilik ölçülmüyor. İleri bir günde `fonksiyon_imzasi_en` eklenirse bu ayrıştırılabilir.
+
+## 12. Gün - Veri Seti Büyütme II: Kalan Üç Kategori ve 20'ye Tamamlama
+
+Gün 11'de kategori kapsamı 3/6'da (diziler, string, matematik) kalmıştı; bugün kalan üç kategori — **mantık**, **özyineleme**, **sayma** — eklenerek veri seti proje yön raporunun §5'inde hedeflenen **20 kanonik göreve** tamamlandı (`trc_010`–`trc_020`, 11 yeni görev). Dağılım artık dengeli: diziler 3, string 3, matematik 3, mantık 4, özyineleme 4, sayma 3.
+
+Kategori seçimlerinde bilinçli çeşitlilik gözetildi: **mantık** (dengeli parantez kontrolü, kesin-artan liste, üçgen eşitsizliği, FizzBuzz) durum-makinesi/koşul mantığını; **özyineleme** (faktöriyel, Fibonacci, iç içe liste toplamı, Öklid EBOB) doğası gereği özyinelemeli problemleri — özellikle iç içe liste toplamı, keyfi derinlikte iç içe geçmiş girdilerle modelin gerçekten özyinelemeli düşünüp düşünmediğini zorluyor; **sayma** (kelime sayısı, hedefe eşit ikili sayısı, en uzun ardışık dizi) O(n²) kombinatorik sayım ile O(n) taramayı ayırt eden problemleri kapsıyor.
+
+Guardrail disiplini aynen sürdürüldü: 11 yeni görevin tamamı oracle'dan 6/6 ile geçti (toplamda 20/20). Kenar durumları elle hesaplanıp doğrulandı — ör. `hedefe_esit_ciftler` görevinde `[0,0,0,0]` listesinde hedef 0 için C(4,2)=6 ikili beklendiği gibi çıktı; `ic_ice_liste_toplami` görevinde `[[[[]]]]` gibi tamamen boş iç içe yapılar 0 döndürdü. Guardrail regresyon testi otomatik olarak genişledi (parametrik test her yeni dosyayı kendiliğinden yakalıyor); pytest paketi 30'dan **41'e** çıktı, hepsi geçiyor.
+
+### Bugün Öğrenilenler
+
+* Kategori tasarımının rastgele değil, farklı **problem şekillerini** (durum-makinesi mantığı, özyineleme, kombinatorik sayım) temsil edecek şekilde kasıtlı seçildiği; bunun ileride hata taksonomisinin (Gün 16) anlamlı kırılımlar üretebilmesi için zemin oluşturduğu görüldü.
+* Parametrik guardrail testinin (Gün 11'de eklenen) tam olarak amaçlandığı gibi çalıştığı doğrulandı: 11 yeni dosya eklendiğinde hiçbir ek kod yazmadan otomatik olarak test kapsamına girdi.
+* "Özyineleme" kategorisinin, sandbox'ın yalnızca girdi/çıktı eşitliğine baktığını (modelin *nasıl* çözdüğünü değil) hatırlattığı; iç içe liste gibi problemlerin özyinelemeyi doğal olarak teşvik etmesi, katı bir "özyinelemeli kod yazmalısın" zorlaması olmadan da anlamlı bir kategori ayrımı sağlıyor.
+
+### Oluşturulan Çıktılar
+
+* data/tasks/trc_010.json … trc_020.json (11 yeni kanonik görev; mantık×4, özyineleme×4, sayma×3)
+* Güncellenmiş docs/staj_defteri_gunlukleri.md, docs/20_gunluk_plani.md
+
+### Bir Sonraki Adım
+
+Veri seti hedeflenen ~20 kanonik göreve ulaştı; §5'teki 6 kategorinin tamamı dolu. Gün 13'te Mutator ajanı (Claude API) devreye girecek: her görevin `sablon` alanı kullanılarak parametrik varyantlar üretilecek ve her varyant oracle guardrail'inden geçmeden veri setine kabul edilmeyecek. Bu, Düzlem 1'in (yaratıcı ajan fabrikası) projede ilk kez fiilen çalışacağı gün olacak.

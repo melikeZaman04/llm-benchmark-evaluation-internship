@@ -1,0 +1,27 @@
+{
+  "id": "trc_006",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Negatif olmayan bir tam sayı `n` veriliyor. `n` sayısının basamaklarının toplamını döndüren bir fonksiyon yaz. Örneğin 4567 için 4+5+6+7 = 22.",
+  "prompt_en": "A non-negative integer `n` is given. Write a function that returns the sum of the digits of `n`. For example, for 4567 the result is 4+5+6+7 = 22.",
+
+  "fonksiyon_imzasi": "def basamak_toplami(n: int) -> int:",
+  "fonksiyon_adi": "basamak_toplami",
+
+  "referans_cozum": "def basamak_toplami(n):\n    return sum(int(c) for c in str(n))\n",
+
+  "test_cases": [
+    {"girdi": [123], "beklenen": 6},
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [9], "beklenen": 9},
+    {"girdi": [1000], "beklenen": 1},
+    {"girdi": [4567], "beklenen": 22},
+    {"girdi": [99], "beklenen": 18}
+  ],
+
+  "sablon": {
+    "nesne": ["sayı", "değer"]
+  }
+}

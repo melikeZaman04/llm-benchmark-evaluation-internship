@@ -1,0 +1,27 @@
+{
+  "id": "trc_008",
+  "kategori": "string",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Küçük harflerden oluşan bir `metin` veriliyor. Metindeki Türkçe sesli harflerin (a, e, ı, i, o, ö, u, ü) toplam sayısını döndüren bir fonksiyon yaz.",
+  "prompt_en": "A lowercase string `metin` is given. Write a function that returns the total count of Turkish vowels (a, e, ı, i, o, ö, u, ü) in the text.",
+
+  "fonksiyon_imzasi": "def sesli_sayisi(metin: str) -> int:",
+  "fonksiyon_adi": "sesli_sayisi",
+
+  "referans_cozum": "def sesli_sayisi(metin):\n    sesliler = \"aeıioöuü\"\n    return sum(1 for c in metin if c in sesliler)\n",
+
+  "test_cases": [
+    {"girdi": ["merhaba"], "beklenen": 3},
+    {"girdi": ["kitap"], "beklenen": 2},
+    {"girdi": ["xyz"], "beklenen": 0},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["aeıioöuü"], "beklenen": 8},
+    {"girdi": ["programlama"], "beklenen": 4}
+  ],
+
+  "sablon": {
+    "nesne": ["metin", "kelime", "cümle"]
+  }
+}

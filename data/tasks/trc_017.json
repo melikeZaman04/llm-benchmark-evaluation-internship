@@ -1,0 +1,27 @@
+{
+  "id": "trc_017",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "İki pozitif tam sayı `a` ve `b` veriliyor. Bu iki sayının EN BÜYÜK ORTAK BÖLENİNİ (EBOB) döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two positive integers `a` and `b` are given. Write a function that returns their GREATEST COMMON DIVISOR (GCD).",
+
+  "fonksiyon_imzasi": "def en_buyuk_ortak_bolen(a: int, b: int) -> int:",
+  "fonksiyon_adi": "en_buyuk_ortak_bolen",
+
+  "referans_cozum": "def en_buyuk_ortak_bolen(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n",
+
+  "test_cases": [
+    {"girdi": [12, 8], "beklenen": 4},
+    {"girdi": [7, 13], "beklenen": 1},
+    {"girdi": [100, 75], "beklenen": 25},
+    {"girdi": [1, 1], "beklenen": 1},
+    {"girdi": [17, 17], "beklenen": 17},
+    {"girdi": [48, 18], "beklenen": 6}
+  ],
+
+  "sablon": {
+    "nesne": ["sayı", "ölçü", "kutu boyu"]
+  }
+}

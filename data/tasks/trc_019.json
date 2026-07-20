@@ -1,0 +1,27 @@
+{
+  "id": "trc_019",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Bir tam sayı listesi `sayilar` ve bir hedef değer `hedef` veriliyor. Toplamı `hedef`e eşit olan (i < j indeksli, aynı elemanın iki kez kullanılmadığı) İKİLİ SAYISINI döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of integers `sayilar` and a target value `hedef` are given. Write a function that returns the NUMBER OF PAIRS (with indices i < j, no element reused) whose sum equals `hedef`.",
+
+  "fonksiyon_imzasi": "def hedefe_esit_ciftler(sayilar: list[int], hedef: int) -> int:",
+  "fonksiyon_adi": "hedefe_esit_ciftler",
+
+  "referans_cozum": "def hedefe_esit_ciftler(sayilar, hedef):\n    sayac = 0\n    n = len(sayilar)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if sayilar[i] + sayilar[j] == hedef:\n                sayac += 1\n    return sayac\n",
+
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4], 5], "beklenen": 2},
+    {"girdi": [[1, 1, 1], 2], "beklenen": 3},
+    {"girdi": [[], 0], "beklenen": 0},
+    {"girdi": [[5], 5], "beklenen": 0},
+    {"girdi": [[0, 0, 0, 0], 0], "beklenen": 6},
+    {"girdi": [[1, 2, 3], 100], "beklenen": 0}
+  ],
+
+  "sablon": {
+    "nesne": ["sayı", "puan", "fiyat"]
+  }
+}

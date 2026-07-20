@@ -102,7 +102,19 @@ def test_timeout_ve_container_sizintisi_yok():
     assert kalan == "", f"Kaçak container kaldı: {kalan}"
 
 
-def test_oracle_trc_001_gecerli():
-    gorev = json.loads((KOK / "data/tasks/trc_001.json").read_text(encoding="utf-8"))
+GOREV_DOSYALARI = sorted((KOK / "data/tasks").glob("*.json"))
+
+
+@pytest.mark.parametrize("yol", GOREV_DOSYALARI, ids=lambda p: p.stem)
+def test_her_gorev_oracle_guardraildan_gecer(yol):
+    """
+    GUARDRAIL regresyon testi: veri setindeki HER görevin referans çözümü,
+    kendi test case'lerini sandbox'ta EKSİKSİZ geçmelidir. Geçmeyen bir görev
+    veri setine alınmamalıdır; bu test, veri seti büyüdükçe (Gün 11+) sözleşmeyi
+    otomatik korur.
+    """
+    gorev = json.loads(yol.read_text(encoding="utf-8"))
     r = gorevi_dogrula(gorev)
-    assert r["gecerli"] and r["gecen"] == r["toplam"]
+    assert r["gecerli"] and r["gecen"] == r["toplam"], (
+        f"{yol.stem} geçersiz: {r['gecen']}/{r['toplam']} (hata: {r['hata_tipi']})"
+    )

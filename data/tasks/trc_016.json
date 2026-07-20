@@ -1,0 +1,27 @@
+{
+  "id": "trc_016",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "İçinde tam sayılar ve/veya başka listeler barındırabilen (iç içe, herhangi bir derinlikte) bir liste `liste` veriliyor. İçindeki TÜM tam sayıların toplamını döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list `liste` is given that may contain integers and/or other lists (nested, at any depth). Write a function that returns the sum of ALL integers inside it.",
+
+  "fonksiyon_imzasi": "def ic_ice_liste_toplami(liste: list) -> int:",
+  "fonksiyon_adi": "ic_ice_liste_toplami",
+
+  "referans_cozum": "def ic_ice_liste_toplami(liste):\n    toplam = 0\n    for eleman in liste:\n        if isinstance(eleman, list):\n            toplam += ic_ice_liste_toplami(eleman)\n        else:\n            toplam += eleman\n    return toplam\n",
+
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 6},
+    {"girdi": [[1, [2, 3], 4]], "beklenen": 10},
+    {"girdi": [[[1, [2, [3, 4]]], 5]], "beklenen": 15},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[[[[]]]]], "beklenen": 0},
+    {"girdi": [[1, [2, [3, [4, [5]]]]]], "beklenen": 15}
+  ],
+
+  "sablon": {
+    "nesne": ["kutu", "klasör", "yuva"]
+  }
+}

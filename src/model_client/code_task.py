@@ -23,6 +23,23 @@ SISTEM_TR = (
     "adı ve imzası istenenle birebir aynı olmalı."
 )
 
+SISTEM_EN = (
+    "You are an experienced Python programmer. Write a single Python "
+    "function that solves the given problem. Return only a single "
+    "```python code block; do not add explanations, usage examples, or "
+    "test code. The function's name and signature must match exactly "
+    "what is requested."
+)
+
+# NOT (Türkçe vergisi confound'u): `fonksiyon_imzasi`/`fonksiyon_adi` tek
+# alandır ve TR/EN koşumları arasında BİLİNÇLİ olarak sabit tutulur (Türkçe
+# tanımlayıcı adları — ör. `sayilar`, `butce`). Ölçülen değişken yalnızca
+# PROBLEM CÜMLESİNİN dilidir; tanımlayıcı dili ayrıca değişseydi "Türkçe
+# vergisi" iki farklı etkiyi (problem-dili + tanımlayıcı-dili) karıştırırdı.
+# Sistem promptu bu yüzden dil'e göre seçilir (aşağıda) — aksi halde EN
+# koşumda bile Türkçe talimat verilmiş olurdu, ki bu kontrolsüz bir
+# confound'du (Gün 11 sonrası, kullanıcı ile birlikte tespit edildi).
+
 
 def kod_prompt_olustur(gorev: dict, dil: str = "tr") -> str:
     """
@@ -116,7 +133,8 @@ def modelden_cozum_al(gorev: dict, istemci, dil: str = "tr") -> dict:
     Not: Bu fonksiyon kodu ÇALIŞTIRMAZ ve doğrulamaz; yalnızca üretir.
     """
     prompt = kod_prompt_olustur(gorev, dil=dil)
-    sonuc = istemci.uret(prompt, sistem=SISTEM_TR)
+    sistem = SISTEM_TR if dil == "tr" else SISTEM_EN
+    sonuc = istemci.uret(prompt, sistem=sistem)
     kod = kod_ayikla(sonuc["metin"])
     return {
         "id": gorev.get("id"),

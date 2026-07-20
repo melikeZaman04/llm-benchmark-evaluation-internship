@@ -1,0 +1,27 @@
+{
+  "id": "trc_015",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+
+  "prompt_tr": "Negatif olmayan bir tam sayı `n` veriliyor. Fibonacci dizisinin n'İNCİ TERİMİNİ döndüren bir fonksiyon yaz (0. terim 0, 1. terim 1'dir; her terim kendinden önceki iki terimin toplamıdır).",
+  "prompt_en": "A non-negative integer `n` is given. Write a function that returns the n-TH TERM of the Fibonacci sequence (term 0 is 0, term 1 is 1; each term is the sum of the previous two terms).",
+
+  "fonksiyon_imzasi": "def fibonacci(n: int) -> int:",
+  "fonksiyon_adi": "fibonacci",
+
+  "referans_cozum": "def fibonacci(n):\n    if n < 2:\n        return n\n    a, b = 0, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n",
+
+  "test_cases": [
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [2], "beklenen": 1},
+    {"girdi": [5], "beklenen": 5},
+    {"girdi": [10], "beklenen": 55},
+    {"girdi": [7], "beklenen": 13}
+  ],
+
+  "sablon": {
+    "nesne": ["terim", "adım", "kuşak"]
+  }
+}
