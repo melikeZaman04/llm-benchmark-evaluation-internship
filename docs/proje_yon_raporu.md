@@ -12,6 +12,17 @@ Var olan kod benchmark'larından üç eksende ayrışırız: **(1) Türkçe**,
 **(2) ezber-dayanıklılığı** (mutasyon), **(3) çalıştırma-tabanlı**
 gerçek doğrulama.
 
+**İki benchmark, tek altyapı (Gün 13'te netleşen çerçeve):** Aynı koşum
+matrisinden iki ayrı araştırma sorusu cevaplanır. **(A) Küçük modeller
+kodlamada ne kadar başarılı?** — saf yetenek, model ölçeğiyle nasıl değişiyor;
+bilinçli olarak İNGİLİZCE ölçülür (test edilen modellerin baskın eğitim
+dili), böylece dil engelinden arındırılmış bir "saf kodlama yeteneği" sinyali
+elde edilir. **(B) Türkçe muhakeme, kod üretimini ne kadar zorlaştırıyor?**
+— `acc(en) − acc(tr)`; B'yi anlamlı yorumlamak, A'nın "temiz" tabanını
+gerektirir. İkisi de `run_matrix.py`'nin tek bir koşumundan (her görev ×
+model için hem `tr` hem `en`) çıkar; ek altyapı gerekmez, yalnızca ayrı
+raporlanır. Ayrıntı: `README.md`.
+
 ## 2. Metodoloji: İki Düzlemli Değerlendirme Mimarisi
 LLM tabanlı benchmark'ların kronik sorunu, "ölçümün deterministik
 olmaması"dır — testleri veya skoru bir LLM üretirse, ground truth
@@ -66,11 +77,17 @@ bu, çıkar çatışmasını ve veri kirliliğini engeller.
 ## 4. Teknik Yığın
 - **Sandbox:** Docker (`--network none`, `--memory`, `--cpus`,
   `--pids-limit`, `--read-only`, non-root, `timeout`).
-- **Orkestrasyon:** LangGraph — "State" yapısı Oracle düzlemini korur;
-  deterministik olmayan ajan çıktıları yalnızca oracle onaylarsa state'e
-  eklenir. (Önce bileşenler saf fonksiyon olarak yazılır, LangGraph en
-  sona sarılır.)
-- **Fabrika ajanları:** Claude API.
+- **Orkestrasyon:** Düz Python fonksiyon zinciri (`src/agent_factory/client.py`
+  + görev-özel ajan modülleri). Gün 13'te LangGraph yeniden değerlendirildi ve
+  ASKIYA ALINDI: gerçek ajan zinciri büyük ölçüde doğrusal (Görev → Mutator →
+  Guardrail → [Translator]), grafik-tabanlı bir orkestrasyon kütüphanesinin
+  sağladığı yetenekler (döngü, çok-yönlü koşullu yönlendirme, kalıcı state)
+  şu an karşılığı olmayan bir bağımlılık olurdu. Gerçek çoklu-ajan döngüsel
+  karmaşıklık doğarsa yeniden değerlendirilecek (bkz. 20_gunluk_plani.md
+  Revizyon Günlüğü).
+- **Fabrika ajanları:** Claude Code CLI (headless, `--system-prompt` +
+  `--json-schema`) — kullanıcının mevcut Claude Code girişini (abonelik)
+  kullanır, ayrı bir `ANTHROPIC_API_KEY` gerektirmez.
 - **Test edilen özneler:** yerel modeller — Ollama + LM Studio (ikisi de
   OpenAI-uyumlu endpoint → tek istemci arayüzü).
 - **Veri seti:** git ile sürümlenir, HuggingFace Datasets formatında
@@ -104,7 +121,8 @@ hakkında da söz söyleyen dürüst bir bulgudur.
 4. **Uçtan-uca dikey dilim** — 1 görev → model → sandbox → sonuç.
 5. **Mutator ajanı** (Claude) — varyant üret + oracle ile doğrula.
 6. **Metrik motoru** — taksonomi, vergiler, trend.
-7. **LangGraph** ile bileşenleri orkestre et.
+7. ~~LangGraph ile bileşenleri orkestre et~~ — askıya alındı (bkz. §4);
+   düz Python zinciri yeterli.
 8. **Dashboard (Gradio)** — canlı demo, en son ince kabuk.
 9. **HuggingFace yayını** + dataset card.
 

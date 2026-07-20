@@ -9,6 +9,11 @@ __pycache__/
 venv/
 env/
 
+# Gizli anahtarlar
+.env
+.env.*
+!.env.example
+
 # Editör / OS
 .vscode/
 .idea/

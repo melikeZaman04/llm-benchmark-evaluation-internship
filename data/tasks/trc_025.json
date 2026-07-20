@@ -1,0 +1,50 @@
+{
+  "id": "trc_025",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_002",
+  "prompt_tr": "Bir `kelime` veriliyor. Kelime tersten okunduğunda kendisiyle aynıysa (palindrom) True, değilse False döndüren bir fonksiyon yaz. Büyük/küçük harf ve boşlukları OLDUĞU GİBİ dikkate al.",
+  "prompt_en": "A string `kelime` is given. Write a function that returns True if the word reads the same backwards (a palindrome), otherwise False. Consider case and spaces EXACTLY as they are.",
+  "fonksiyon_imzasi": "def kelime_palindrom_mu(kelime: str) -> bool:",
+  "fonksiyon_adi": "kelime_palindrom_mu",
+  "referans_cozum": "def kelime_palindrom_mu(kelime):\n    return kelime == kelime[::-1]\n",
+  "test_cases": [
+    {
+      "girdi": [
+        "kayak"
+      ],
+      "beklenen": true
+    },
+    {
+      "girdi": [
+        "ev"
+      ],
+      "beklenen": false
+    },
+    {
+      "girdi": [
+        ""
+      ],
+      "beklenen": true
+    },
+    {
+      "girdi": [
+        "a"
+      ],
+      "beklenen": true
+    },
+    {
+      "girdi": [
+        "abba"
+      ],
+      "beklenen": true
+    },
+    {
+      "girdi": [
+        "abc"
+      ],
+      "beklenen": false
+    }
+  ]
+}

@@ -376,3 +376,41 @@ Guardrail disiplini aynen sürdürüldü: 11 yeni görevin tamamı oracle'dan 6/
 ### Bir Sonraki Adım
 
 Veri seti hedeflenen ~20 kanonik göreve ulaştı; §5'teki 6 kategorinin tamamı dolu. Gün 13'te Mutator ajanı (Claude API) devreye girecek: her görevin `sablon` alanı kullanılarak parametrik varyantlar üretilecek ve her varyant oracle guardrail'inden geçmeden veri setine kabul edilmeyecek. Bu, Düzlem 1'in (yaratıcı ajan fabrikası) projede ilk kez fiilen çalışacağı gün olacak.
+
+## 13. Gün - Mutator Ajanı: Düzlem 1'in İlk Fiili Çalışması
+
+Bugün, projenin en hassas mimari eşiği geçildi: Düzlem 1 (Yaratıcı Ajan Fabrikası) ilk kez fiilen çalıştı. Koda geçmeden önce uzun bir tasarım/iletişim süreci yürütüldü — persona metni, kapsam sınırları ve üretim mimarisi kod yazılmadan netleştirildi.
+
+**Kapsam kararı.** Mutator'ın işi baştan **dar** tutuldu: var olan, zaten oracle-doğrulanmış bir kanonik görevin YALNIZCA senaryosunu (bağlamını) değiştirmek — algoritmayı değil. "Parametrik varyant" (sayısal örnekleme) ekseni bilinçli olarak Mutator'ın kapsamı DIŞINDA bırakıldı; bu saf mekanik bir iş olduğu için ileride saf kodla (Claude'suz) yapılacak. Kullanıcının kritik bir itirazı ("agent'lar profesyonelce kurgulanmış soru üretmekte zorlanır, internetten mi almalıyız?") bu noktada netleştirici oldu: cevap, sorunun kendisinde saklıydı — internetten soru almak **kirlilik/ezber riski** taşır (proje_yon_raporu §5), ve Mutator'ın işi zaten yeni problem icat etmek değil, var olan-ve-doğrulanmış bir problemin yüzeyini değiştirmek olduğu için "profesyonellik" riski düşük.
+
+**Persona tasarımı ve pilot doğrulama (koddan önce).** Persona; rol, sabit kalması gereken alanlar (mantık, test_cases), değiştirilebilecek alanlar (senaryo, isimler) ve "oracle neyi yakalar neyi yakalayamaz" ayrımı etrafında kuruldu — en kritik uyarı: oracle yalnızca KOD davranışını kontrol eder, senaryonun anlam tutarlılığını (ör. "ödünç alma" + "bütçe" çelişkisi) ASLA yakalayamaz; bu tamamen persona'nın sorumluluğu. Bu persona, koda geçmeden önce bu oturumun `Agent` aracıyla **7 kez** pilot test edildi — en riskli senaryolar dahil (özyinelemeli fonksiyonda kendi-kendini-çağırma satırının doğru yeniden adlandırılması, 3-parametreli skaler fonksiyonlar, çok ince `sablon`'la kendi başına senaryo kurma, aynı görevde farklı sablon kombinasyonları). 7/7 pilot, oracle'dan 6/6 geçti ve kod-düzeyinde satır satır karşılaştırmada hiçbir mantık sapması bulunmadı. 4 pilot varyant kaliteli bulunup doğrudan veri setine eklendi (`trc_021`-`trc_024`).
+
+**Üretim mimarisi kararı: Claude Code CLI (API anahtarsız).** Ham Anthropic API ile ayrı bir `ANTHROPIC_API_KEY` kurmak yerine, kurulu Claude Code CLI'nin headless (`-p`) modu + `--system-prompt` + `--json-schema` kullanılarak, kullanıcının mevcut Claude Code (Max) girişini kullanan bir script mimarisi kuruldu. Bu karara varmadan önce iki gerçek mühendislik/hesap sorusu araştırıldı ve kaynaklı biçimde cevaplandı: (1) CLI kullanımı aynı hesabın diğer cihazlardaki kullanımıyla AYNI paylaşımlı kotaya giriyor mu (evet — hesap bazlı, cihaz bazlı değil, ama "bir insan bir abonelik" ilkesiyle izinli); (2) gösterilen `total_cost_usd` gerçekten faturalandırılıyor mu (hayır — Max planda bu yalnızca yerel bir TAHMİN, gerçek ödeme değil, tüketilen şey dolar değil kota). npm global kurulumda izin hatası (`EACCES`) çıktı, npm prefix'i kullanıcı dizinine taşınarak (sudo'suz) çözüldü; ardından güvenlik nedeniyle engellenen `postinstall` betiği elle çalıştırılarak native ikili indirildi.
+
+**Maliyet optimizasyonu — ölçülerek keşfedildi.** Persona'yı `--system-prompt` ile ayırmadan (hepsi tek stdin metni) ilk çağrı $0.22'ye mal oldu; `--system-prompt` ile ayırınca $0.16'ya düştü; AYNI persona ile ikinci bir çağrıda Anthropic'in prompt önbelleklemesi devreye girdi ve maliyet $0.043'e indi (~4 kat). Bu, toplu üretimde yalnızca ilk çağrının pahalı olacağını, sonrakilerin önbellekten yararlanacağını gösterdi — tahminle değil, ölçülerek doğrulandı.
+
+**Kalıcı kod.** `src/agent_factory/client.py` (genel, yeniden kullanılabilir `ajan_cagir()` — Mutator/Translator/Test-Öneri/Failure-Classifier'ın HEPSİ bunu kullanacak), `src/agent_factory/mutator.py` (persona + varyant birleştirme + guardrail çağrısı), `src/run_mutator.py` (CLI, otomatik id atama). Script gerçek görevlerle uçtan uca test edildi (tekli ve TOPLU üretim — toplu üretimde ilk yazımda bir ID-çakışma hatası fark edilip düzeltildi: id üretici her döngüde diskten değil, bellekte artan biçimde çalışmalıydı). 3 ek üretim (`trc_025`-`trc_027`) veri setine eklendi. Toplam veri seti: **27 görev** (20 kanonik + 7 mutasyon).
+
+**Test altyapısı.** `tests/test_agent_factory.py` — `subprocess.run` mock'lanarak Docker/CLI GEREKTİRMEYEN 10 birim testi (başarı yolu, is_error, şema-uyumsuzluğu, JSON-olmayan çıktı, sıfır-dışı dönüş kodu, zaman aşımı, CLI-bulunamadı, görev-metni biçimlendirme, varyant birleştirme, guardrail-red senaryosu). Pytest paketi 48'den **58'e** çıktı, hepsi geçiyor.
+
+### Bugün Öğrenilenler
+
+* Kod yazmadan önce persona'yı gerçek pilot denemelerle (bu oturumun kendi agent aracıyla) doğrulamanın, kalıcı script'e büyük bir güvenle geçmeyi sağladığı görüldü — "önce kanıtla, sonra kalıcılaştır" sırası işe yaradı.
+* "İnternetten soru almalı mıyız" sorusunun cevabının, projenin kendi kirlilik-güvenliği ilkesinde (§5) zaten yazılı olduğu; kullanıcının bu itirazı sorması, mimarinin doğru gerekçelerle savunulabilir olduğunu sınamış oldu.
+* Bir CLI aracının gösterdiği `cost_usd` rakamının HER ZAMAN gerçek bir ödeme anlamına gelmediği, abonelik/API ayrımının dikkatle açıklanması gerektiği — teknik kesinlik burada mali kafa karışıklığını önledi.
+* Prompt önbellekleme faydasının varsayılmak yerine ÖLÇÜLEREK doğrulanmasının (üç art arda çağrı, üç farklı maliyet) hem mühendislik hem metodolojik disiplin açısından doğru olduğu.
+* Guardrail'in, isim-değiştirme gibi "düşük risk" görünen bir işlemde bile GERÇEK iş yaptığı: özyinelemeli çağrıyı yeniden adlandırmayı unutma gibi bir hata, oracle tarafından anında yakalanırdı (yakalanmadı çünkü doğru yapıldı, ama mekanizma orada, hazır bekliyordu).
+
+### Oluşturulan Çıktılar
+
+* src/agent_factory/ (client.py, mutator.py, __init__.py)
+* src/run_mutator.py
+* tests/test_agent_factory.py (10 yeni birim testi)
+* data/tasks/trc_021.json … trc_027.json (7 mutasyon varyantı)
+* .gitignore (.env kalıcı olarak dışlandı — henüz kullanılmasa da)
+* Güncellenmiş README.md, docs/staj_defteri_gunlukleri.md, docs/20_gunluk_plani.md
+* Kurulu ve giriş yapılmış Claude Code CLI (~/.npm-global altında, sudo'suz)
+
+### Bir Sonraki Adım
+
+Gün 14: Hikaye mutasyonunun tamamlayıcısı olan TR↔EN Translator ajanı + varyant ailesi otomasyonu. `agent_factory/client.py`'nin genel `ajan_cagir()` fonksiyonu sayesinde Translator, Mutator'ın altyapısını doğrudan yeniden kullanabilecek — yalnızca yeni bir persona ve şema yazmak yeterli olacak.

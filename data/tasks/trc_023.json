@@ -1,0 +1,24 @@
+{
+  "id": "trc_023",
+  "kategori": "ozyineleme",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_014",
+
+  "prompt_tr": "Negatif olmayan bir tam sayı `kitap_sayisi` veriliyor. `kitap_sayisi` adet birbirinden farklı kitabın bir rafa kaç farklı şekilde dizilebileceğini (sıralama SAYISINI) döndüren bir fonksiyon yaz. 0 kitap için 1 dizilim vardır (boş dizilim).",
+  "prompt_en": "A non-negative integer `kitap_sayisi` (book count) is given. Write a function that returns the number of different ways `kitap_sayisi` distinct books can be arranged on a shelf. There is 1 arrangement for 0 books (the empty arrangement).",
+
+  "fonksiyon_imzasi": "def dizilim_sayisi(kitap_sayisi: int) -> int:",
+  "fonksiyon_adi": "dizilim_sayisi",
+
+  "referans_cozum": "def dizilim_sayisi(kitap_sayisi):\n    if kitap_sayisi <= 1:\n        return 1\n    return kitap_sayisi * dizilim_sayisi(kitap_sayisi - 1)\n",
+
+  "test_cases": [
+    {"girdi": [0], "beklenen": 1},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [5], "beklenen": 120},
+    {"girdi": [3], "beklenen": 6},
+    {"girdi": [10], "beklenen": 3628800},
+    {"girdi": [2], "beklenen": 2}
+  ]
+}

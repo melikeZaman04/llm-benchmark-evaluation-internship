@@ -1,0 +1,24 @@
+{
+  "id": "trc_024",
+  "kategori": "mantik",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_012",
+
+  "prompt_tr": "Üç çubuğun uzunlukları (pozitif tam sayı) veriliyor: `cubuk1`, `cubuk2`, `cubuk3`. Bu üç çubuğu uç uca birleştirerek GEÇERLİ bir üçgen çerçeve oluşturulabiliyorsa (üçgen eşitsizliği: her çubuk, diğer ikisinin toplam uzunluğundan KESİN KISA olmalı) True, değilse False döndüren bir fonksiyon yaz.",
+  "prompt_en": "Three stick lengths (positive integers) are given: `cubuk1`, `cubuk2`, `cubuk3`. Write a function that returns True if these three sticks can be joined end-to-end to form a VALID triangular frame (triangle inequality: each stick must be STRICTLY SHORTER than the sum of the other two lengths), otherwise False.",
+
+  "fonksiyon_imzasi": "def cubuklarla_ucgen_olusur_mu(cubuk1: int, cubuk2: int, cubuk3: int) -> bool:",
+  "fonksiyon_adi": "cubuklarla_ucgen_olusur_mu",
+
+  "referans_cozum": "def cubuklarla_ucgen_olusur_mu(cubuk1, cubuk2, cubuk3):\n    return cubuk1 + cubuk2 > cubuk3 and cubuk1 + cubuk3 > cubuk2 and cubuk2 + cubuk3 > cubuk1\n",
+
+  "test_cases": [
+    {"girdi": [3, 4, 5], "beklenen": true},
+    {"girdi": [1, 1, 3], "beklenen": false},
+    {"girdi": [2, 2, 2], "beklenen": true},
+    {"girdi": [1, 2, 3], "beklenen": false},
+    {"girdi": [10, 1, 1], "beklenen": false},
+    {"girdi": [5, 5, 9], "beklenen": true}
+  ]
+}
