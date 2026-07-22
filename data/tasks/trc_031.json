@@ -1,0 +1,22 @@
+{
+  "id": "trc_031",
+  "kategori": "ozyineleme",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_014",
+  "canonical_id": "trc_014",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir dans eğitmeni, koreografisindeki `n` farklı adımı sahnede hangi sırayla sergileyeceğine karar veriyor. `n` negatif olmayan bir tam sayıdır. Adımların kaç farklı sırayla dizilebileceğini, yani `n` faktöriyelini (n!) döndüren bir fonksiyon yaz. Hiç adım yoksa boş dizilim tek bir olasılık sayılır: 0! = 1.",
+  "prompt_en": "A dance instructor is deciding the order in which to perform the `n` distinct steps of a routine on stage. `n` is a non-negative integer. Write a function that returns how many different orderings of the steps are possible, i.e. the factorial of `n` (n!). If there are no steps, the empty routine counts as a single ordering: 0! = 1.",
+  "fonksiyon_imzasi": "def faktoriyel(n: int) -> int:",
+  "fonksiyon_adi": "faktoriyel",
+  "referans_cozum": "def faktoriyel(n):\n    if n <= 1:\n        return 1\n    return n * faktoriyel(n - 1)\n",
+  "test_cases": [
+    {"girdi": [0], "beklenen": 1},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [5], "beklenen": 120},
+    {"girdi": [3], "beklenen": 6},
+    {"girdi": [10], "beklenen": 3628800},
+    {"girdi": [2], "beklenen": 2}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "trc_048",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_003",
+  "canonical_id": "trc_003",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir çekilişte biletler 1'den başlayarak numaralandırılır ve yalnızca numarası asal sayı olan biletler ikramiye kazanır. Bir bilet numarası `bilet_no` veriliyor. Bu bilet ikramiye kazanıyorsa (yani `bilet_no` asal sayıysa) True, kazanmıyorsa False döndüren bir fonksiyon yaz. 2'den küçük numaralar asal DEĞİLDİR.",
+  "prompt_en": "In a raffle, tickets are numbered starting from 1, and only tickets whose number is a prime number win a prize. A ticket number `bilet_no` is given. Write a function that returns True if this ticket wins a prize (i.e. if `bilet_no` is a prime number), otherwise False. Numbers smaller than 2 are NOT prime.",
+  "fonksiyon_imzasi": "def bilet_kazandi_mi(bilet_no: int) -> bool:",
+  "fonksiyon_adi": "bilet_kazandi_mi",
+  "referans_cozum": "def bilet_kazandi_mi(bilet_no):\n    if bilet_no < 2:\n        return False\n    bolen = 2\n    while bolen * bolen <= bilet_no:\n        if bilet_no % bolen == 0:\n            return False\n        bolen += 1\n    return True\n",
+  "test_cases": [
+    {"girdi": [2], "beklenen": true},
+    {"girdi": [1], "beklenen": false},
+    {"girdi": [17], "beklenen": true},
+    {"girdi": [15], "beklenen": false},
+    {"girdi": [97], "beklenen": true},
+    {"girdi": [0], "beklenen": false}
+  ]
+}

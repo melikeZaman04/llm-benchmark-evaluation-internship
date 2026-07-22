@@ -3,15 +3,13 @@
   "kategori": "mantik",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_012",
+  "variant_type": "canonical",
   "prompt_tr": "Üç kenar uzunluğu `a`, `b`, `c` (pozitif tam sayı) veriliyor. Bu üç kenarla GEÇERLİ bir üçgen oluşturulabiliyorsa (üçgen eşitsizliği: her kenar, diğer ikisinin toplamından KESİN KÜÇÜK olmalı) True, değilse False döndüren bir fonksiyon yaz.",
   "prompt_en": "Three side lengths `a`, `b`, `c` (positive integers) are given. Write a function that returns True if these three sides can form a VALID triangle (triangle inequality: each side must be STRICTLY SMALLER than the sum of the other two), otherwise False.",
-
   "fonksiyon_imzasi": "def uc_gen_olusur_mu(a: int, b: int, c: int) -> bool:",
   "fonksiyon_adi": "uc_gen_olusur_mu",
-
   "referans_cozum": "def uc_gen_olusur_mu(a, b, c):\n    return a + b > c and a + c > b and b + c > a\n",
-
   "test_cases": [
     {"girdi": [3, 4, 5], "beklenen": true},
     {"girdi": [1, 1, 3], "beklenen": false},
@@ -20,8 +18,5 @@
     {"girdi": [10, 1, 1], "beklenen": false},
     {"girdi": [5, 5, 9], "beklenen": true}
   ],
-
-  "sablon": {
-    "nesne": ["kenar", "çubuk", "ip"]
-  }
+  "sablon": {"nesne": ["kenar", "çubuk", "ip"]}
 }

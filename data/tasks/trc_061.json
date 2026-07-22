@@ -1,0 +1,22 @@
+{
+  "id": "trc_061",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_019",
+  "canonical_id": "trc_019",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir turnuvada oyuncuların topladığı puanlar `puanlar` listesinde sırayla veriliyor ve takım eşleşmesi için hedeflenen toplam puan `hedef_puan` olarak belirtiliyor. Puanlarının toplamı `hedef_puan` değerine eşit olan (i < j indeksli, aynı oyuncunun iki kez kullanılmadığı) OYUNCU İKİLİSİ SAYISINI döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a tournament, the points collected by the players are given in order in the list `puanlar`, and the targeted combined score for team matching is given as `hedef_puan`. Write a function that returns the NUMBER OF PLAYER PAIRS (with indices i < j, no player used twice) whose points sum equals `hedef_puan`.",
+  "fonksiyon_imzasi": "def hedef_puanli_ikililer(puanlar: list[int], hedef_puan: int) -> int:",
+  "fonksiyon_adi": "hedef_puanli_ikililer",
+  "referans_cozum": "def hedef_puanli_ikililer(puanlar, hedef_puan):\n    ikili_sayisi = 0\n    n = len(puanlar)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if puanlar[i] + puanlar[j] == hedef_puan:\n                ikili_sayisi += 1\n    return ikili_sayisi\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4], 5], "beklenen": 2},
+    {"girdi": [[1, 1, 1], 2], "beklenen": 3},
+    {"girdi": [[], 0], "beklenen": 0},
+    {"girdi": [[5], 5], "beklenen": 0},
+    {"girdi": [[0, 0, 0, 0], 0], "beklenen": 6},
+    {"girdi": [[1, 2, 3], 100], "beklenen": 0}
+  ]
+}

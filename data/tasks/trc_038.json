@@ -1,0 +1,23 @@
+{
+  "id": "trc_038",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_009",
+  "canonical_id": "trc_009",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir öğretmen, sınıfındaki öğrencilerin sınavdan aldığı notları ondalıklı sayılar hâlinde `sayilar` listesinde tutuyor. Bu notların aritmetik ORTALAMASINI (float) döndüren bir fonksiyon yaz. Sınava hiç kimse girmemişse, yani liste boşsa 0.0 döndür.",
+  "prompt_en": "A teacher keeps the exam grades of the students in the class as floating-point numbers in a list called `sayilar`. Write a function that returns the arithmetic MEAN (as a float) of these grades. If no one took the exam, that is, if the list is empty, return 0.0.",
+  "fonksiyon_imzasi": "def ortalama(sayilar: list[float]) -> float:",
+  "fonksiyon_adi": "ortalama",
+  "referans_cozum": "def ortalama(sayilar):\n    if not sayilar:\n        return 0.0\n    return sum(sayilar) / len(sayilar)\n",
+  "test_cases": [
+    {"girdi": [[1.0, 2.0, 3.0]], "beklenen": 2.0},
+    {"girdi": [[2.0, 2.0]], "beklenen": 2.0},
+    {"girdi": [[]], "beklenen": 0.0},
+    {"girdi": [[1.0, 2.0]], "beklenen": 1.5},
+    {"girdi": [[10.0]], "beklenen": 10.0},
+    {"girdi": [[1.0, 2.0, 3.0, 4.0]], "beklenen": 2.5}
+  ],
+  "karsilastirma": {"mod": "yaklasik", "tol": 1e-06}
+}

@@ -24,7 +24,17 @@ import subprocess
 
 
 class AjanCagriHatasi(Exception):
-    """claude CLI çağrısı başarısız olduğunda veya guardrail reddettiğinde fırlatılır."""
+    """
+    claude CLI çağrısı başarısız olduğunda veya guardrail reddettiğinde fırlatılır.
+
+    `maliyet_usd`: reddedilen bir üretimin ajan çağrısı ZATEN yapılmıştır ve
+    para harcanmıştır. Bu alan o maliyeti taşır ki çağıran, toplam harcamayı
+    yalnızca başarılı varyantlar üzerinden sayıp olduğundan düşük raporlamasın.
+    """
+
+    def __init__(self, mesaj: str, maliyet_usd: float | None = None):
+        super().__init__(mesaj)
+        self.maliyet_usd = maliyet_usd
 
 
 def ajan_cagir(persona: str, gorev_metni: str, json_semasi: dict,

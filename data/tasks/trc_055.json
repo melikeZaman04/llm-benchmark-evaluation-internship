@@ -1,0 +1,22 @@
+{
+  "id": "trc_055",
+  "kategori": "mantik",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_011",
+  "canonical_id": "trc_011",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir meteoroloji istasyonu, gün boyunca saat başı ölçülen hava sıcaklıklarını `sicakliklar` adlı bir tam sayı listesinde tutuyor. Ölçümler saat sırasına göre kayıtlıdır. Gün boyunca hava KESİNTİSİZ ISINDIYSA (her ölçüm kendinden bir önceki ölçümden kesinlikle büyükse) True, aksi halde False döndüren bir fonksiyon yaz. Hiç ölçüm alınmamışsa veya tek bir ölçüm varsa gün kesintisiz ısınmış sayılır.",
+  "prompt_en": "A weather station stores the hourly air temperatures measured throughout the day in a list of integers called `sicakliklar`. The measurements are recorded in chronological order. Write a function that returns True if the weather WARMED UP CONTINUOUSLY during the day (each measurement is strictly greater than the previous one), otherwise False. If no measurement was taken or there is only a single measurement, the day counts as continuously warming.",
+  "fonksiyon_imzasi": "def surekli_isindi_mi(sicakliklar: list[int]) -> bool:",
+  "fonksiyon_adi": "surekli_isindi_mi",
+  "referans_cozum": "def surekli_isindi_mi(sicakliklar):\n    for i in range(1, len(sicakliklar)):\n        if sicakliklar[i] <= sicakliklar[i - 1]:\n            return False\n    return True\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": true},
+    {"girdi": [[1, 1, 2]], "beklenen": false},
+    {"girdi": [[3, 2, 1]], "beklenen": false},
+    {"girdi": [[]], "beklenen": true},
+    {"girdi": [[5]], "beklenen": true},
+    {"girdi": [[1, 2, 2, 3]], "beklenen": false}
+  ]
+}

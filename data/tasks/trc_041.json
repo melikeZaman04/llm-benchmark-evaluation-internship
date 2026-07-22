@@ -1,0 +1,22 @@
+{
+  "id": "trc_041",
+  "kategori": "mantik",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_013",
+  "canonical_id": "trc_013",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir spor salonu, antrenman takvimindeki günleri kodluyor: programın başlangıcından itibaren geçen gün sayısı `n` veriliyor. Salon, hem 3'ün hem 5'in katı olan günleri \"FizzBuzz\", yalnızca 3'ün katı olan günleri \"Fizz\", yalnızca 5'in katı olan günleri \"Buzz\" koduyla etiketliyor; bunların hiçbiri değilse gün numarasının kendisini kod olarak kullanıyor. Verilen `n` için bu kodu METİN (string) olarak döndüren bir fonksiyon yaz.",
+  "prompt_en": "A gym labels the days of its training calendar: you are given `n`, the number of days elapsed since the program started. The gym tags a day \"FizzBuzz\" if it is a multiple of both 3 and 5, \"Fizz\" if it is a multiple of 3 only, \"Buzz\" if it is a multiple of 5 only, and otherwise uses the day number itself as the label. Write a function that returns this label for the given `n` as a STRING.",
+  "fonksiyon_imzasi": "def fizzbuzz_tek_deger(n: int) -> str:",
+  "fonksiyon_adi": "fizzbuzz_tek_deger",
+  "referans_cozum": "def fizzbuzz_tek_deger(n):\n    if n % 15 == 0:\n        return \"FizzBuzz\"\n    if n % 3 == 0:\n        return \"Fizz\"\n    if n % 5 == 0:\n        return \"Buzz\"\n    return str(n)\n",
+  "test_cases": [
+    {"girdi": [15], "beklenen": "FizzBuzz"},
+    {"girdi": [3], "beklenen": "Fizz"},
+    {"girdi": [5], "beklenen": "Buzz"},
+    {"girdi": [7], "beklenen": "7"},
+    {"girdi": [0], "beklenen": "FizzBuzz"},
+    {"girdi": [30], "beklenen": "FizzBuzz"}
+  ]
+}

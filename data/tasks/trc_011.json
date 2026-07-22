@@ -3,15 +3,13 @@
   "kategori": "mantik",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_011",
+  "variant_type": "canonical",
   "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. Liste KESİN ARTAN (her eleman kendinden önceki elemandan büyük) ise True, değilse False döndüren bir fonksiyon yaz. Boş liste veya tek elemanlı liste artan sayılır.",
   "prompt_en": "A list of integers `sayilar` is given. Write a function that returns True if the list is STRICTLY INCREASING (each element is greater than the previous one), otherwise False. An empty list or a list with one element is considered increasing.",
-
   "fonksiyon_imzasi": "def artan_mi(sayilar: list[int]) -> bool:",
   "fonksiyon_adi": "artan_mi",
-
   "referans_cozum": "def artan_mi(sayilar):\n    for i in range(1, len(sayilar)):\n        if sayilar[i] <= sayilar[i - 1]:\n            return False\n    return True\n",
-
   "test_cases": [
     {"girdi": [[1, 2, 3]], "beklenen": true},
     {"girdi": [[1, 1, 2]], "beklenen": false},
@@ -20,8 +18,5 @@
     {"girdi": [[5]], "beklenen": true},
     {"girdi": [[1, 2, 2, 3]], "beklenen": false}
   ],
-
-  "sablon": {
-    "nesne": ["sayı", "puan", "sıcaklık"]
-  }
+  "sablon": {"nesne": ["sayı", "puan", "sıcaklık"]}
 }

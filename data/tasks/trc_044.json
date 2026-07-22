@@ -1,0 +1,22 @@
+{
+  "id": "trc_044",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_017",
+  "canonical_id": "trc_017",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir marangoz atölyesinde, santimetre cinsinden uzunlukları `a` ve `b` olan iki tahta ölçülüyor (her iki ölçü de pozitif tam sayıdır). Usta, iki tahtayı da hiç artık bırakmadan eşit uzunlukta parçalara ayırmak istiyor. Bunu sağlayan EN BÜYÜK parça uzunluğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a carpentry workshop, two planks are measured with lengths `a` and `b` in centimeters (both measurements are positive integers). The carpenter wants to cut both planks into equal-length pieces with no leftover. Write a function that returns the LARGEST possible piece length that achieves this.",
+  "fonksiyon_imzasi": "def en_buyuk_ortak_bolen(a: int, b: int) -> int:",
+  "fonksiyon_adi": "en_buyuk_ortak_bolen",
+  "referans_cozum": "def en_buyuk_ortak_bolen(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n",
+  "test_cases": [
+    {"girdi": [12, 8], "beklenen": 4},
+    {"girdi": [7, 13], "beklenen": 1},
+    {"girdi": [100, 75], "beklenen": 25},
+    {"girdi": [1, 1], "beklenen": 1},
+    {"girdi": [17, 17], "beklenen": 17},
+    {"girdi": [48, 18], "beklenen": 6}
+  ]
+}

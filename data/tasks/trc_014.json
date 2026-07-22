@@ -3,15 +3,13 @@
   "kategori": "ozyineleme",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_014",
+  "variant_type": "canonical",
   "prompt_tr": "Negatif olmayan bir tam sayı `n` veriliyor. `n`'in FAKTÖRİYELİNİ (n!) döndüren bir fonksiyon yaz. 0! = 1'dir.",
   "prompt_en": "A non-negative integer `n` is given. Write a function that returns the FACTORIAL of `n` (n!). 0! = 1.",
-
   "fonksiyon_imzasi": "def faktoriyel(n: int) -> int:",
   "fonksiyon_adi": "faktoriyel",
-
   "referans_cozum": "def faktoriyel(n):\n    if n <= 1:\n        return 1\n    return n * faktoriyel(n - 1)\n",
-
   "test_cases": [
     {"girdi": [0], "beklenen": 1},
     {"girdi": [1], "beklenen": 1},
@@ -20,8 +18,5 @@
     {"girdi": [10], "beklenen": 3628800},
     {"girdi": [2], "beklenen": 2}
   ],
-
-  "sablon": {
-    "nesne": ["sayı", "adım", "seviye"]
-  }
+  "sablon": {"nesne": ["sayı", "adım", "seviye"]}
 }

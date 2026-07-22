@@ -14,28 +14,13 @@ Kullanım:
 from __future__ import annotations
 
 import argparse
-import json
-import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agent_factory.client import AjanCagriHatasi  # noqa: E402
 from agent_factory.mutator import varyant_uret  # noqa: E402
-
-GOREVLER_DIZINI = Path(__file__).resolve().parent.parent / "data" / "tasks"
-
-
-def _sonraki_id_uretici():
-    """data/tasks/trc_NNN.json dosyalarını tarar, artan sırayla boş id üretir."""
-    en_buyuk = 0
-    for yol in GOREVLER_DIZINI.glob("trc_*.json"):
-        eslesme = re.fullmatch(r"trc_(\d+)", yol.stem)
-        if eslesme:
-            en_buyuk = max(en_buyuk, int(eslesme.group(1)))
-    while True:
-        en_buyuk += 1
-        yield f"trc_{en_buyuk:03d}"
+from task_io import GOREVLER_DIZINI, gorev_oku, gorev_yaz, sonraki_id_uretici  # noqa: E402
 
 
 def main() -> int:
@@ -46,13 +31,13 @@ def main() -> int:
                               help="Her kanonik görev için üretilecek varyant sayısı")
     args = ayristirici.parse_args()
 
-    id_uretici = _sonraki_id_uretici()
+    id_uretici = sonraki_id_uretici()
     toplam_uretilen = 0
     toplam_reddedilen = 0
     toplam_maliyet = 0.0
 
     for yol in args.gorev:
-        kanonik = json.loads(Path(yol).read_text(encoding="utf-8"))
+        kanonik = gorev_oku(yol)
         for _ in range(args.sayi):
             yeni_id = next(id_uretici)
             try:
@@ -63,11 +48,7 @@ def main() -> int:
                 continue
 
             maliyet = yeni_gorev.pop("_maliyet_usd", None)
-            hedef = GOREVLER_DIZINI / f"{yeni_id}.json"
-            hedef.write_text(
-                json.dumps(yeni_gorev, ensure_ascii=False, indent=2) + "\n",
-                encoding="utf-8",
-            )
+            gorev_yaz(yeni_gorev, GOREVLER_DIZINI / f"{yeni_id}.json")
             toplam_uretilen += 1
             if maliyet:
                 toplam_maliyet += maliyet

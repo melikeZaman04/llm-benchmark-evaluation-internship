@@ -1,0 +1,22 @@
+{
+  "id": "trc_035",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_006",
+  "canonical_id": "trc_006",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir kargo deposunda her paketin etiketine, negatif olmayan bir tam sayı olan `n` değeri basılır. Görevli, etiketin doğru okunduğunu denetlemek için bu değerin basamaklarını toplar. `n` değerinin basamaklarının toplamını döndüren bir fonksiyon yaz. Örneğin 4567 değeri için 4+5+6+7 = 22.",
+  "prompt_en": "In a shipping warehouse, every package label carries a value `n`, a non-negative integer. To check that a label was read correctly, the clerk adds up the digits of that value. Write a function that returns the sum of the digits of the value `n`. For example, for the value 4567 the result is 4+5+6+7 = 22.",
+  "fonksiyon_imzasi": "def basamak_toplami(n: int) -> int:",
+  "fonksiyon_adi": "basamak_toplami",
+  "referans_cozum": "def basamak_toplami(n):\n    return sum(int(c) for c in str(n))\n",
+  "test_cases": [
+    {"girdi": [123], "beklenen": 6},
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [9], "beklenen": 9},
+    {"girdi": [1000], "beklenen": 1},
+    {"girdi": [4567], "beklenen": 22},
+    {"girdi": [99], "beklenen": 18}
+  ]
+}

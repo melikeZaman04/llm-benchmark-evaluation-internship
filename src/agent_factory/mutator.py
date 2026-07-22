@@ -94,6 +94,8 @@ def varyant_uret(kanonik: dict, yeni_id: str) -> dict:
         "zorluk": kanonik["zorluk"],
         "kaynak": "mutasyon",
         "ebeveyn": kanonik["id"],
+        "canonical_id": kanonik.get("canonical_id", kanonik["id"]),
+        "variant_type": "story_mutation",
         "prompt_tr": uretilen["prompt_tr"],
         "prompt_en": uretilen["prompt_en"],
         "fonksiyon_imzasi": uretilen["fonksiyon_imzasi"],

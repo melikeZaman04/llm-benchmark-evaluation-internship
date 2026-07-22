@@ -1,0 +1,23 @@
+{
+  "id": "trc_036",
+  "kategori": "diziler",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_007",
+  "canonical_id": "trc_007",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir depo görevlisi, gelen kolilerin üzerindeki tam sayı etiket kodlarını okuttukça `sayilar` listesine ekliyor; aynı etiket kodu birden çok kolide geçebiliyor. Depoya giren FARKLI (tekrarsız) etiket kodlarını içeren bir liste döndüren bir fonksiyon yaz. Kodların SIRASI önemli değildir.",
+  "prompt_en": "A warehouse clerk scans the integer label code on each incoming box and appends it to the list `sayilar`; the same label code may appear on several boxes. Write a function that returns a list of the DISTINCT (deduplicated) label codes that entered the warehouse. The ORDER of the codes does not matter.",
+  "fonksiyon_imzasi": "def benzersizler(sayilar: list[int]) -> list[int]:",
+  "fonksiyon_adi": "benzersizler",
+  "referans_cozum": "def benzersizler(sayilar):\n    return list(set(sayilar))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 2, 3]], "beklenen": [1, 2, 3]},
+    {"girdi": [[5, 5, 5]], "beklenen": [5]},
+    {"girdi": [[]], "beklenen": []},
+    {"girdi": [[1, 2, 3]], "beklenen": [1, 2, 3]},
+    {"girdi": [[4, 4, 3, 3]], "beklenen": [3, 4]},
+    {"girdi": [[-1, -1, 0]], "beklenen": [-1, 0]}
+  ],
+  "karsilastirma": {"mod": "sirasiz"}
+}

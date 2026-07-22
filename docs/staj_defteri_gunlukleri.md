@@ -414,3 +414,60 @@ Bugün, projenin en hassas mimari eşiği geçildi: Düzlem 1 (Yaratıcı Ajan F
 ### Bir Sonraki Adım
 
 Gün 14: Hikaye mutasyonunun tamamlayıcısı olan TR↔EN Translator ajanı + varyant ailesi otomasyonu. `agent_factory/client.py`'nin genel `ajan_cagir()` fonksiyonu sayesinde Translator, Mutator'ın altyapısını doğrudan yeniden kullanabilecek — yalnızca yeni bir persona ve şema yazmak yeterli olacak.
+
+## Gün 14 Çalışma Kararı — Veri Seti Ölçeği ve Branch Düzeni
+
+Gün 14 çalışmaları `gun14-translator` branch'inde sürdürülecek. Mevcut 27 görev
+(20 kanonik + 7 hikâye mutasyonu) ölçüm altyapısını doğrulamak için yeterli bir
+MVP zemini sağlıyor; ancak nihai benchmark için yeterli değildir. Veri seti
+kesinlikle büyük ölçekte artırılacaktır. Kısa vadeli hedef, metrik motoru
+çalıştıktan sonra kanonik görevleri ve her kanonik görev için dengeli varyant
+ailesini kontrollü biçimde çoğaltmaktır. Uzun vadeli hedef proje yön raporunda
+belirtilen yaklaşık 150–200 değerlendirme birimidir.
+
+İzlenecek sıra: Translator sözleşmesi ve aile metadatası → Gün 15 metrik motoru
+→ küçük doğrulama büyütmesi → oracle ile toplu veri üretimi → model matrisi ve
+istatistiksel raporlama. Böylece veri sayısını artırırken görev kalitesini,
+kategori dengesini ve Türkçe/İngilizce karşılaştırılabilirliğini koruyacağız.
+
+## 14. Gün - Translator Ajanı, Dereceli Gizleme Tasarımı ve Veri Setinin Yeniden Kurulması
+
+Bugün veri seti 27'den **62 göreve** çıktı, ama asıl iş sayı değil: varyantların NE ölçtüğünün netleşmesiydi.
+
+**Bulunan hata — sessizce metriği bozan bir tasarım.** Günün başında parametrik üreteç, `sablon` kelimelerini `prompt_tr` içinde düz regex ile değiştiriyordu. İki kusuru vardı ve ikisi de veri setini fark edilmeden bozuyordu. Birincisi: `prompt_en` hiç güncellenmiyordu, yani varyantta Türkçe "kütüphane" sorulurken İngilizce hâlâ "market" soruluyordu — projenin manşet metriği `acc(en) − acc(tr)` iki dilde AYNI problemin sorulmasına dayanır, bu haliyle metrik anlamsızlaşıyordu. İkincisi: Türkçe ek uyumu yapılamıyordu; kodun yorumu "markette → kütüphanede olur" diyordu ama kod eki olduğu gibi yapıştırıp "kütüphanete" üretiyordu. Test paketi zaten kırmızıydı ve tam bu satırı gösteriyordu. Türkçe bir benchmark'ın bozuk Türkçe üretmesi, ölçtüğü şeyi doğrudan kirletir.
+
+**Çözüm — ikameyi metin düzeyinden ajan düzeyine taşımak.** Regex tamamen kaldırıldı. Artık sablon seçimi bir DEĞİŞİM YÖNERGESİ'ne çevrilip Translator ajanına veriliyor; ajan iki dili birlikte, sıfırdan kuruyor. Böylece ek uyumu ve TR/EN paritesi tek hamlede çözülüyor. Nondeterminizm itirazına dürüst cevap: veri seti üretim anında BİR KEZ üretilip git'e commit edilerek donduruluyor; ölçüm (`run_matrix`) sırasında hiçbir ajan çağrılmıyor, dolayısıyla benchmark'ın kendisi deterministik kalıyor.
+
+**Tasarım kararı — dereceli gizleme.** Gün içinde iki varyant ekseninin birbirinin alternatifi olmadığı, farklı DERİNLİKTE iki kirlilik probu olduğu netleşti: `parametric_story` yalnız hikâyeyi değiştirir, fonksiyon adı ve imza aynı kalır (sığ gizleme); `story_mutation` hikâyeyle birlikte fonksiyon adını, imzayı ve değişken adlarını da değiştirir (derin gizleme). Bir model yalnız derin seviyede düşüyorsa ezber kod yüzeyine tutunmuştur; her ikisinde düşüyorsa hikâyeye. Tek bir "ezber farkı" sayısı bu ayrımı yapamaz. Veri seti buna göre TASARLANDI: 20 kanonik × (1 parametrik + 1 mutasyon), 20/20 aile tam. Ezber metriğinin örneklemi n=5 aileden n=20 aileye çıktı.
+
+**Kalite kapıları — biri gerçek, biri itiraf.** Parametrik eksende oracle'ın neredeyse TAUTOLOJİ olduğu açıkça kabul edildi: kod ve test_cases hiç değişmediği için oracle tanım gereği geçer. Gerçek mekanik güvence olarak `degismezleri_dogrula` (kod/test alanları byte-byte aynı mı) eklendi; oracle regresyon sigortası olarak yerinde bırakıldı ve sınırı kod yorumuna yazıldı. Prompt metninin ANLAM doğruluğunu hiçbir mekanik kapı denetleyemez — bu, insan gözden geçirmesi gerektiren bir yüzey olarak dürüstçe kaydedildi.
+
+**Uzunluk confound'u — ölçerek bulundu.** İlk düzeltmeden sonra üretilen faktöriyel varyantı güzeldi ama ebeveyninin 5.1 katı uzunluktaydı. Bu ciddi bir sorun: `acc(kanonik) − acc(varyant)` düşüşünün ezberin kırılmasından mı yoksa metnin uzamasından mı geldiği ayırt edilemez hale gelirdi. Hem persona'ya uzunluk kısıtı eklendi hem `uzunluk_kapisi` mekanik kapısı yazıldı. Kapı ilk kalibrasyonunda (saf 3x oranı) kısa ebeveynli görevlerde parametrik ekseni tümden imkânsız kılıyordu — bir senaryo kurmanın kabaca SABİT bir karakter maliyeti var, oran bunu görmüyor. `max(3x, ebeveyn + 250 karakter)` olarak yeniden kalibre edildi. Mevcut 62 görevde tek ihlal kalmadı; oranlar 1.0–2.5x arasında.
+
+**Testler büyümeyi engelliyordu.** Veri seti testinde `len(gorevler) == 27` sabiti vardı: veri setini büyütmeyi ana hedef edinmiş bir projede, her yeni görevde kırılan bir test. Testler BOYUT yerine DEĞİŞMEZ doğrular hale getirildi (parametrik şema doğrulaması, aile bütünlüğü, kod değişmezliği) — artık her yeni görev otomatik kapsama giriyor.
+
+**Ortak altyapı.** `src/task_io.py` yazıldı: okunabilir JSON serileştirme, sabit alan sırası, Docker'sız şema doğrulaması, id üreteci. Sebep somuttu — bir önceki gün görev dosyaları düz `json.dumps(indent=2)` ile yeniden yazılmış ve `trc_001` 30 satırdan 97 satıra şişmişti; veri seti diff'i 1443 satırdı. Yeni serileştiriciyle diff 99 satıra indi ve dosyalar elle okunabilir hale döndü.
+
+**Koşum matrisine kontrol noktası.** ~868 hücrelik tam matris saatler sürüyor; ortada bir çökme tüm emeği götürürdü. Her hücre tamamlanır tamamlanmaz JSONL kontrol noktasına yazılıyor, `--devam` ile kaldığı yerden sürüyor. Farklı `--tekrar`/`--sicaklik` ile devam etmek hücreleri karıştıracağı için imza uyuşmazlığında koşum sessizce devam etmiyor, duruyor.
+
+### Bugün Öğrenilenler
+
+* Bir ajanın ürettiği metnin "doğru" olması ile "ölçüm için kullanılabilir" olmasının farklı şeyler olduğu: uzunluk confound'u, tek tek bakıldığında kusursuz görünen varyantlarda gizliydi ve ancak ebeveyniyle ORANLANARAK görünür oldu.
+* Yönergenin nasıl yazıldığının çıktının bilimsel değerini belirlediği: `"sayı" yerine "adım" kullan` yönergesi "n adım miktarının faktöriyeli" gibi değersiz bir metin üretti; aynı tohum "somut senaryo kur" çerçevesiyle verildiğinde koreografın dans adımlarını kaç farklı sırayla dizebileceği problemine dönüştü — algoritma aynı, gizleme gerçek.
+* Guardrail'in ne yakalayabildiğini abartmamanın, yakalayamadığını açıkça yazmanın mühendislik dürüstlüğü olduğu: parametrik eksende oracle bir şey ispatlamıyor, `degismezleri_dogrula` ispatlıyor.
+* Testin projenin hedefiyle çelişebileceği: sabit sayı bekleyen bir test, büyümesi gereken bir veri setinde kusurdur.
+* En iyi varyantın, problemin adını hiç anmayanı olduğu — `trc_044`'te EBOB, "iki tahtayı artık bırakmadan eşit parçalara bölmek" senaryosuna dönüştü ve "EBOB" kelimesi metinde hiç geçmiyor; model problemi çıkarmak zorunda.
+
+### Oluşturulan Çıktılar
+
+* src/task_io.py (serileştirme, alan sırası, şema doğrulaması, id üreteci, uzunluk/değişmezlik kapıları)
+* src/agent_factory/translator.py (iki modlu: uyumlama + yönergeli senaryo değişimi)
+* src/agent_factory/parametric.py (regex'siz, üç kapılı parametrik üreteç)
+* src/run_parametric.py (`--kuru` plan modu dahil)
+* src/run_matrix.py: kontrol noktası + `--devam`
+* data/tasks/trc_028.json … trc_062.json (20 parametrik + 15 mutasyon varyantı)
+* Pytest 61 → 168 test; 62/62 görev oracle'dan 6/6
+
+### Bir Sonraki Adım
+
+Gün 15: **Büyük koşum** ve metrik motoru. Veri seti artık iki benchmark'ı da (saf kodlama yeteneği + Türkçe vergisi) ve iki seviyeli ezber farkını gerçek veriyle hesaplayacak olgunlukta. Ölçüm borcu projenin kalan en büyük açığı: bugüne kadarki tüm `results/*` dosyaları hâlâ tek görev üzerinde koşulmuş durumda.

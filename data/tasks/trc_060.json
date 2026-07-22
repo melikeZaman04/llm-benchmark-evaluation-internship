@@ -1,0 +1,22 @@
+{
+  "id": "trc_060",
+  "kategori": "sayma",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_018",
+  "canonical_id": "trc_018",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir haber sitesinin editör panelinde, yayına girecek her haberin `baslik` metni kontrol edilir. Boşlukla ayrılmış kelimelerden oluşan bu `baslik` veriliyor. Başlıktaki KELİME SAYISINI döndüren bir fonksiyon yaz. Editörler yazarken birden fazla ardışık boşluk bırakmış olabilir; başlığın başında veya sonunda da boşluk bulunabilir.",
+  "prompt_en": "In the editorial panel of a news site, the `baslik` (headline) text of every article to be published is checked. This `baslik`, consisting of words separated by spaces, is given. Write a function that returns the NUMBER OF WORDS in the headline. Editors may have left multiple consecutive spaces while typing, and there may also be leading or trailing spaces in the headline.",
+  "fonksiyon_imzasi": "def baslik_kelime_sayisi(baslik: str) -> int:",
+  "fonksiyon_adi": "baslik_kelime_sayisi",
+  "referans_cozum": "def baslik_kelime_sayisi(baslik):\n    return len(baslik.split())\n",
+  "test_cases": [
+    {"girdi": ["merhaba dunya"], "beklenen": 2},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["   "], "beklenen": 0},
+    {"girdi": ["bir  iki   uc"], "beklenen": 3},
+    {"girdi": ["  tek  "], "beklenen": 1},
+    {"girdi": ["a b c d e"], "beklenen": 5}
+  ]
+}

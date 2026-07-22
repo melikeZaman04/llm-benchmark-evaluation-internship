@@ -3,15 +3,13 @@
   "kategori": "mantik",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_013",
+  "variant_type": "canonical",
   "prompt_tr": "Bir tam sayı `n` veriliyor. `n` hem 3 hem 5'e bölünüyorsa \"FizzBuzz\", yalnızca 3'e bölünüyorsa \"Fizz\", yalnızca 5'e bölünüyorsa \"Buzz\", hiçbirine bölünmüyorsa `n`'in kendisini METİN (string) olarak döndüren bir fonksiyon yaz.",
   "prompt_en": "An integer `n` is given. Write a function that returns \"FizzBuzz\" if `n` is divisible by both 3 and 5, \"Fizz\" if only divisible by 3, \"Buzz\" if only divisible by 5, otherwise returns `n` itself as a STRING.",
-
   "fonksiyon_imzasi": "def fizzbuzz_tek_deger(n: int) -> str:",
   "fonksiyon_adi": "fizzbuzz_tek_deger",
-
   "referans_cozum": "def fizzbuzz_tek_deger(n):\n    if n % 15 == 0:\n        return \"FizzBuzz\"\n    if n % 3 == 0:\n        return \"Fizz\"\n    if n % 5 == 0:\n        return \"Buzz\"\n    return str(n)\n",
-
   "test_cases": [
     {"girdi": [15], "beklenen": "FizzBuzz"},
     {"girdi": [3], "beklenen": "Fizz"},
@@ -20,8 +18,5 @@
     {"girdi": [0], "beklenen": "FizzBuzz"},
     {"girdi": [30], "beklenen": "FizzBuzz"}
   ],
-
-  "sablon": {
-    "nesne": ["sayı", "gün", "sıra"]
-  }
+  "sablon": {"nesne": ["sayı", "gün", "sıra"]}
 }

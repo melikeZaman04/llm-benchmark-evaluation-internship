@@ -15,6 +15,9 @@ import pytest
 from agent_factory.client import ajan_cagir, AjanCagriHatasi
 from agent_factory.mutator import _gorev_metni_olustur, varyant_uret
 import agent_factory.mutator as mutator_modul
+from agent_factory.translator import promptlari_cevir
+import agent_factory.translator as translator_modul
+import agent_factory.parametric as parametric_modul
 
 
 def _sahte_calisan(stdout: str = "", returncode: int = 0, stderr: str = ""):
@@ -154,3 +157,133 @@ def test_varyant_uret_guardrail_reddederse_hata_firlatir(monkeypatch):
 
     with pytest.raises(AjanCagriHatasi, match="Guardrail reddetti"):
         varyant_uret(kanonik, "trc_100")
+
+
+def test_translator_kod_alanlarini_aynen_korur(monkeypatch):
+    gorev = {"prompt_tr": "eski tr", "prompt_en": "old en",
+             "fonksiyon_imzasi": "def f(x):", "fonksiyon_adi": "f",
+             "referans_cozum": "def f(x):\n    return x\n",
+             "test_cases": [{"girdi": [1], "beklenen": 1}]}
+    monkeypatch.setattr(translator_modul, "ajan_cagir",
+                        lambda *a, **k: {"veri": {"prompt_tr": "yeni tr", "prompt_en": "new en"},
+                                        "maliyet_usd": 0.01})
+    sonuc = promptlari_cevir(gorev)
+    assert sonuc["prompt_tr"] == "yeni tr"
+    assert sonuc["prompt_en"] == "new en"
+    assert sonuc["referans_cozum"] == gorev["referans_cozum"]
+    assert sonuc["test_cases"] == gorev["test_cases"]
+
+
+def _parametrik_kanonik():
+    return {"id": "trc_001", "kategori": "diziler", "zorluk": "kolay",
+            "kaynak": "ozgun", "canonical_id": "trc_001",
+            "variant_type": "canonical",
+            "prompt_tr": "Bir markette ürünlerin fiyatları verilir.",
+            "prompt_en": "In a market, product prices are given.",
+            "fonksiyon_imzasi": "def f(x: list[int]) -> int:",
+            "fonksiyon_adi": "f",
+            "referans_cozum": "def f(x):\n    return x\n",
+            "test_cases": [{"girdi": [1], "beklenen": 1}],
+            "sablon": {"market": ["market", "kütüphane"],
+                       "urun": ["ürün", "kitap"]}}
+
+
+def _sahte_cevirici(tr: str, en: str):
+    """Translator yerine geçen sahte: yalnızca prompt alanlarını değiştirir."""
+    def cevir(gorev, yonerge=None):
+        sonuc = dict(gorev)
+        sonuc.update(prompt_tr=tr, prompt_en=en, _maliyet_usd=0.01)
+        return sonuc
+    return cevir
+
+
+def test_parametrik_varyant_kodu_ve_testleri_korur(monkeypatch):
+    kanonik = _parametrik_kanonik()
+    monkeypatch.setattr(parametric_modul, "gorevi_dogrula",
+                        lambda _: {"gecerli": True, "gecen": 1, "toplam": 1})
+
+    sonuc = parametric_modul.varyantlari_uret(
+        kanonik, ["trc_100"],
+        cevirici=_sahte_cevirici("Bir kütüphanede kitapların sayfa sayıları verilir.",
+                                 "In a library, book page counts are given."))
+
+    varyant = sonuc[0]
+    assert varyant["id"] == "trc_100"
+    assert varyant["variant_type"] == "parametric_story"
+    assert varyant["ebeveyn"] == "trc_001"
+    assert varyant["canonical_id"] == "trc_001"
+    # Kod ve testler ebeveynden byte-byte kopyalanır.
+    assert varyant["referans_cozum"] == kanonik["referans_cozum"]
+    assert varyant["test_cases"] == kanonik["test_cases"]
+    assert varyant["fonksiyon_imzasi"] == kanonik["fonksiyon_imzasi"]
+    # sablon varyanta TAŞINMAZ (varyanttan varyant türetilmesin).
+    assert "sablon" not in varyant
+
+
+def test_parametrik_iki_dili_birlikte_gunceller(monkeypatch):
+    """B1 regresyonu: prompt_en güncellenmezse TR/EN paritesi kırılır."""
+    kanonik = _parametrik_kanonik()
+    monkeypatch.setattr(parametric_modul, "gorevi_dogrula",
+                        lambda _: {"gecerli": True, "gecen": 1, "toplam": 1})
+
+    sonuc = parametric_modul.varyantlari_uret(
+        kanonik, ["trc_100"],
+        cevirici=_sahte_cevirici("yeni TR metni", "new EN text"))
+
+    assert sonuc[0]["prompt_tr"] != kanonik["prompt_tr"]
+    assert sonuc[0]["prompt_en"] != kanonik["prompt_en"]
+
+
+def test_parametrik_yonerge_sablon_esleşmelerini_icerir():
+    sablon = {"market": ["market", "kütüphane"], "urun": ["ürün", "kitap"]}
+    yonerge = parametric_modul._yonerge_olustur(
+        sablon, {"market": "kütüphane", "urun": "kitap"})
+    assert '"market" yerine "kütüphane"' in yonerge
+    assert '"ürün" yerine "kitap"' in yonerge
+
+
+def test_parametrik_kod_alanina_dokunulursa_reddedilir(monkeypatch):
+    """Değişmezlik kapısı: çevirici kod alanını bozarsa varyant reddedilir."""
+    kanonik = _parametrik_kanonik()
+    monkeypatch.setattr(parametric_modul, "gorevi_dogrula",
+                        lambda _: {"gecerli": True, "gecen": 1, "toplam": 1})
+
+    def bozuk_cevirici(gorev, yonerge=None):
+        sonuc = dict(gorev)
+        sonuc.update(prompt_tr="yeni", prompt_en="new",
+                     referans_cozum="def f(x):\n    return x + 1\n")
+        return sonuc
+
+    with pytest.raises(AjanCagriHatasi, match="kod alanlarına dokundu"):
+        parametric_modul.varyantlari_uret(kanonik, ["trc_100"],
+                                          cevirici=bozuk_cevirici)
+
+
+def test_parametrik_guardrail_reddederse_hata_firlatir(monkeypatch):
+    kanonik = _parametrik_kanonik()
+    monkeypatch.setattr(parametric_modul, "gorevi_dogrula",
+                        lambda _: {"gecerli": False, "gecen": 0, "toplam": 1})
+
+    with pytest.raises(AjanCagriHatasi, match="guardrail reddetti"):
+        parametric_modul.varyantlari_uret(
+            kanonik, ["trc_100"],
+            cevirici=_sahte_cevirici("yeni TR", "new EN"))
+
+
+def test_parametrik_asiri_uzun_metin_reddedilir(monkeypatch):
+    """Uzunluk confound'u: varyant metni ebeveyninin katları olamaz."""
+    kanonik = _parametrik_kanonik()
+    monkeypatch.setattr(parametric_modul, "gorevi_dogrula",
+                        lambda _: {"gecerli": True, "gecen": 1, "toplam": 1})
+    cok_uzun = "Bir kitapçıda kitapların fiyatları verilir. " * 20
+
+    with pytest.raises(AjanCagriHatasi, match="aşırı uzun"):
+        parametric_modul.varyantlari_uret(
+            kanonik, ["trc_100"],
+            cevirici=_sahte_cevirici(cok_uzun, cok_uzun))
+
+
+def test_kombinasyon_sayisi_kanonigi_haric_tutar():
+    # 2x2 sablon -> 4 kombinasyon, biri kanoniğin kendisi -> 3 varyant
+    assert parametric_modul.kombinasyon_sayisi(_parametrik_kanonik()) == 3
+    assert parametric_modul.kombinasyon_sayisi({"sablon": {}}) == 0

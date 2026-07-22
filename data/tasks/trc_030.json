@@ -1,0 +1,22 @@
+{
+  "id": "trc_030",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_010",
+  "canonical_id": "trc_010",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Yalnızca '(' ve ')' karakterlerinden oluşan bir metin `parantezler` veriliyor; burada '(' bir etiketin açılışını, ')' ise bir etiketin kapanışını temsil eder. Etiketlerin DENGELİ olup olmadığını döndüren bir fonksiyon yaz: bir etiket kapanmadan önce içinde başka etiketler açılıp kapatılabilir, ancak açılış-kapanış sırası bozulmamalı ve metnin sonunda açık kalan hiçbir etiket bulunmamalıdır.",
+  "prompt_en": "You are given a string `parantezler` consisting only of '(' and ')' characters, where '(' represents opening a tag and ')' represents closing a tag. Write a function that returns whether the tags are BALANCED: other tags may be opened and closed inside a tag before it is closed, but the opening and closing order must never be violated, and no tag may be left open at the end of the string.",
+  "fonksiyon_imzasi": "def gecerli_parantez_mi(parantezler: str) -> bool:",
+  "fonksiyon_adi": "gecerli_parantez_mi",
+  "referans_cozum": "def gecerli_parantez_mi(parantezler):\n    denge = 0\n    for c in parantezler:\n        if c == '(':\n            denge += 1\n        else:\n            denge -= 1\n        if denge < 0:\n            return False\n    return denge == 0\n",
+  "test_cases": [
+    {"girdi": ["()"], "beklenen": true},
+    {"girdi": ["(())"], "beklenen": true},
+    {"girdi": ["(()"], "beklenen": false},
+    {"girdi": [")("], "beklenen": false},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["((()))"], "beklenen": true}
+  ]
+}

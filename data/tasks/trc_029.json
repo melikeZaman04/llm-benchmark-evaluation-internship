@@ -1,0 +1,22 @@
+{
+  "id": "trc_029",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_002",
+  "canonical_id": "trc_002",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir `kelime` veriliyor. Kelime tersten okunduğunda kendisiyle aynıysa (palindrom) True, değilse False döndüren bir fonksiyon yaz. Büyük/küçük harf farkını ve boşlukları OLDUĞU GİBİ dikkate al.",
+  "prompt_en": "You are given a string `kelime`. Write a function that returns True if the word reads the same backwards (i.e. it is a palindrome), and False otherwise. Take letter case and spaces into account EXACTLY as they are.",
+  "fonksiyon_imzasi": "def palindrom_mu(metin: str) -> bool:",
+  "fonksiyon_adi": "palindrom_mu",
+  "referans_cozum": "def palindrom_mu(metin):\n    return metin == metin[::-1]\n",
+  "test_cases": [
+    {"girdi": ["kayak"], "beklenen": true},
+    {"girdi": ["ev"], "beklenen": false},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["a"], "beklenen": true},
+    {"girdi": ["abba"], "beklenen": true},
+    {"girdi": ["abc"], "beklenen": false}
+  ]
+}

@@ -3,15 +3,13 @@
   "kategori": "matematik",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_003",
+  "variant_type": "canonical",
   "prompt_tr": "Bir tam sayı `n` veriliyor. `n` bir asal sayıysa True, değilse False döndüren bir fonksiyon yaz. 2'den küçük sayılar asal DEĞİLDİR.",
   "prompt_en": "An integer `n` is given. Write a function that returns True if `n` is a prime number, otherwise False. Numbers smaller than 2 are NOT prime.",
-
   "fonksiyon_imzasi": "def asal_mi(n: int) -> bool:",
   "fonksiyon_adi": "asal_mi",
-
   "referans_cozum": "def asal_mi(n):\n    if n < 2:\n        return False\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 1\n    return True\n",
-
   "test_cases": [
     {"girdi": [2], "beklenen": true},
     {"girdi": [1], "beklenen": false},
@@ -20,8 +18,5 @@
     {"girdi": [97], "beklenen": true},
     {"girdi": [0], "beklenen": false}
   ],
-
-  "sablon": {
-    "nesne": ["sayı", "değer"]
-  }
+  "sablon": {"nesne": ["sayı", "değer"]}
 }

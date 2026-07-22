@@ -4,15 +4,13 @@
   "zorluk": "kolay",
   "kaynak": "mutasyon",
   "ebeveyn": "trc_001",
-
+  "canonical_id": "trc_001",
+  "variant_type": "story_mutation",
   "prompt_tr": "Bir kütüphaneden ödünç aldığın kitapların sayfa sayıları bir liste olarak veriliyor. Bir günde toplam `kapasite` sayfa okuyabiliyorsun. Bu kapasiteyle bugün OKUYABİLECEĞİN MAKSİMUM kitap sayısını döndüren bir fonksiyon yaz.",
   "prompt_en": "The page counts of books you borrowed from a library are given as a list. You can read a total of `kapasite` pages in a day. Write a function that returns the MAXIMUM number of books you can read today with this capacity.",
-
   "fonksiyon_imzasi": "def en_fazla_kitap(sayfa_sayilari: list[int], kapasite: int) -> int:",
   "fonksiyon_adi": "en_fazla_kitap",
-
   "referans_cozum": "def en_fazla_kitap(sayfa_sayilari, kapasite):\n    sayfa_sayilari = sorted(sayfa_sayilari)\n    sayac = 0\n    for s in sayfa_sayilari:\n        if kapasite >= s:\n            kapasite -= s\n            sayac += 1\n        else:\n            break\n    return sayac\n",
-
   "test_cases": [
     {"girdi": [[10, 20, 30], 40], "beklenen": 2},
     {"girdi": [[5, 5, 5, 5], 12], "beklenen": 2},

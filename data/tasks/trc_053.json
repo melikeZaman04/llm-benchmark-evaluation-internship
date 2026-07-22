@@ -1,0 +1,23 @@
+{
+  "id": "trc_053",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_009",
+  "canonical_id": "trc_009",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir hava istasyonunun gün boyunca kaydettiği ondalıklı sıcaklık ölçümlerinden oluşan bir liste `sicakliklar` veriliyor. Listedeki ölçümlerin aritmetik ORTALAMASINI (float) döndüren bir fonksiyon yaz. Liste boşsa (o gün hiç ölçüm alınmamışsa) 0.0 döndür.",
+  "prompt_en": "A list `sicakliklar` of floating-point temperature readings recorded by a weather station during the day is given. Write a function that returns the arithmetic MEAN (as a float) of the readings. If the list is empty (no readings were taken that day), return 0.0.",
+  "fonksiyon_imzasi": "def ortalama_sicaklik(sicakliklar: list[float]) -> float:",
+  "fonksiyon_adi": "ortalama_sicaklik",
+  "referans_cozum": "def ortalama_sicaklik(sicakliklar):\n    if not sicakliklar:\n        return 0.0\n    return sum(sicakliklar) / len(sicakliklar)\n",
+  "test_cases": [
+    {"girdi": [[1.0, 2.0, 3.0]], "beklenen": 2.0},
+    {"girdi": [[2.0, 2.0]], "beklenen": 2.0},
+    {"girdi": [[]], "beklenen": 0.0},
+    {"girdi": [[1.0, 2.0]], "beklenen": 1.5},
+    {"girdi": [[10.0]], "beklenen": 10.0},
+    {"girdi": [[1.0, 2.0, 3.0, 4.0]], "beklenen": 2.5}
+  ],
+  "karsilastirma": {"mod": "yaklasik", "tol": 1e-06}
+}

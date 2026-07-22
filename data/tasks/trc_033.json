@@ -1,0 +1,22 @@
+{
+  "id": "trc_033",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_004",
+  "canonical_id": "trc_004",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir okul bilgi yarışmasında yarışmacıların aldığı puanlar `sayilar` listesinde tam sayı olarak tutuluyor. Listedeki İKİNCİ EN BÜYÜK FARKLI puanı döndüren bir fonksiyon yaz. Listede ikiden az farklı puan varsa -1 döndür.",
+  "prompt_en": "In a school quiz competition, the scores earned by the contestants are stored as integers in the list `sayilar`. Write a function that returns the SECOND LARGEST DISTINCT score in the list. If the list contains fewer than two distinct scores, return -1.",
+  "fonksiyon_imzasi": "def ikinci_en_buyuk(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "ikinci_en_buyuk",
+  "referans_cozum": "def ikinci_en_buyuk(sayilar):\n    benzersiz = sorted(set(sayilar), reverse=True)\n    if len(benzersiz) < 2:\n        return -1\n    return benzersiz[1]\n",
+  "test_cases": [
+    {"girdi": [[3, 1, 2]], "beklenen": 2},
+    {"girdi": [[5, 5, 4]], "beklenen": 4},
+    {"girdi": [[7]], "beklenen": -1},
+    {"girdi": [[2, 2]], "beklenen": -1},
+    {"girdi": [[10, 9, 8, 10]], "beklenen": 9},
+    {"girdi": [[-1, -2, -3]], "beklenen": -2}
+  ]
+}

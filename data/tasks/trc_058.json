@@ -1,0 +1,22 @@
+{
+  "id": "trc_058",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_016",
+  "canonical_id": "trc_016",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir dosya sisteminde bir klasörün içeriği `klasor` adlı bir liste ile temsil ediliyor. Bu listenin elemanları ya bir dosyanın megabayt cinsinden boyutunu belirten bir tam sayıdır ya da aynı biçimde temsil edilen bir alt klasördür (iç içe, herhangi bir derinlikte). Klasörün içindeki TÜM dosyaların toplam boyutunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a file system, the contents of a folder are represented by a list named `klasor`. Each element of this list is either an integer giving the size of a file in megabytes, or a subfolder represented in the same way (nested, at any depth). Write a function that returns the total size of ALL files inside the folder.",
+  "fonksiyon_imzasi": "def klasor_boyut_toplami(klasor: list) -> int:",
+  "fonksiyon_adi": "klasor_boyut_toplami",
+  "referans_cozum": "def klasor_boyut_toplami(klasor):\n    toplam = 0\n    for eleman in klasor:\n        if isinstance(eleman, list):\n            toplam += klasor_boyut_toplami(eleman)\n        else:\n            toplam += eleman\n    return toplam\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 6},
+    {"girdi": [[1, [2, 3], 4]], "beklenen": 10},
+    {"girdi": [[[1, [2, [3, 4]]], 5]], "beklenen": 15},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[[[[]]]]], "beklenen": 0},
+    {"girdi": [[1, [2, [3, [4, [5]]]]]], "beklenen": 15}
+  ]
+}

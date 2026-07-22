@@ -1,0 +1,22 @@
+{
+  "id": "trc_046",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_019",
+  "canonical_id": "trc_019",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir bilgi yarışmasında her takımın topladığı puanlar `sayilar` listesinde tutuluyor, ortak ödül eşiği ise `hedef` olarak veriliyor. Puanları toplandığında `hedef`e eşit olan (i < j indeksli, aynı takımın iki kez kullanılmadığı) TAKIM İKİLİSİ SAYISINI döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a quiz tournament, the points scored by each team are stored in the list `sayilar`, and the shared prize threshold is given as `hedef`. Write a function that returns the NUMBER OF TEAM PAIRS (with indices i < j, no team used twice) whose points sum to `hedef`.",
+  "fonksiyon_imzasi": "def hedefe_esit_ciftler(sayilar: list[int], hedef: int) -> int:",
+  "fonksiyon_adi": "hedefe_esit_ciftler",
+  "referans_cozum": "def hedefe_esit_ciftler(sayilar, hedef):\n    sayac = 0\n    n = len(sayilar)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if sayilar[i] + sayilar[j] == hedef:\n                sayac += 1\n    return sayac\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4], 5], "beklenen": 2},
+    {"girdi": [[1, 1, 1], 2], "beklenen": 3},
+    {"girdi": [[], 0], "beklenen": 0},
+    {"girdi": [[5], 5], "beklenen": 0},
+    {"girdi": [[0, 0, 0, 0], 0], "beklenen": 6},
+    {"girdi": [[1, 2, 3], 100], "beklenen": 0}
+  ]
+}

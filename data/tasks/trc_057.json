@@ -1,0 +1,22 @@
+{
+  "id": "trc_057",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_015",
+  "canonical_id": "trc_015",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir bitki büyüme modelinde dallanma kuşak kuşak ilerler: 0. kuşakta gövdede henüz 0 dal vardır, 1. kuşakta 1 dal oluşur ve sonraki her kuşaktaki dal sayısı kendinden önceki iki kuşağın dal sayılarının toplamına eşittir. Negatif olmayan bir tam sayı `kusak` veriliyor. Bu modelde `kusak`'INCI KUŞAKTAKİ dal sayısını döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a plant growth model, branching advances generation by generation: at generation 0 the stem has 0 branches, at generation 1 there is 1 branch, and the number of branches in every following generation equals the sum of the branch counts of the two preceding generations. A non-negative integer `generation` is given. Write a function that returns the number of branches AT GENERATION `generation` in this model.",
+  "fonksiyon_imzasi": "def dal_sayisi(kusak: int) -> int:",
+  "fonksiyon_adi": "dal_sayisi",
+  "referans_cozum": "def dal_sayisi(kusak):\n    if kusak < 2:\n        return kusak\n    onceki, simdiki = 0, 1\n    for _ in range(kusak - 1):\n        onceki, simdiki = simdiki, onceki + simdiki\n    return simdiki\n",
+  "test_cases": [
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [2], "beklenen": 1},
+    {"girdi": [5], "beklenen": 5},
+    {"girdi": [10], "beklenen": 55},
+    {"girdi": [7], "beklenen": 13}
+  ]
+}

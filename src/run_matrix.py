@@ -72,8 +72,47 @@ def _tokenlar(kullanim: dict | None) -> dict:
     }
 
 
+def _imza(tekrar: int, sicaklik: float) -> dict:
+    """Kontrol noktasının hangi koşum ayarlarına ait olduğunu tanımlar."""
+    return {"tekrar": tekrar, "sicaklik": sicaklik}
+
+
+def kontrol_noktasi_yukle(yol: Path, imza: dict) -> dict:
+    """
+    Var olan kontrol noktasını okuyup tamamlanmış hücreleri döner.
+
+    Anahtar (görev, model, dil) üçlüsüdür. İmza uyuşmazsa (ör. kullanıcı
+    `--tekrar` veya `--sicaklik` değiştirmişse) devam ETMEK YANLIŞ olurdu:
+    farklı ayarlarla üretilmiş hücreler tek sonuç dosyasında karışır ve
+    metrikler sessizce anlamsızlaşır. Bu yüzden uyuşmazlık sessizce
+    yoksayılmaz, koşum durdurulur.
+    """
+    if not yol.exists():
+        return {}
+    tamamlananlar: dict = {}
+    with yol.open(encoding="utf-8") as dosya:
+        for satir in dosya:
+            satir = satir.strip()
+            if not satir:
+                continue
+            kayit = json.loads(satir)
+            if kayit.get("_tip") == "imza":
+                mevcut = {a: kayit.get(a) for a in imza}
+                if mevcut != imza:
+                    raise SystemExit(
+                        f"Kontrol noktası farklı ayarlarla oluşturulmuş "
+                        f"({mevcut} != {imza}). Ya aynı ayarlarla devam edin ya da "
+                        f"{yol} dosyasını silin."
+                    )
+                continue
+            tamamlananlar[(kayit["gorev"], kayit["model"], kayit["dil"])] = kayit
+    return tamamlananlar
+
+
 def matris_kosu(gorevler: list[dict], modeller: list[str], diller: list[str],
-                tekrar: int = 1, sicaklik: float = 0.0) -> list[dict]:
+                tekrar: int = 1, sicaklik: float = 0.0,
+                kontrol_noktasi: Path | None = None,
+                tamamlananlar: dict | None = None) -> list[dict]:
     """
     Görev × model × dil matrisini koşar; her hücre `tekrar` kez örneklenir.
 
@@ -81,20 +120,47 @@ def matris_kosu(gorevler: list[dict], modeller: list[str], diller: list[str],
                    anlamlı olan 'kararlilik' (K örnek aynı mı?), pass@k DEĞİL.
     sicaklik>0  -> gerçek örnekleme; her örnek farklı seed alır. Burada pass@k
                    anlamlıdır ('pass_at_1', 'pass_at_k' alanları).
+
+    kontrol_noktasi: verilirse her hücre TAMAMLANIR TAMAMLANMAZ bu JSONL
+                     dosyasına eklenir. Tam matris (27 görev × 7 model × 2 dil
+                     × K örnek) saatler sürer; koşum ortasında bir çökme, güç
+                     kesintisi veya Ollama takılması tüm emeği götürmemelidir.
+    tamamlananlar:   önceki koşumdan gelen hücreler; bunlar yeniden koşulmaz.
     """
     kayitlar: list[dict] = []
+    tamamlananlar = tamamlananlar or {}
     toplam = len(gorevler) * len(modeller) * len(diller)
     sayac = 0
+
+    def _kaydet(kayit: dict) -> None:
+        kayitlar.append(kayit)
+        if kontrol_noktasi:
+            with kontrol_noktasi.open("a", encoding="utf-8") as dosya:
+                dosya.write(json.dumps(kayit, ensure_ascii=False) + "\n")
+
     for model in modeller:
-        istemci = ModelIstemcisi.ollama(model=model, temperature=sicaklik)
-        erisim = istemci.erisilebilir_mi()
+        istemci = None
+        erisim = False
         for gorev in gorevler:
             for dil in diller:
                 sayac += 1
                 onek = f"[{sayac:>3}/{toplam}] {model:<14} {dil}  {gorev.get('id')}"
+
+                onceki = tamamlananlar.get((gorev.get("id"), model, dil))
+                if onceki is not None:
+                    kayitlar.append(onceki)
+                    print(f"{onek} -> atlandı (kontrol noktası)")
+                    continue
+
+                # İstemci yalnızca gerçekten koşulacak ilk hücrede kurulur;
+                # tamamen atlanan bir model için sunucuya hiç gidilmez.
+                if istemci is None:
+                    istemci = ModelIstemcisi.ollama(model=model, temperature=sicaklik)
+                    erisim = istemci.erisilebilir_mi()
+
                 if not erisim:
                     print(f"{onek} -> SUNUCU YOK")
-                    kayitlar.append(_hata_kaydi(gorev, model, dil, "sunucu_yok", tekrar))
+                    _kaydet(_hata_kaydi(gorev, model, dil, "sunucu_yok", tekrar))
                     continue
                 ornekler = []
                 for i in range(tekrar):
@@ -113,7 +179,7 @@ def matris_kosu(gorevler: list[dict], modeller: list[str], diller: list[str],
                                          "toplam": len(gorev.get("test_cases", [])),
                                          "hata_tipi": "istemci_hatasi",
                                          "tokenlar": _tokenlar(None)})
-                kayitlar.append(_hucre_kaydi(gorev, model, dil, ornekler, sicaklik))
+                _kaydet(_hucre_kaydi(gorev, model, dil, ornekler, sicaklik))
                 k = kayitlar[-1]
                 print(f"{onek} -> geçen={k['gecen_min']}-{k['gecen_max']}"
                       f"/{k['toplam']}  pass {k['gecti_sayisi']}/{tekrar}"
@@ -196,6 +262,8 @@ def main() -> int:
     a.add_argument("--sicaklik", type=float, default=0.0,
                    help="Örnekleme sıcaklığı; pass@k için >0 (ör. 0.4) kullan")
     a.add_argument("--cikti", default="results/matris.json")
+    a.add_argument("--devam", action="store_true",
+                   help="Kontrol noktasındaki tamamlanmış hücreleri atlayarak devam et")
     args = a.parse_args()
 
     yollar = sorted(glob.glob(args.gorevler))
@@ -210,8 +278,29 @@ def main() -> int:
           f"| Tekrar: {args.tekrar} | Sıcaklık: {args.sicaklik} "
           f"| Toplam koşum: {len(gorevler)*len(modeller)*len(diller)*args.tekrar}\n")
 
+    json_yol = Path(args.cikti)
+    json_yol.parent.mkdir(parents=True, exist_ok=True)
+    kn_yol = json_yol.with_suffix(".ckpt.jsonl")
+    imza = _imza(args.tekrar, args.sicaklik)
+
+    tamamlananlar: dict = {}
+    if args.devam:
+        tamamlananlar = kontrol_noktasi_yukle(kn_yol, imza)
+        print(f"Kontrol noktası: {len(tamamlananlar)} hücre zaten tamam, atlanacak "
+              f"({kn_yol})\n")
+    elif kn_yol.exists():
+        # Sıfırdan koşum: eski kontrol noktasının üzerine EKLEMEK, iki farklı
+        # koşumun hücrelerini karıştırırdı. Devam etmek isteniyorsa --devam var.
+        kn_yol.unlink()
+
+    if not kn_yol.exists():
+        kn_yol.write_text(
+            json.dumps({"_tip": "imza", **imza}, ensure_ascii=False) + "\n",
+            encoding="utf-8")
+
     kayitlar = matris_kosu(gorevler, modeller, diller,
-                           tekrar=args.tekrar, sicaklik=args.sicaklik)
+                           tekrar=args.tekrar, sicaklik=args.sicaklik,
+                           kontrol_noktasi=kn_yol, tamamlananlar=tamamlananlar)
 
     cikti = {
         "meta": {
@@ -226,8 +315,6 @@ def main() -> int:
         },
         "kayitlar": kayitlar,
     }
-    json_yol = Path(args.cikti)
-    json_yol.parent.mkdir(parents=True, exist_ok=True)
     json_yol.write_text(json.dumps(cikti, ensure_ascii=False, indent=2),
                         encoding="utf-8")
     csv_yol = json_yol.with_suffix(".csv")

@@ -1,0 +1,22 @@
+{
+  "id": "trc_032",
+  "kategori": "matematik",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_003",
+  "canonical_id": "trc_003",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir şifreleme kulübünde her üyeye tam sayı bir kilit değeri `n` atanır ve bir kilit yalnızca değeri asalsa geçerli sayılır. `n` değeri geçerliyse True, değilse False döndüren bir fonksiyon yaz. 2'den küçük değerler asal DEĞİLDİR.",
+  "prompt_en": "In a cryptography club, each member is assigned an integer key value `n`, and a key counts as valid only if its value is prime. Write a function that returns True if the value `n` is valid, otherwise False. Values smaller than 2 are NOT prime.",
+  "fonksiyon_imzasi": "def asal_mi(n: int) -> bool:",
+  "fonksiyon_adi": "asal_mi",
+  "referans_cozum": "def asal_mi(n):\n    if n < 2:\n        return False\n    i = 2\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 1\n    return True\n",
+  "test_cases": [
+    {"girdi": [2], "beklenen": true},
+    {"girdi": [1], "beklenen": false},
+    {"girdi": [17], "beklenen": true},
+    {"girdi": [15], "beklenen": false},
+    {"girdi": [97], "beklenen": true},
+    {"girdi": [0], "beklenen": false}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "trc_043",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_016",
+  "canonical_id": "trc_016",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir yedekleme aracı, bir klasörün içeriğini `liste` olarak veriyor: listedeki her öğe ya bir dosyanın kilobayt cinsinden boyutu (tam sayı) ya da bir alt klasörün içeriğini tutan başka bir listedir (iç içe, herhangi bir derinlikte). Klasördeki TÜM dosyaların toplam boyutunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "A backup tool reports the contents of a folder as `liste`: each item is either a file's size in kilobytes (an integer) or another list holding the contents of a subfolder (nested, at any depth). Write a function that returns the total size of ALL files in the folder.",
+  "fonksiyon_imzasi": "def ic_ice_liste_toplami(liste: list) -> int:",
+  "fonksiyon_adi": "ic_ice_liste_toplami",
+  "referans_cozum": "def ic_ice_liste_toplami(liste):\n    toplam = 0\n    for eleman in liste:\n        if isinstance(eleman, list):\n            toplam += ic_ice_liste_toplami(eleman)\n        else:\n            toplam += eleman\n    return toplam\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 6},
+    {"girdi": [[1, [2, 3], 4]], "beklenen": 10},
+    {"girdi": [[[1, [2, [3, 4]]], 5]], "beklenen": 15},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[[[[]]]]], "beklenen": 0},
+    {"girdi": [[1, [2, [3, [4, [5]]]]]], "beklenen": 15}
+  ]
+}

@@ -4,53 +4,19 @@
   "zorluk": "kolay",
   "kaynak": "mutasyon",
   "ebeveyn": "trc_005",
+  "canonical_id": "trc_005",
+  "variant_type": "story_mutation",
   "prompt_tr": "Bir kelime oyununda oyunculara verilen `kelime1` ve `kelime2` adlı iki kelime veriliyor. Bu iki kelime birbirinin anagramıysa (aynı karakterlerden aynı sayıda oluşuyorsa) True, değilse False döndüren bir fonksiyon yaz. Karakterleri OLDUĞU GİBİ (büyük/küçük harf duyarlı) karşılaştır.",
   "prompt_en": "In a word game, two words named `kelime1` and `kelime2` are given to the players. Write a function that returns True if these two words are anagrams of each other (made of the same characters in the same counts), otherwise False. Compare characters EXACTLY (case-sensitive).",
   "fonksiyon_imzasi": "def kelimeler_anagram_mi(kelime1: str, kelime2: str) -> bool:",
   "fonksiyon_adi": "kelimeler_anagram_mi",
   "referans_cozum": "def kelimeler_anagram_mi(kelime1, kelime2):\n    return sorted(kelime1) == sorted(kelime2)\n",
   "test_cases": [
-    {
-      "girdi": [
-        "listen",
-        "silent"
-      ],
-      "beklenen": true
-    },
-    {
-      "girdi": [
-        "ab",
-        "abc"
-      ],
-      "beklenen": false
-    },
-    {
-      "girdi": [
-        "",
-        ""
-      ],
-      "beklenen": true
-    },
-    {
-      "girdi": [
-        "abc",
-        "cba"
-      ],
-      "beklenen": true
-    },
-    {
-      "girdi": [
-        "aab",
-        "abb"
-      ],
-      "beklenen": false
-    },
-    {
-      "girdi": [
-        "elma",
-        "emla"
-      ],
-      "beklenen": true
-    }
+    {"girdi": ["listen", "silent"], "beklenen": true},
+    {"girdi": ["ab", "abc"], "beklenen": false},
+    {"girdi": ["", ""], "beklenen": true},
+    {"girdi": ["abc", "cba"], "beklenen": true},
+    {"girdi": ["aab", "abb"], "beklenen": false},
+    {"girdi": ["elma", "emla"], "beklenen": true}
   ]
 }

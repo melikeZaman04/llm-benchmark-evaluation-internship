@@ -3,17 +3,13 @@
   "kategori": "diziler",
   "zorluk": "kolay",
   "kaynak": "ozgun",
-
+  "canonical_id": "trc_007",
+  "variant_type": "canonical",
   "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. Listedeki BENZERSIZ (tekrarsız) elemanları içeren bir liste döndüren bir fonksiyon yaz. Elemanların SIRASI önemli değildir.",
   "prompt_en": "A list of integers `sayilar` is given. Write a function that returns a list containing the UNIQUE (deduplicated) elements. The ORDER of elements does not matter.",
-
   "fonksiyon_imzasi": "def benzersizler(sayilar: list[int]) -> list[int]:",
   "fonksiyon_adi": "benzersizler",
-
   "referans_cozum": "def benzersizler(sayilar):\n    return list(set(sayilar))\n",
-
-  "karsilastirma": {"mod": "sirasiz"},
-
   "test_cases": [
     {"girdi": [[1, 2, 2, 3]], "beklenen": [1, 2, 3]},
     {"girdi": [[5, 5, 5]], "beklenen": [5]},
@@ -22,8 +18,6 @@
     {"girdi": [[4, 4, 3, 3]], "beklenen": [3, 4]},
     {"girdi": [[-1, -1, 0]], "beklenen": [-1, 0]}
   ],
-
-  "sablon": {
-    "nesne": ["sayı", "etiket", "kimlik"]
-  }
+  "karsilastirma": {"mod": "sirasiz"},
+  "sablon": {"nesne": ["sayı", "etiket", "kimlik"]}
 }
