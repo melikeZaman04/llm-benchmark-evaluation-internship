@@ -471,3 +471,34 @@ Bugün veri seti 27'den **62 göreve** çıktı, ama asıl iş sayı değil: var
 ### Bir Sonraki Adım
 
 Gün 15: **Büyük koşum** ve metrik motoru. Veri seti artık iki benchmark'ı da (saf kodlama yeteneği + Türkçe vergisi) ve iki seviyeli ezber farkını gerçek veriyle hesaplayacak olgunlukta. Ölçüm borcu projenin kalan en büyük açığı: bugüne kadarki tüm `results/*` dosyaları hâlâ tek görev üzerinde koşulmuş durumda.
+
+## 15. Gün — Büyük Koşum ve Metrik Motoru (ölçüm borcu kapandı)
+
+Bugün ilk kez **tam matris gerçek veriyle koşuldu**: 62 görev × 7 model × 2 dil × 3 tekrar = **868 hücre**, `sıcaklık=0.4` (gerçek pass@k). Bugüne kadarki tüm sonuçlar tek görev üzerindeydi; projenin en büyük açığı olan ölçüm borcu kapandı.
+
+**Koşum bir kez çöktü, kontrol noktası kurtardı — ama sessizce değil.** Koşum, Ollama servisi durduğunda yarıda kaldı. Kaldığı yerden sürdürülürken kontrol noktası dosyasının (`gun15_buyuk_kosum.ckpt.jsonl`) son satırının tamamen NUL byte'lardan oluştuğu görüldü — temiz olmayan kapanışın klasik izi (tampon uzatılmış ama veri flush edilmemiş). Yükleyici bu bozuk satırda `JSONDecodeError` ile durdu; bu aslında iyi bir davranış — sessizce yutup eksik veriyle devam etmedi. Bozuk satır temizlenip (76 sağlam hücre korundu) `--devam` ile sürdürüldü; imza (`tekrar=3, sıcaklık=0.4`) uyuştuğu için hücreler karışmadan tamamlandı. Bütünlük doğrulaması: 868/868 hücre, 0 eksik kombinasyon, 0 koşulamamış hücre, dil dengesi 434/434.
+
+**Metrik motoru — dört manşet, hepsi kayıtlı veriden, ajan çağırmadan.** `src/metrik_ozet.py` yazıldı; ölçüm anında hiçbir ajan çağrılmadan yalnız kontrol noktası + görev metadatası okunuyor:
+
+* **Kodlama yeteneği (acc_en):** qwen2.5:3b 0.933, coder:3b/llama3.2:3b 0.883. Genel pass@1'de coder:3b lider (0.858).
+* **Türkçe vergisi (acc_en − acc_tr):** llama3.2:3b'de en ağır (+0.300 — İngilizce'de güçlü, Türkçe'de çöküyor); kod'a-özel coder:3b'de neredeyse yok (+0.017). Bulgu: koda-özel eğitim Türkçe vergisini baskılıyor.
+* **İki-seviyeli ezber farkı (n=20 tam aile):** Tasarım hipotezi doğrulandı — **derin gizleme** (ad/imza/değişken değişir) neredeyse her modelde **sığ gizlemeden** (yalnız hikâye) daha büyük düşüş yaratıyor. Modeller yüzeysel kod ezberine tutunuyor. En dirençli coder:3b (derin Δ yalnız +0.064); en kırılgan qwen2.5:1.5b (+0.193).
+* **Token vergisi (kanonik, ort. completion token, tr/en oranı):** coder:1.5b Türkçe'de **3.77×**, gemma2:2b 2.88× daha fazla token harcıyor; qwen2.5:3b ve llama3.2:3b ~1.0 (eşit). Aynı doğruluk farklı hesap maliyetiyle geliyor — bu ancak ölçülünce görünür.
+
+### Bugün Öğrenilenler
+
+* Uzun koşumlarda kontrol noktasının değeri, ancak bir çökme yaşandığında somutlaşıyor: 868 hücrelik matris saatler sürüyor, ortadaki bir çökme `--devam` olmadan tüm emeği götürürdü.
+* Bozuk veride "sessizce devam etme, dur" davranışının doğru mühendislik olduğu: NUL-byte'lı satırda yükleyicinin durması, eksik/yanlış metrik üretmekten iyidir.
+* Koda-özel eğitimin iki ayrı ekseni birden iyileştirdiği: coder:3b hem en yüksek doğruluğa hem en düşük Türkçe vergisine hem en düşük ezber kırılganlığına sahip — ama token vergisi hâlâ 1.53×.
+* Doğruluğun tek başına yeterli olmadığı: iki model aynı pass@1'i tutturup biri 3× daha fazla token harcayabiliyor; token vergisi olmadan bu maliyet görünmez kalırdı.
+* pass@k − pass@1 kazancının model boyutuyla ters orantılı olduğu: küçük modeller (0.5b +0.185, 1.5b +0.164) arada bir doğruyu buluyor ama kararlı üretemiyor; coder/büyük modeller (+0.05) zaten kararlı. Tek örnekle (pass@1) ölçmek küçük modelleri olduğundan zayıf, k örnekle ölçmek gücünü örnekleme bütçesine bağımlı gösterirdi — ikisini birlikte raporlamak şart.
+
+### Oluşturulan Çıktılar
+
+* results/gun15_buyuk_kosum.json + .csv + .ckpt.jsonl (868 hücrelik tam matris)
+* src/metrik_ozet.py (manşetler: kodlama yeteneği, Türkçe vergisi, pass@1↔pass@k örnekleme kazancı, iki-seviyeli ezber farkı, token vergisi — planın Gün 15 listesi tam karşılandı)
+* Pytest 168/168 geçiyor (değişmedi — metrik motoru saf okuma, mevcut kapıları bozmadı)
+
+### Bir Sonraki Adım
+
+Gün 16: **Hata taksonomisi (Failure-Classifier) + ölçek trendi.** Büyük koşum artık her hücrede `hata_tipleri` ve örnek çıktıları saklıyor; başarısızlıkların NEDEN olduğu (sözdizimi, yanlış mantık, Türkçe yanlış-anlama, zaman aşımı) sınıflandırılacak ve 0.5→3B ölçek eğrisi figürleri çıkarılacak.
