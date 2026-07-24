@@ -1,0 +1,23 @@
+{
+  "id": "trc_074",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_074",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir `taban` ve negatif olmayan bir `us` veriliyor. `taban`'ın `us`'üncü kuvvetini (taban**us) döndüren bir fonksiyon yaz. (`us`=0 için 1.)",
+  "prompt_en": "A `base` and a non-negative `exp` are given. Write a function that returns `base` raised to the power `exp` (base**exp). (For `exp`=0, return 1.)",
+  "fonksiyon_imzasi": "def us_al(taban: int, us: int) -> int:",
+  "fonksiyon_adi": "us_al",
+  "fonksiyon_imzasi_en": "def power(base: int, exp: int) -> int:",
+  "fonksiyon_adi_en": "power",
+  "referans_cozum": "def us_al(taban, us):\n    if us == 0:\n        return 1\n    return taban * us_al(taban, us - 1)\n",
+  "test_cases": [
+    {"girdi": [2, 10], "beklenen": 1024},
+    {"girdi": [5, 0], "beklenen": 1},
+    {"girdi": [3, 3], "beklenen": 27},
+    {"girdi": [1, 100], "beklenen": 1},
+    {"girdi": [10, 2], "beklenen": 100},
+    {"girdi": [7, 1], "beklenen": 7}
+  ]
+}

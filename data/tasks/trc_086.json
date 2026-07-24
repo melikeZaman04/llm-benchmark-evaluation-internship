@@ -1,0 +1,23 @@
+{
+  "id": "trc_086",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_086",
+  "variant_type": "canonical",
+  "prompt_tr": "İki pozitif tam sayı `a` ve `b` veriliyor. En küçük ortak katlarını (EKOK) döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two positive integers `a` and `b` are given. Write a function that returns their least common multiple (LCM).",
+  "fonksiyon_imzasi": "def ekok(a: int, b: int) -> int:",
+  "fonksiyon_adi": "ekok",
+  "fonksiyon_imzasi_en": "def lcm(a: int, b: int) -> int:",
+  "fonksiyon_adi_en": "lcm",
+  "referans_cozum": "def ekok(a, b):\n    import math\n    return a * b // math.gcd(a, b)\n",
+  "test_cases": [
+    {"girdi": [4, 6], "beklenen": 12},
+    {"girdi": [3, 5], "beklenen": 15},
+    {"girdi": [2, 4], "beklenen": 4},
+    {"girdi": [7, 7], "beklenen": 7},
+    {"girdi": [1, 9], "beklenen": 9},
+    {"girdi": [12, 18], "beklenen": 36}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "trc_079",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_079",
+  "variant_type": "canonical",
+  "prompt_tr": "Negatif olmayan tam sayılardan oluşan bir liste `sayilar` ve bir `hedef` veriliyor. Toplamı tam olarak `hedef`'e eşit olan, BOŞ OLMAYAN, BİTİŞİK bir alt-dizi olup olmadığını True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of non-negative integers `numbers` and a `target` are given. Write a function that returns True/False for whether there exists a NON-EMPTY, CONTIGUOUS subarray whose sum equals exactly `target`.",
+  "fonksiyon_imzasi": "def hedef_toplam_var_mi(sayilar: list[int], hedef: int) -> bool:",
+  "fonksiyon_adi": "hedef_toplam_var_mi",
+  "fonksiyon_imzasi_en": "def has_target_sum(numbers: list[int], target: int) -> bool:",
+  "fonksiyon_adi_en": "has_target_sum",
+  "referans_cozum": "def hedef_toplam_var_mi(sayilar, hedef):\n    sol = 0\n    toplam = 0\n    for sag in range(len(sayilar)):\n        toplam += sayilar[sag]\n        while toplam > hedef and sol <= sag:\n            toplam -= sayilar[sol]\n            sol += 1\n        if toplam == hedef and sol <= sag:\n            return True\n    return False\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3], 5], "beklenen": true},
+    {"girdi": [[1, 2, 3], 7], "beklenen": false},
+    {"girdi": [[], 0], "beklenen": false},
+    {"girdi": [[5], 5], "beklenen": true},
+    {"girdi": [[1, 1, 1], 2], "beklenen": true},
+    {"girdi": [[1, 2, 3], 6], "beklenen": true}
+  ]
+}

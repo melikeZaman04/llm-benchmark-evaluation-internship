@@ -1,0 +1,23 @@
+{
+  "id": "trc_090",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_090",
+  "variant_type": "canonical",
+  "prompt_tr": "İç içe geçebilen bir `liste` veriliyor (elemanları tam sayı ya da yine liste olabilir). Bu yapının en derin iç içe geçme DERİNLİĞİNİ döndüren bir fonksiyon yaz (en dış liste derinlik 1'dir; boş liste de 1).",
+  "prompt_en": "A possibly nested `lst` is given (its elements may be integers or further lists). Write a function that returns the maximum nesting DEPTH of this structure (the outermost list is depth 1; an empty list is also 1).",
+  "fonksiyon_imzasi": "def liste_derinligi(liste: list) -> int:",
+  "fonksiyon_adi": "liste_derinligi",
+  "fonksiyon_imzasi_en": "def list_depth(lst: list) -> int:",
+  "fonksiyon_adi_en": "list_depth",
+  "referans_cozum": "def liste_derinligi(liste):\n    if not isinstance(liste, list):\n        return 0\n    if not liste:\n        return 1\n    return 1 + max(liste_derinligi(o) for o in liste)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 1},
+    {"girdi": [[1, [2, 3]]], "beklenen": 2},
+    {"girdi": [[[[]]]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 1},
+    {"girdi": [[1, [2, [3, [4]]]]], "beklenen": 4},
+    {"girdi": [[[1], [2]]], "beklenen": 2}
+  ]
+}

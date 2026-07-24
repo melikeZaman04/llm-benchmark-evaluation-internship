@@ -1,0 +1,23 @@
+{
+  "id": "trc_088",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_088",
+  "variant_type": "canonical",
+  "prompt_tr": "Üç tam sayı `a`, `b`, `c` veriliyor. Bunların (herhangi bir sırada) bir ARİTMETİK dizi oluşturup oluşturmadığını — yani sıralandığında ardışık farklar eşit mi — True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "Three integers `a`, `b`, `c` are given. Write a function that returns True/False for whether they form an ARITHMETIC progression in some order — i.e. when sorted, the consecutive differences are equal.",
+  "fonksiyon_imzasi": "def aritmetik_mi(a: int, b: int, c: int) -> bool:",
+  "fonksiyon_adi": "aritmetik_mi",
+  "fonksiyon_imzasi_en": "def is_arithmetic(a: int, b: int, c: int) -> bool:",
+  "fonksiyon_adi_en": "is_arithmetic",
+  "referans_cozum": "def aritmetik_mi(a, b, c):\n    x, y, z = sorted([a, b, c])\n    return y - x == z - y\n",
+  "test_cases": [
+    {"girdi": [1, 3, 5], "beklenen": true},
+    {"girdi": [5, 1, 3], "beklenen": true},
+    {"girdi": [1, 2, 4], "beklenen": false},
+    {"girdi": [2, 2, 2], "beklenen": true},
+    {"girdi": [10, 0, 5], "beklenen": true},
+    {"girdi": [1, 1, 3], "beklenen": false}
+  ]
+}

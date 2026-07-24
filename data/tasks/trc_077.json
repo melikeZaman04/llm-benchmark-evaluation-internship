@@ -1,0 +1,22 @@
+{
+  "id": "trc_077",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_077",
+  "variant_type": "canonical",
+  "prompt_tr": "Negatif olmayan bir tam sayı `n` veriliyor. `n`'in basamaklarını TERS sıraya çevirip oluşan sayıyı (baştaki sıfırlar düşer) döndüren bir fonksiyon yaz.",
+  "prompt_en": "A non-negative integer `n` is given. Write a function that returns the number formed by REVERSING the digits of `n` (leading zeros are dropped).",
+  "fonksiyon_imzasi": "def basamak_ters(n: int) -> int:",
+  "fonksiyon_adi": "basamak_ters",
+  "fonksiyon_imzasi_en": "def reverse_digits(n: int) -> int:",
+  "fonksiyon_adi_en": "reverse_digits",
+  "referans_cozum": "def basamak_ters(n):\n    return int(str(n)[::-1])\n",
+  "test_cases": [
+    {"girdi": [123], "beklenen": 321},
+    {"girdi": [100], "beklenen": 1},
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [5], "beklenen": 5},
+    {"girdi": [1200], "beklenen": 21}
+  ]
+}

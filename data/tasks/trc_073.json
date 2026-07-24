@@ -1,0 +1,22 @@
+{
+  "id": "trc_073",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_073",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir `metin` veriliyor. Aynı karakterin ARDIŞIK olarak tekrarlandığı en uzun bloğun uzunluğunu döndüren bir fonksiyon yaz. (Boş metin için 0.)",
+  "prompt_en": "A `text` is given. Write a function that returns the length of the longest block where the same character repeats CONSECUTIVELY. (For an empty text, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_tekrar(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_tekrar",
+  "fonksiyon_imzasi_en": "def longest_run(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_run",
+  "referans_cozum": "def en_uzun_tekrar(metin):\n    if not metin:\n        return 0\n    en = sayac = 1\n    for i in range(1, len(metin)):\n        if metin[i] == metin[i - 1]:\n            sayac += 1\n            en = max(en, sayac)\n        else:\n            sayac = 1\n    return en\n",
+  "test_cases": [
+    {"girdi": ["aabbbc"], "beklenen": 3},
+    {"girdi": ["abc"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["aabbaa"], "beklenen": 2}
+  ]
+}
