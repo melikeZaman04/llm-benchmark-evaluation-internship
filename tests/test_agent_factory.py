@@ -116,6 +116,7 @@ def test_varyant_uret_basarili_gorev_birlestirir(monkeypatch):
     uretilen_veri = {
         "prompt_tr": "yeni_tr", "prompt_en": "yeni_en",
         "fonksiyon_imzasi": "def yeni(x):", "fonksiyon_adi": "yeni",
+        "fonksiyon_imzasi_en": "def yeni_en(x):", "fonksiyon_adi_en": "yeni_en",
         "referans_cozum": "def yeni(x):\n    return x",  # kasıtlı: sonda \n yok
     }
     monkeypatch.setattr(mutator_modul, "ajan_cagir",
@@ -132,6 +133,7 @@ def test_varyant_uret_basarili_gorev_birlestirir(monkeypatch):
     assert sonuc["kategori"] == "diziler"          # kanonikten kopyalandı
     assert sonuc["test_cases"] == kanonik["test_cases"]  # DEĞİŞTİRİLMEDEN kopyalandı
     assert sonuc["fonksiyon_adi"] == "yeni"         # Mutator'dan geldi
+    assert sonuc["fonksiyon_adi_en"] == "yeni_en"   # Design A: EN tanımlayıcı geldi
     assert sonuc["referans_cozum"].endswith("\n")   # sondaki \n normalize edildi
     assert sonuc["_maliyet_usd"] == 0.01
 
@@ -147,6 +149,7 @@ def test_varyant_uret_guardrail_reddederse_hata_firlatir(monkeypatch):
     uretilen_veri = {
         "prompt_tr": "t2", "prompt_en": "e2",
         "fonksiyon_imzasi": "def f2(x):", "fonksiyon_adi": "f2",
+        "fonksiyon_imzasi_en": "def f2_en(x):", "fonksiyon_adi_en": "f2_en",
         "referans_cozum": "def f2(x):\n    return x + 1\n",  # bozuk mantık
     }
     monkeypatch.setattr(mutator_modul, "ajan_cagir",

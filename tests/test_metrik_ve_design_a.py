@@ -172,6 +172,40 @@ def test_sema_en_alanlari_yoksa_geriye_uyumlu():
     assert task_io.metadatayi_dogrula(_temel_gorev()) == []
 
 
+# --- 2c) Tanımlayıcı kapısı (Design A ortak gate — üreteçler de kullanır) ----
+def _gorev_backtickli(ptr, pen):
+    return {"id": "trc_x", "prompt_tr": ptr, "prompt_en": pen,
+            "fonksiyon_imzasi": "def max_urun(fiyatlar: list, butce: int) -> int:",
+            "fonksiyon_adi": "max_urun",
+            "fonksiyon_imzasi_en": "def max_products(prices: list, budget: int) -> int:",
+            "fonksiyon_adi_en": "max_products"}
+
+
+def test_tanimlayici_kapisi_temiz():
+    g = _gorev_backtickli("`butce` lira ver", "spend `budget`")
+    assert task_io.tanimlayici_kapisi(g) == []
+
+
+def test_tanimlayici_kapisi_en_sizinti_yakalar():
+    # EN prompt Türkçe tanımlayıcı backtick'liyor -> yakalanmalı
+    g = _gorev_backtickli("`butce` lira ver", "spend `butce`")
+    hatalar = task_io.tanimlayici_kapisi(g)
+    assert any("EN prompt `butce`" in h for h in hatalar)
+
+
+def test_tanimlayici_kapisi_tr_sizinti_yakalar():
+    # TR prompt İngilizce tanımlayıcı backtick'liyor -> yakalanmalı
+    g = _gorev_backtickli("`budget` lira ver", "spend `budget`")
+    hatalar = task_io.tanimlayici_kapisi(g)
+    assert any("TR prompt `budget`" in h for h in hatalar)
+
+
+def test_tanimlayici_kapisi_en_yoksa_tr_ye_duser():
+    g = {"id": "t", "prompt_tr": "`x` ver", "prompt_en": "give `x`",
+         "fonksiyon_imzasi": "def f(x: int) -> int:", "fonksiyon_adi": "f"}
+    assert task_io.tanimlayici_kapisi(g) == []  # _en yok -> EN de TR imzaya bakar
+
+
 # --- 3) Veri seti değişmezi: backtick tanımlayıcı sızıntısı yok ----------
 def _imza_parametreleri(imza: str):
     return set(re.findall(r"[(,]\s*([A-Za-z_]\w*)\s*:", imza))

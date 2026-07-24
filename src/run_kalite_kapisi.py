@@ -10,9 +10,7 @@ dosya(lar)ı doğrular ve sıfır-dışı kod döner (CI'de kullanılabilir).
 """
 from __future__ import annotations
 
-import re
 import sys
-import json
 import argparse
 from pathlib import Path
 
@@ -21,30 +19,11 @@ import task_io  # noqa: E402
 from oracle.task_validator import gorevi_dogrula  # noqa: E402
 
 
-def _parametreler(imza: str):
-    return set(re.findall(r"[(,]\s*([A-Za-z_]\w*)\s*:", imza))
-
-
-def backtick_kapisi(gorev: dict) -> list[str]:
-    """Prompt backtick'leri ilgili DİLİN imzasıyla eşleşmeli (Design A)."""
-    hatalar = []
-    tr = _parametreler(gorev["fonksiyon_imzasi"]) | {gorev["fonksiyon_adi"]}
-    en_imza = gorev.get("fonksiyon_imzasi_en", gorev["fonksiyon_imzasi"])
-    en = _parametreler(en_imza) | {gorev.get("fonksiyon_adi_en", gorev["fonksiyon_adi"])}
-    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_tr", "")):
-        if t not in tr:
-            hatalar.append(f"TR backtick `{t}` TR imzada yok")
-    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_en", "")):
-        if t not in en:
-            hatalar.append(f"EN backtick `{t}` EN imzada yok")
-    return hatalar
-
-
 def gecir(gorev: dict, ebeveyn: dict | None = None) -> dict:
     """Görevi tüm kapılardan geçirir; kapı adı -> hata listesi döner (boş = geçti)."""
     rapor = {
         "sema": task_io.metadatayi_dogrula(gorev),
-        "tanimlayici": backtick_kapisi(gorev),
+        "tanimlayici": task_io.tanimlayici_kapisi(gorev),
     }
     o = gorevi_dogrula(gorev)  # oracle: referans çözüm test_cases'i geçmeli (Docker)
     rapor["oracle"] = ([] if o["gecerli"]

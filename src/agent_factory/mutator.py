@@ -26,19 +26,25 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from agent_factory.client import ajan_cagir, AjanCagriHatasi  # noqa: E402
 from oracle.task_validator import gorevi_dogrula  # noqa: E402
+from task_io import metadatayi_dogrula, tanimlayici_kapisi  # noqa: E402
 
 PERSONA = """ROL:
 Sen TR-CodeEval benchmark'ının Hikaye Mutasyon Ajanısın (Mutator). Tek işin: sana verilen ZATEN DOĞRULANMIŞ bir programlama görevini, YENİ bir senaryoya (bağlama) uyarlamak — algoritmayı değil.
 
-Sana bir kanonik görevin şu alanları verilecek: prompt_tr, prompt_en, fonksiyon_imzasi, fonksiyon_adi, referans_cozum, sablon (varsa).
+Sana bir kanonik görevin şu alanları verilecek: prompt_tr, prompt_en, fonksiyon_imzasi (Türkçe tanımlayıcılar), fonksiyon_adi (Türkçe), fonksiyon_imzasi_en (İngilizce tanımlayıcılar), fonksiyon_adi_en (İngilizce), referans_cozum, sablon (varsa).
 
 YAPABİLECEKLERİN:
 - Tutarlı, tek bir yeni senaryo yaz (prompt_tr, prompt_en) — sablon'dan kelime seçerek veya kendi uygun bir bağlam kurarak.
-- Fonksiyon adını ve parametre adlarını yeni senaryoya uyarlayabilirsin.
-- referans_cozum'u YENİ isimlerle yeniden yaz.
+- Fonksiyon adını ve parametre adlarını yeni senaryoya uyarla — HEM Türkçe (fonksiyon_imzasi, fonksiyon_adi) HEM İngilizce (fonksiyon_imzasi_en, fonksiyon_adi_en) sürümünü üret.
+- referans_cozum'u YENİ Türkçe isimlerle (fonksiyon_adi / fonksiyon_imzasi'ndaki) yeniden yaz.
+
+TANIMLAYICI DİLİ (Design A — KESİN KURAL):
+- İki paralel imza üret: fonksiyon_imzasi TÜRKÇE tanımlayıcılar taşır (ör. `en_fazla_kitap(sayfa_sayilari, kapasite)`), fonksiyon_imzasi_en aynı yapının İNGİLİZCE gizlenmiş karşılığıdır (ör. `max_books(page_counts, capacity)`). Parametre SIRASI ve tipleri iki imzada birebir aynı olmalı.
+- prompt_tr içindeki backtick'li tanımlayıcılar TÜRKÇE (fonksiyon_imzasi'ndaki) adlar; prompt_en içindekiler İNGİLİZCE (fonksiyon_imzasi_en'deki) adlar olmalı. EN metni tamamen İngilizce, TR tamamen Türkçe.
+- referans_cozum YALNIZCA Türkçe adı (fonksiyon_adi) kullanır; fonksiyon_adi_en yalnız İngilizce prompt ve ölçüm içindir, çözümde geçmez.
 
 KESİN KURAL — SAF İSİM DEĞİŞİMİ:
-referans_cozum'u yeniden yazarken tek yaptığın şey İSİM DEĞİŞTİRMEK olmalı. Kontrol akışı, işlem sırası, operatörler, karşılaştırmalar BİREBİR AYNI kalmalı. Özyinelemeli bir fonksiyonsa, fonksiyonun kendi içinde kendini çağırdığı satırı da yeni adla güncellemen ŞART.
+referans_cozum'u yeniden yazarken tek yaptığın şey İSİM DEĞİŞTİRMEK olmalı. Kontrol akışı, işlem sırası, operatörler, karşılaştırmalar BİREBİR AYNI kalmalı. Özyinelemeli bir fonksiyonsa, fonksiyonun kendi içinde kendini çağırdığı satırı da yeni Türkçe adla güncellemen ŞART.
 
 DOKUNAMAYACAKLARIN:
 - test_cases'e hiç erişimin yok, onları görmeyeceksin bile.
@@ -55,9 +61,12 @@ JSON_SEMASI = {
         "prompt_en": {"type": "string"},
         "fonksiyon_imzasi": {"type": "string"},
         "fonksiyon_adi": {"type": "string"},
+        "fonksiyon_imzasi_en": {"type": "string"},
+        "fonksiyon_adi_en": {"type": "string"},
         "referans_cozum": {"type": "string"},
     },
-    "required": ["prompt_tr", "prompt_en", "fonksiyon_imzasi", "fonksiyon_adi", "referans_cozum"],
+    "required": ["prompt_tr", "prompt_en", "fonksiyon_imzasi", "fonksiyon_adi",
+                 "fonksiyon_imzasi_en", "fonksiyon_adi_en", "referans_cozum"],
 }
 
 
@@ -69,6 +78,10 @@ def _gorev_metni_olustur(kanonik: dict) -> str:
         f"prompt_en: {kanonik['prompt_en']!r}\n"
         f"fonksiyon_imzasi: {kanonik['fonksiyon_imzasi']!r}\n"
         f"fonksiyon_adi: {kanonik['fonksiyon_adi']!r}\n"
+        f"fonksiyon_imzasi_en: "
+        f"{kanonik.get('fonksiyon_imzasi_en', kanonik['fonksiyon_imzasi'])!r}\n"
+        f"fonksiyon_adi_en: "
+        f"{kanonik.get('fonksiyon_adi_en', kanonik['fonksiyon_adi'])!r}\n"
         f"referans_cozum:\n```python\n{kanonik['referans_cozum']}```\n"
         f"sablon: {json.dumps(sablon, ensure_ascii=False)}\n"
     )
@@ -100,11 +113,22 @@ def varyant_uret(kanonik: dict, yeni_id: str) -> dict:
         "prompt_en": uretilen["prompt_en"],
         "fonksiyon_imzasi": uretilen["fonksiyon_imzasi"],
         "fonksiyon_adi": uretilen["fonksiyon_adi"],
+        "fonksiyon_imzasi_en": uretilen["fonksiyon_imzasi_en"],
+        "fonksiyon_adi_en": uretilen["fonksiyon_adi_en"],
         "referans_cozum": uretilen["referans_cozum"].rstrip("\n") + "\n",
         "test_cases": kanonik["test_cases"],
     }
     if kanonik.get("karsilastirma"):
         yeni_gorev["karsilastirma"] = kanonik["karsilastirma"]
+
+    # Design-A kapısı (oracle'dan önce, ucuz mekanik denetim): şema + EN
+    # tutarlılığı + prompt backtick'lerinin doğru dilde olması.
+    sema_hatalari = metadatayi_dogrula(yeni_gorev) + tanimlayici_kapisi(yeni_gorev)
+    if sema_hatalari:
+        raise AjanCagriHatasi(
+            f"Design-A kapısı reddetti ({yeni_id} <- {kanonik['id']}): "
+            + "; ".join(sema_hatalari)
+        )
 
     dogrulama = gorevi_dogrula(yeni_gorev)
     if not dogrulama["gecerli"]:

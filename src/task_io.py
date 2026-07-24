@@ -179,6 +179,32 @@ def metadatayi_dogrula(gorev: dict) -> list[str]:
     return hatalar
 
 
+def _imza_parametreleri(imza: str) -> set:
+    return set(re.findall(r"[(,]\s*([A-Za-z_]\w*)\s*:", imza or ""))
+
+
+def tanimlayici_kapisi(gorev: dict) -> list[str]:
+    """Design A: prompt backtick'leri İLGİLİ DİLİN imzasıyla eşleşmeli.
+
+    prompt_tr yalnız Türkçe imzadaki (fonksiyon_imzasi/adi) tanımlayıcıları,
+    prompt_en yalnız İngilizce imzadaki (fonksiyon_imzasi_en/adi_en; yoksa
+    TR'ye düşer) tanımlayıcıları backtick'leyebilir. EN sütununa Türkçe
+    tanımlayıcı sızması (ya da tersi) bu kapıda yakalanır.
+    """
+    gid = gorev.get("id", "<id yok>")
+    tr = _imza_parametreleri(gorev.get("fonksiyon_imzasi")) | {gorev.get("fonksiyon_adi")}
+    en_imza = gorev.get("fonksiyon_imzasi_en") or gorev.get("fonksiyon_imzasi")
+    en = _imza_parametreleri(en_imza) | {gorev.get("fonksiyon_adi_en") or gorev.get("fonksiyon_adi")}
+    hatalar = []
+    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_tr", "")):
+        if t not in tr:
+            hatalar.append(f"{gid}: TR prompt `{t}` TR imzada yok")
+    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_en", "")):
+        if t not in en:
+            hatalar.append(f"{gid}: EN prompt `{t}` EN imzada yok")
+    return hatalar
+
+
 def uzunluk_kapisi(ebeveyn: dict, varyant: dict,
                    ust_kat: float = 3.0, taban_pay: int = 250) -> list[str]:
     """
