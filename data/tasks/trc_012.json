@@ -9,6 +9,8 @@
   "prompt_en": "Three side lengths `a`, `b`, `c` (positive integers) are given. Write a function that returns True if these three sides can form a VALID triangle (triangle inequality: each side must be STRICTLY SMALLER than the sum of the other two), otherwise False.",
   "fonksiyon_imzasi": "def uc_gen_olusur_mu(a: int, b: int, c: int) -> bool:",
   "fonksiyon_adi": "uc_gen_olusur_mu",
+  "fonksiyon_imzasi_en": "def forms_triangle(a: int, b: int, c: int) -> bool:",
+  "fonksiyon_adi_en": "forms_triangle",
   "referans_cozum": "def uc_gen_olusur_mu(a, b, c):\n    return a + b > c and a + c > b and b + c > a\n",
   "test_cases": [
     {"girdi": [3, 4, 5], "beklenen": true},

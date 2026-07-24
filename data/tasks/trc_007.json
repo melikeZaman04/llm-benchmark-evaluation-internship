@@ -6,9 +6,11 @@
   "canonical_id": "trc_007",
   "variant_type": "canonical",
   "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. Listedeki BENZERSIZ (tekrarsız) elemanları içeren bir liste döndüren bir fonksiyon yaz. Elemanların SIRASI önemli değildir.",
-  "prompt_en": "A list of integers `sayilar` is given. Write a function that returns a list containing the UNIQUE (deduplicated) elements. The ORDER of elements does not matter.",
+  "prompt_en": "A list of integers `numbers` is given. Write a function that returns a list containing the UNIQUE (deduplicated) elements. The ORDER of elements does not matter.",
   "fonksiyon_imzasi": "def benzersizler(sayilar: list[int]) -> list[int]:",
   "fonksiyon_adi": "benzersizler",
+  "fonksiyon_imzasi_en": "def unique_values(numbers: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "unique_values",
   "referans_cozum": "def benzersizler(sayilar):\n    return list(set(sayilar))\n",
   "test_cases": [
     {"girdi": [[1, 2, 2, 3]], "beklenen": [1, 2, 3]},

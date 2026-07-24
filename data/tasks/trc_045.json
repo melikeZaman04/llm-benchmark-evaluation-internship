@@ -7,9 +7,11 @@
   "canonical_id": "trc_018",
   "variant_type": "parametric_story",
   "prompt_tr": "Bir Türkçe öğretmeni, öğrencilerin kurduğu cümlelerin kaç kelimeden oluştuğunu değerlendirmek istiyor. Öğrencinin yazdığı ve kelimeleri boşlukla ayrılmış bir `metin` cümlesi veriliyor. Bu cümledeki KELİME SAYISINI döndüren bir fonksiyon yaz. Öğrenciler yazarken araya birden fazla ardışık boşluk koymuş olabilir; cümlenin başında veya sonunda da boşluk bulunabilir.",
-  "prompt_en": "A Turkish teacher wants to evaluate how many words the sentences written by students contain. A sentence `metin` written by a student is given, with its words separated by spaces. Write a function that returns the NUMBER OF WORDS in this sentence. Students may have typed multiple consecutive spaces between words, and the sentence may also start or end with spaces.",
+  "prompt_en": "A Turkish teacher wants to evaluate how many words the sentences written by students contain. A sentence `text` written by a student is given, with its words separated by spaces. Write a function that returns the NUMBER OF WORDS in this sentence. Students may have typed multiple consecutive spaces between words, and the sentence may also start or end with spaces.",
   "fonksiyon_imzasi": "def kelime_sayisi(metin: str) -> int:",
   "fonksiyon_adi": "kelime_sayisi",
+  "fonksiyon_imzasi_en": "def word_count(text: str) -> int:",
+  "fonksiyon_adi_en": "word_count",
   "referans_cozum": "def kelime_sayisi(metin):\n    return len(metin.split())\n",
   "test_cases": [
     {"girdi": ["merhaba dunya"], "beklenen": 2},

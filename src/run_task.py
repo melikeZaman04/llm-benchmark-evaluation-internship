@@ -31,9 +31,16 @@ from sandbox.executor import sandboxta_calistir  # noqa: E402
 def gorevi_calistir(gorev: dict, istemci: ModelIstemcisi, dil: str = "tr") -> dict:
     """Bir görevi model + sandbox üzerinden uçtan uca çalıştırır."""
     uretim = modelden_cozum_al(gorev, istemci, dil=dil)
+    # EN koşumunda model İngilizce-adlı fonksiyon üretir; harness onu doğru
+    # adla çağırmalı. `fonksiyon_adi_en` varsa EN'de o kullanılır, yoksa TR'ye
+    # düşülür (dil-başına tanımlayıcı tasarımı — bkz. code_task.py notu).
+    if dil == "en" and gorev.get("fonksiyon_adi_en"):
+        fonksiyon_adi = gorev["fonksiyon_adi_en"]
+    else:
+        fonksiyon_adi = gorev["fonksiyon_adi"]
     calisma = sandboxta_calistir(
         kod=uretim["kod"],
-        fonksiyon_adi=gorev["fonksiyon_adi"],
+        fonksiyon_adi=fonksiyon_adi,
         test_cases=gorev["test_cases"],
         karsilastirma=gorev.get("karsilastirma"),
     )

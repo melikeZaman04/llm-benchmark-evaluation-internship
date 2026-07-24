@@ -7,9 +7,11 @@
   "canonical_id": "trc_013",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir gazoz dolum fabrikasında şişeler bant üzerinde tek tek ilerler ve her şişeye bant üzerindeki `sira_no` (sıra numarası) atanır. Etiketleme makinesi şu kurala göre çalışır: sıra numarası hem 3'e hem 5'e bölünüyorsa şişeye \"FizzBuzz\" etiketi, yalnızca 3'e bölünüyorsa \"Fizz\" etiketi, yalnızca 5'e bölünüyorsa \"Buzz\" etiketi basılır; hiçbirine bölünmüyorsa şişeye sıra numarasının kendisi METİN (string) olarak basılır. Verilen `sira_no` için basılacak etiketi döndüren bir fonksiyon yaz.",
-  "prompt_en": "In a soda bottling plant, bottles move one by one along a conveyor and each bottle is assigned its position number `sira_no` on the belt. The labeling machine works as follows: if the position number is divisible by both 3 and 5, the bottle gets the label \"FizzBuzz\"; if it is divisible only by 3, the label \"Fizz\"; if only by 5, the label \"Buzz\"; if it is divisible by neither, the position number itself is printed on the bottle as a STRING. Write a function that returns the label to be printed for the given `sira_no`.",
+  "prompt_en": "In a soda bottling plant, bottles move one by one along a conveyor and each bottle is assigned its position number `order_no` on the belt. The labeling machine works as follows: if the position number is divisible by both 3 and 5, the bottle gets the label \"FizzBuzz\"; if it is divisible only by 3, the label \"Fizz\"; if only by 5, the label \"Buzz\"; if it is divisible by neither, the position number itself is printed on the bottle as a STRING. Write a function that returns the label to be printed for the given `order_no`.",
   "fonksiyon_imzasi": "def etiket_uret(sira_no: int) -> str:",
   "fonksiyon_adi": "etiket_uret",
+  "fonksiyon_imzasi_en": "def make_label(order_no: int) -> str:",
+  "fonksiyon_adi_en": "make_label",
   "referans_cozum": "def etiket_uret(sira_no):\n    if sira_no % 15 == 0:\n        return \"FizzBuzz\"\n    if sira_no % 3 == 0:\n        return \"Fizz\"\n    if sira_no % 5 == 0:\n        return \"Buzz\"\n    return str(sira_no)\n",
   "test_cases": [
     {"girdi": [15], "beklenen": "FizzBuzz"},

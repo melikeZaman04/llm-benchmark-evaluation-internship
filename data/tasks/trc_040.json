@@ -10,6 +10,8 @@
   "prompt_en": "In a carpentry workshop, three wooden sticks are measured with lengths `a`, `b`, `c` (positive integers). Write a function that returns True if these three sticks can be joined end to end to build a VALID triangular frame (triangle inequality: each stick must be STRICTLY SHORTER than the combined length of the other two), and False otherwise.",
   "fonksiyon_imzasi": "def uc_gen_olusur_mu(a: int, b: int, c: int) -> bool:",
   "fonksiyon_adi": "uc_gen_olusur_mu",
+  "fonksiyon_imzasi_en": "def forms_triangle(a: int, b: int, c: int) -> bool:",
+  "fonksiyon_adi_en": "forms_triangle",
   "referans_cozum": "def uc_gen_olusur_mu(a, b, c):\n    return a + b > c and a + c > b and b + c > a\n",
   "test_cases": [
     {"girdi": [3, 4, 5], "beklenen": true},

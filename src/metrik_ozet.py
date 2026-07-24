@@ -13,6 +13,7 @@ Girdi: results/*.ckpt.jsonl (hücre = görev×model×dil) + data/tasks/*.json (v
 """
 import json
 import glob
+import random
 import argparse
 from collections import defaultdict
 
@@ -43,6 +44,34 @@ def ort(xs):
     return sum(xs) / len(xs) if xs else float("nan")
 
 
+def bootstrap_ci(birimler, istatistik, B=2000, seed=12345, alpha=0.05):
+    """Birim (görev/aile) düzeyinde yeniden örneklemeli %95 güven aralığı.
+
+    `birimler`: bağımsız örnekleme birimlerinin listesi (görev başına eşleştirilmiş
+    değerler). Yeniden örnekleme GÖREV düzeyinde yapılır çünkü asıl belirsizlik
+    modelin görev dağılımı üzerindeki değişkenliğinden gelir (hücre-içi 3-tekrar
+    gürültüsünden değil). Deterministik: sabit seed => tekrarlanabilir aralık.
+
+    Döner: (alt, üst) yüzdelik. CI sıfırı dışlıyorsa fark anlamlı sayılır.
+    """
+    rng = random.Random(seed)
+    n = len(birimler)
+    if n < 2:
+        return (float("nan"), float("nan"))
+    vals = []
+    for _ in range(B):
+        ornek = [birimler[rng.randrange(n)] for _ in range(n)]
+        v = istatistik(ornek)
+        if v == v:  # NaN değilse
+            vals.append(v)
+    if not vals:
+        return (float("nan"), float("nan"))
+    vals.sort()
+    lo = vals[int((alpha / 2) * len(vals))]
+    hi = vals[min(len(vals) - 1, int((1 - alpha / 2) * len(vals)))]
+    return (lo, hi)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--girdi", default="results/gun15_buyuk_kosum.ckpt.jsonl")
@@ -58,20 +87,32 @@ def main():
     modeller = sorted(set(r["model"] for r in rows))
 
     # --- 1) pass@1 (tüm görev, tr+en) ve 2) Türkçe vergisi (yalnız kanonik) ---
-    print("=" * 78)
+    # CI'ler görev düzeyinde eşleştirilmiş (en, tr) çiftlerinden bootstrap edilir.
+    print("=" * 92)
     print("MANŞET 1+2: Kodlama yeteneği ve Türkçe vergisi (kanonik görevlerde)")
-    print("=" * 78)
-    print(f"{'model':<20} {'pass@1(hepsi)':>13} {'acc_en':>8} {'acc_tr':>8} {'TR vergi':>9}")
-    print("-" * 78)
+    print("  TR vergi = acc_en - acc_tr;  [.,.] = %95 GA;  * = GA sıfırı dışlıyor (anlamlı)")
+    print("=" * 92)
+    print(f"{'model':<20} {'pass@1':>7} {'acc_en':>7} {'acc_tr':>7} {'TR vergi':>9}  {'%95 GA':>16}")
+    print("-" * 92)
     tax_tab = {}
     for md in modeller:
         genel = ort([r["pass_at_1"] for r in rows if r["model"] == md])
-        kanon = [r for r in rows if r["model"] == md and r["variant_type"] == "canonical"]
-        en = ort([r["pass_at_1"] for r in kanon if r["dil"] == "en"])
-        tr = ort([r["pass_at_1"] for r in kanon if r["dil"] == "tr"])
+        # kanonik görev başına eşleştirilmiş (en, tr) pass@1
+        per_gorev = defaultdict(dict)
+        for r in rows:
+            if r["model"] == md and r["variant_type"] == "canonical":
+                per_gorev[r["gorev"]][r["dil"]] = r["pass_at_1"]
+        ciftler = [(v["en"], v["tr"]) for v in per_gorev.values()
+                   if "en" in v and "tr" in v]
+        en = ort([e for e, _ in ciftler])
+        tr = ort([t for _, t in ciftler])
         tax = en - tr
+        lo, hi = bootstrap_ci(
+            ciftler, lambda s: ort([e for e, _ in s]) - ort([t for _, t in s]))
+        anlamli = "*" if (lo > 0 or hi < 0) else " "
         tax_tab[md] = tax
-        print(f"{md:<20} {genel:>13.3f} {en:>8.3f} {tr:>8.3f} {tax:>+9.3f}")
+        print(f"{md:<20} {genel:>7.3f} {en:>7.3f} {tr:>7.3f} {tax:>+8.3f}{anlamli} "
+              f"[{lo:+.3f},{hi:+.3f}]")
 
     # --- 3) İki-seviyeli ezber farkı ---
     # Adil karşılaştırma için yalnız her üç türe de sahip AİLELER kullanılır.
@@ -82,20 +123,54 @@ def main():
                 if {"canonical", "parametric_story", "story_mutation"} <= ts}
 
     print()
-    print("=" * 78)
-    print(f"MANŞET 3: İki-seviyeli ezber farkı (n={len(tam_aile)} tam aile, tr+en)")
+    aile_list = sorted(tam_aile)
+    print("=" * 92)
+    print(f"MANŞET 3: İki-seviyeli ezber farkı (n={len(aile_list)} tam aile, tr+en)")
     print("  sığ  = canonical - parametric_story  (yalnız hikâye)")
-    print("  derin= canonical - story_mutation    (ad/imza/değişken de)")
-    print("=" * 78)
-    print(f"{'model':<20} {'canon':>7} {'param':>7} {'mutasyon':>9} {'sığ Δ':>7} {'derin Δ':>8}")
-    print("-" * 78)
+    print("  derin= canonical - story_mutation    (ad/imza/değişken de);  * = %95 GA sıfırı dışlıyor")
+    print("=" * 92)
+    print(f"{'model':<18} {'canon':>6} {'param':>6} {'mut':>6} "
+          f"{'sığ Δ (%95 GA)':>22} {'derin Δ (%95 GA)':>22}")
+    print("-" * 92)
     for md in modeller:
-        def acc(vt):
+        # aile başına varyant doğruluğu (tr+en ortalaması); birim = aile
+        def acc_aile(c, vt):
             return ort([r["pass_at_1"] for r in rows
                         if r["model"] == md and r["variant_type"] == vt
-                        and r["canonical_id"] in tam_aile])
-        c, p, s = acc("canonical"), acc("parametric_story"), acc("story_mutation")
-        print(f"{md:<20} {c:>7.3f} {p:>7.3f} {s:>9.3f} {c-p:>+7.3f} {c-s:>+8.3f}")
+                        and r["canonical_id"] == c])
+        birimler = [(acc_aile(c, "canonical"), acc_aile(c, "parametric_story"),
+                     acc_aile(c, "story_mutation")) for c in aile_list]
+        c = ort([b[0] for b in birimler])
+        p = ort([b[1] for b in birimler])
+        s = ort([b[2] for b in birimler])
+        sg_lo, sg_hi = bootstrap_ci(
+            birimler, lambda B: ort([b[0] for b in B]) - ort([b[1] for b in B]))
+        dr_lo, dr_hi = bootstrap_ci(
+            birimler, lambda B: ort([b[0] for b in B]) - ort([b[2] for b in B]))
+        sg_m = "*" if (sg_lo > 0 or sg_hi < 0) else " "
+        dr_m = "*" if (dr_lo > 0 or dr_hi < 0) else " "
+        print(f"{md:<18} {c:>6.3f} {p:>6.3f} {s:>6.3f} "
+              f"{c-p:>+6.3f}{sg_m}[{sg_lo:+.2f},{sg_hi:+.2f}] "
+              f"{c-s:>+6.3f}{dr_m}[{dr_lo:+.2f},{dr_hi:+.2f}]")
+
+    # --- 3c) Tasarım hipotezinin TAM testi: derin gizleme sığdan DAHA MI çok
+    # düşürüyor? Fark-farkı = derinΔ - sığΔ = (c-s)-(c-p) = p - s (aile başına).
+    # CI sıfırı dışlar ve pozitifse hipotez o modelde doğrulanmış olur. ---
+    print()
+    print("  Fark-farkı (derinΔ - sığΔ = param - mutasyon), birim = aile:")
+    print(f"  {'model':<18} {'derin-sığ':>10}  {'%95 GA':>16}  hipotez")
+    for md in modeller:
+        def acc_aile(c, vt):
+            return ort([r["pass_at_1"] for r in rows
+                        if r["model"] == md and r["variant_type"] == vt
+                        and r["canonical_id"] == c])
+        birimler = [(acc_aile(c, "parametric_story"), acc_aile(c, "story_mutation"))
+                    for c in aile_list]
+        fark = ort([b[0] for b in birimler]) - ort([b[1] for b in birimler])
+        lo, hi = bootstrap_ci(
+            birimler, lambda B: ort([b[0] for b in B]) - ort([b[1] for b in B]))
+        karar = "doğrulandı" if lo > 0 else ("ters" if hi < 0 else "belirsiz")
+        print(f"  {md:<18} {fark:>+10.3f}  [{lo:+.3f},{hi:+.3f}]  {karar}")
 
     # --- 3b) pass@1 vs pass@k: örnekleme kazancı. sıcaklık>0'da k örnekten
     # en az biri geçerse pass@k=1. pass@k - pass@1 farkı, modelin "arada bir
@@ -129,7 +204,8 @@ def main():
         print(f"{md:<20} {te:>8.1f} {tt:>8.1f} {tt-te:>+8.1f} {oran:>12.2f}")
 
     print()
-    print("Not: pass_at_1 = tekrar=3 örnek üzerinden ortalama (sıcaklık=0.4).")
+    tk = rows[0].get("tekrar", "?") if rows else "?"
+    print(f"Not: pass_at_1 = tekrar={tk} örnek üzerinden ortalama (sıcaklık=0.4).")
     print("     Token vergisi > 1.0 ise Türkçe çözüm daha uzun/pahalı üretiliyor.")
 
 

@@ -9,6 +9,8 @@
   "prompt_en": "A non-negative integer `n` is given. Write a function that returns the sum of the digits of `n`. For example, for 4567 the result is 4+5+6+7 = 22.",
   "fonksiyon_imzasi": "def basamak_toplami(n: int) -> int:",
   "fonksiyon_adi": "basamak_toplami",
+  "fonksiyon_imzasi_en": "def digit_sum(n: int) -> int:",
+  "fonksiyon_adi_en": "digit_sum",
   "referans_cozum": "def basamak_toplami(n):\n    return sum(int(c) for c in str(n))\n",
   "test_cases": [
     {"girdi": [123], "beklenen": 6},

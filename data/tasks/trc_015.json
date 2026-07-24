@@ -9,6 +9,8 @@
   "prompt_en": "A non-negative integer `n` is given. Write a function that returns the n-TH TERM of the Fibonacci sequence (term 0 is 0, term 1 is 1; each term is the sum of the previous two terms).",
   "fonksiyon_imzasi": "def fibonacci(n: int) -> int:",
   "fonksiyon_adi": "fibonacci",
+  "fonksiyon_imzasi_en": "def fibonacci(n: int) -> int:",
+  "fonksiyon_adi_en": "fibonacci",
   "referans_cozum": "def fibonacci(n):\n    if n < 2:\n        return n\n    a, b = 0, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n",
   "test_cases": [
     {"girdi": [0], "beklenen": 0},

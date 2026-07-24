@@ -7,9 +7,11 @@
   "canonical_id": "trc_017",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir marangoz atölyesinde iki ahşap çıta bulunuyor; uzunlukları santimetre cinsinden pozitif tam sayılar olan `uzunluk_a` ve `uzunluk_b` ile veriliyor. Marangoz her iki çıtayı da hiç artık bırakmadan, tamamen eşit boyda parçalara kesmek istiyor. Bu koşulu sağlayan EN BÜYÜK parça boyunu (santimetre cinsinden) döndüren bir fonksiyon yaz.",
-  "prompt_en": "A carpentry workshop has two wooden strips; their lengths in centimeters are given as the positive integers `uzunluk_a` and `uzunluk_b`. The carpenter wants to cut both strips into pieces of exactly equal length, leaving no leftover from either strip. Write a function that returns the LARGEST piece length (in centimeters) satisfying this condition.",
+  "prompt_en": "A carpentry workshop has two wooden strips; their lengths in centimeters are given as the positive integers `length_a` and `length_b`. The carpenter wants to cut both strips into pieces of exactly equal length, leaving no leftover from either strip. Write a function that returns the LARGEST piece length (in centimeters) satisfying this condition.",
   "fonksiyon_imzasi": "def en_buyuk_parca_boyu(uzunluk_a: int, uzunluk_b: int) -> int:",
   "fonksiyon_adi": "en_buyuk_parca_boyu",
+  "fonksiyon_imzasi_en": "def largest_piece_size(length_a: int, length_b: int) -> int:",
+  "fonksiyon_adi_en": "largest_piece_size",
   "referans_cozum": "def en_buyuk_parca_boyu(uzunluk_a, uzunluk_b):\n    while uzunluk_b:\n        uzunluk_a, uzunluk_b = uzunluk_b, uzunluk_a % uzunluk_b\n    return uzunluk_a\n",
   "test_cases": [
     {"girdi": [12, 8], "beklenen": 4},

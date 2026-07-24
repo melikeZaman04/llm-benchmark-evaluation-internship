@@ -7,9 +7,11 @@
   "canonical_id": "trc_019",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir turnuvada oyuncuların topladığı puanlar `puanlar` listesinde sırayla veriliyor ve takım eşleşmesi için hedeflenen toplam puan `hedef_puan` olarak belirtiliyor. Puanlarının toplamı `hedef_puan` değerine eşit olan (i < j indeksli, aynı oyuncunun iki kez kullanılmadığı) OYUNCU İKİLİSİ SAYISINI döndüren bir fonksiyon yaz.",
-  "prompt_en": "In a tournament, the points collected by the players are given in order in the list `puanlar`, and the targeted combined score for team matching is given as `hedef_puan`. Write a function that returns the NUMBER OF PLAYER PAIRS (with indices i < j, no player used twice) whose points sum equals `hedef_puan`.",
+  "prompt_en": "In a tournament, the points collected by the players are given in order in the list `scores`, and the targeted combined score for team matching is given as `target_score`. Write a function that returns the NUMBER OF PLAYER PAIRS (with indices i < j, no player used twice) whose points sum equals `target_score`.",
   "fonksiyon_imzasi": "def hedef_puanli_ikililer(puanlar: list[int], hedef_puan: int) -> int:",
   "fonksiyon_adi": "hedef_puanli_ikililer",
+  "fonksiyon_imzasi_en": "def target_score_pairs(scores: list[int], target_score: int) -> int:",
+  "fonksiyon_adi_en": "target_score_pairs",
   "referans_cozum": "def hedef_puanli_ikililer(puanlar, hedef_puan):\n    ikili_sayisi = 0\n    n = len(puanlar)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if puanlar[i] + puanlar[j] == hedef_puan:\n                ikili_sayisi += 1\n    return ikili_sayisi\n",
   "test_cases": [
     {"girdi": [[1, 2, 3, 4], 5], "beklenen": 2},

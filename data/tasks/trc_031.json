@@ -10,6 +10,8 @@
   "prompt_en": "A dance instructor is deciding the order in which to perform the `n` distinct steps of a routine on stage. `n` is a non-negative integer. Write a function that returns how many different orderings of the steps are possible, i.e. the factorial of `n` (n!). If there are no steps, the empty routine counts as a single ordering: 0! = 1.",
   "fonksiyon_imzasi": "def faktoriyel(n: int) -> int:",
   "fonksiyon_adi": "faktoriyel",
+  "fonksiyon_imzasi_en": "def factorial(n: int) -> int:",
+  "fonksiyon_adi_en": "factorial",
   "referans_cozum": "def faktoriyel(n):\n    if n <= 1:\n        return 1\n    return n * faktoriyel(n - 1)\n",
   "test_cases": [
     {"girdi": [0], "beklenen": 1},

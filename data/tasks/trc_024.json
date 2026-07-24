@@ -7,9 +7,11 @@
   "canonical_id": "trc_012",
   "variant_type": "story_mutation",
   "prompt_tr": "Üç çubuğun uzunlukları (pozitif tam sayı) veriliyor: `cubuk1`, `cubuk2`, `cubuk3`. Bu üç çubuğu uç uca birleştirerek GEÇERLİ bir üçgen çerçeve oluşturulabiliyorsa (üçgen eşitsizliği: her çubuk, diğer ikisinin toplam uzunluğundan KESİN KISA olmalı) True, değilse False döndüren bir fonksiyon yaz.",
-  "prompt_en": "Three stick lengths (positive integers) are given: `cubuk1`, `cubuk2`, `cubuk3`. Write a function that returns True if these three sticks can be joined end-to-end to form a VALID triangular frame (triangle inequality: each stick must be STRICTLY SHORTER than the sum of the other two lengths), otherwise False.",
+  "prompt_en": "Three stick lengths (positive integers) are given: `stick1`, `stick2`, `stick3`. Write a function that returns True if these three sticks can be joined end-to-end to form a VALID triangular frame (triangle inequality: each stick must be STRICTLY SHORTER than the sum of the other two lengths), otherwise False.",
   "fonksiyon_imzasi": "def cubuklarla_ucgen_olusur_mu(cubuk1: int, cubuk2: int, cubuk3: int) -> bool:",
   "fonksiyon_adi": "cubuklarla_ucgen_olusur_mu",
+  "fonksiyon_imzasi_en": "def sticks_form_triangle(stick1: int, stick2: int, stick3: int) -> bool:",
+  "fonksiyon_adi_en": "sticks_form_triangle",
   "referans_cozum": "def cubuklarla_ucgen_olusur_mu(cubuk1, cubuk2, cubuk3):\n    return cubuk1 + cubuk2 > cubuk3 and cubuk1 + cubuk3 > cubuk2 and cubuk2 + cubuk3 > cubuk1\n",
   "test_cases": [
     {"girdi": [3, 4, 5], "beklenen": true},

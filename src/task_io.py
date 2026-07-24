@@ -43,14 +43,19 @@ VARYANT_TIPLERI = frozenset({
 DEGISMEZ_ALANLAR = ("fonksiyon_imzasi", "fonksiyon_adi", "referans_cozum",
                     "test_cases", "karsilastirma")
 
+#: Ebeveyni ile AYNI imzayı taşıyan (parametric_story) varyantlar için ek
+#: değişmezler: dil-başına tanımlayıcılar da byte-byte kopyalanmalı. Yalnız
+#: _en alanları mevcutsa denetlenir (parametric.py, story_mutation hariç).
+DEGISMEZ_ALANLAR_EN = ("fonksiyon_imzasi_en", "fonksiyon_adi_en")
+
 #: Dosyaya yazarken kullanılan sabit alan sırası. Üreteçler alanları farklı
 #: sırayla ekleyebilir (ör. `id` en sona düşebilir); veri seti yayınlanacak
 #: bir eser olduğu için dosyalar TEK ve öngörülebilir bir sırada yazılır.
 #: Listede olmayan alanlar sonuna, kendi aralarında alfabetik eklenir.
 ALAN_SIRASI = ("id", "kategori", "zorluk", "kaynak", "ebeveyn", "canonical_id",
                "variant_type", "prompt_tr", "prompt_en", "fonksiyon_imzasi",
-               "fonksiyon_adi", "referans_cozum", "test_cases", "karsilastirma",
-               "sablon")
+               "fonksiyon_adi", "fonksiyon_imzasi_en", "fonksiyon_adi_en",
+               "referans_cozum", "test_cases", "karsilastirma", "sablon")
 
 
 # --- Serileştirme ---------------------------------------------------------
@@ -159,6 +164,17 @@ def metadatayi_dogrula(gorev: dict) -> list[str]:
     ad, cozum = gorev.get("fonksiyon_adi"), gorev.get("referans_cozum", "")
     if ad and f"def {ad}" not in cozum:
         hatalar.append(f"{gorev_id}: referans_cozum 'def {ad}' tanımını içermiyor")
+
+    # Dil-başına tanımlayıcılar (Design A): _en alanları varsa ikisi de bulunmalı
+    # ve fonksiyon_adi_en, fonksiyon_imzasi_en içinde 'def <ad>' olarak geçmeli.
+    imza_en = gorev.get("fonksiyon_imzasi_en")
+    ad_en = gorev.get("fonksiyon_adi_en")
+    if imza_en or ad_en:
+        if not (imza_en and ad_en):
+            hatalar.append(f"{gorev_id}: fonksiyon_imzasi_en ve fonksiyon_adi_en "
+                           "birlikte bulunmalı (biri eksik)")
+        elif f"def {ad_en}" not in imza_en:
+            hatalar.append(f"{gorev_id}: fonksiyon_imzasi_en 'def {ad_en}' içermiyor")
 
     return hatalar
 

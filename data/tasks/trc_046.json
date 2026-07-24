@@ -7,9 +7,11 @@
   "canonical_id": "trc_019",
   "variant_type": "parametric_story",
   "prompt_tr": "Bir bilgi yarışmasında her takımın topladığı puanlar `sayilar` listesinde tutuluyor, ortak ödül eşiği ise `hedef` olarak veriliyor. Puanları toplandığında `hedef`e eşit olan (i < j indeksli, aynı takımın iki kez kullanılmadığı) TAKIM İKİLİSİ SAYISINI döndüren bir fonksiyon yaz.",
-  "prompt_en": "In a quiz tournament, the points scored by each team are stored in the list `sayilar`, and the shared prize threshold is given as `hedef`. Write a function that returns the NUMBER OF TEAM PAIRS (with indices i < j, no team used twice) whose points sum to `hedef`.",
+  "prompt_en": "In a quiz tournament, the points scored by each team are stored in the list `numbers`, and the shared prize threshold is given as `target`. Write a function that returns the NUMBER OF TEAM PAIRS (with indices i < j, no team used twice) whose points sum to `target`.",
   "fonksiyon_imzasi": "def hedefe_esit_ciftler(sayilar: list[int], hedef: int) -> int:",
   "fonksiyon_adi": "hedefe_esit_ciftler",
+  "fonksiyon_imzasi_en": "def pairs_equal_to_target(numbers: list[int], target: int) -> int:",
+  "fonksiyon_adi_en": "pairs_equal_to_target",
   "referans_cozum": "def hedefe_esit_ciftler(sayilar, hedef):\n    sayac = 0\n    n = len(sayilar)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if sayilar[i] + sayilar[j] == hedef:\n                sayac += 1\n    return sayac\n",
   "test_cases": [
     {"girdi": [[1, 2, 3, 4], 5], "beklenen": 2},

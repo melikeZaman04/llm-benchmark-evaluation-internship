@@ -9,6 +9,8 @@
   "prompt_en": "A non-negative integer `n` is given. Write a function that returns the FACTORIAL of `n` (n!). 0! = 1.",
   "fonksiyon_imzasi": "def faktoriyel(n: int) -> int:",
   "fonksiyon_adi": "faktoriyel",
+  "fonksiyon_imzasi_en": "def factorial(n: int) -> int:",
+  "fonksiyon_adi_en": "factorial",
   "referans_cozum": "def faktoriyel(n):\n    if n <= 1:\n        return 1\n    return n * faktoriyel(n - 1)\n",
   "test_cases": [
     {"girdi": [0], "beklenen": 1},

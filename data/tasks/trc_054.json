@@ -7,9 +7,11 @@
   "canonical_id": "trc_010",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir matematik formülü düzenleyicisinin sözdizimi denetleyicisini yazıyorsun. Düzenleyici, kullanıcının yazdığı formüldeki gruplama sembollerini sırasıyla toplayarak yalnızca '(' ve ')' karakterlerinden oluşan bir metin `semboller` üretir. Bu sembol dizisinin DENGELİ olup olmadığını (açılan her gruplama sembolü doğru sırada kapatılmalı, kapanış sembolü kendisinden önce açılmış bir gruba ait olmalı ve formülün sonunda açık kalan grup bulunmamalı) döndüren bir fonksiyon yaz.",
-  "prompt_en": "You are writing the syntax checker of a mathematical formula editor. The editor collects the grouping symbols of the user's formula in order and produces a string `semboller` consisting only of '(' and ')' characters. Write a function that returns whether this symbol sequence is BALANCED (every opened grouping symbol must be closed in the correct order, every closing symbol must belong to a group opened before it, and no group may remain open at the end of the formula).",
+  "prompt_en": "You are writing the syntax checker of a mathematical formula editor. The editor collects the grouping symbols of the user's formula in order and produces a string `symbols` consisting only of '(' and ')' characters. Write a function that returns whether this symbol sequence is BALANCED (every opened grouping symbol must be closed in the correct order, every closing symbol must belong to a group opened before it, and no group may remain open at the end of the formula).",
   "fonksiyon_imzasi": "def semboller_dengeli_mi(semboller: str) -> bool:",
   "fonksiyon_adi": "semboller_dengeli_mi",
+  "fonksiyon_imzasi_en": "def symbols_balanced(symbols: str) -> bool:",
+  "fonksiyon_adi_en": "symbols_balanced",
   "referans_cozum": "def semboller_dengeli_mi(semboller):\n    derinlik = 0\n    for c in semboller:\n        if c == '(':\n            derinlik += 1\n        else:\n            derinlik -= 1\n        if derinlik < 0:\n            return False\n    return derinlik == 0\n",
   "test_cases": [
     {"girdi": ["()"], "beklenen": true},

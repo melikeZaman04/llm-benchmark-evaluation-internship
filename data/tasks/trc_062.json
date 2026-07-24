@@ -7,9 +7,11 @@
   "canonical_id": "trc_020",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir tekstil boyahanesinde üretim bandından çıkan kumaş toplarının renk kodları, çıkış sırasına göre `renk_kodlari` listesine kaydediliyor. Bant üzerinde ARDIŞIK olarak çıkan VE AYNI renk koduna sahip topların oluşturduğu EN UZUN serinin uzunluğunu döndüren bir fonksiyon yaz. Liste boşsa 0 döndür.",
-  "prompt_en": "In a textile dyehouse, the color codes of fabric rolls coming off the production line are recorded in the list `renk_kodlari` in order of output. Write a function that returns the length of the LONGEST series formed by CONSECUTIVE rolls having the SAME color code. If the list is empty, return 0.",
+  "prompt_en": "In a textile dyehouse, the color codes of fabric rolls coming off the production line are recorded in the list `color_codes` in order of output. Write a function that returns the length of the LONGEST series formed by CONSECUTIVE rolls having the SAME color code. If the list is empty, return 0.",
   "fonksiyon_imzasi": "def en_uzun_ayni_renk_serisi(renk_kodlari: list[int]) -> int:",
   "fonksiyon_adi": "en_uzun_ayni_renk_serisi",
+  "fonksiyon_imzasi_en": "def longest_same_color_run(color_codes: list[int]) -> int:",
+  "fonksiyon_adi_en": "longest_same_color_run",
   "referans_cozum": "def en_uzun_ayni_renk_serisi(renk_kodlari):\n    if not renk_kodlari:\n        return 0\n    en_uzun_seri = 1\n    guncel_seri = 1\n    for i in range(1, len(renk_kodlari)):\n        if renk_kodlari[i] == renk_kodlari[i - 1]:\n            guncel_seri += 1\n            en_uzun_seri = max(en_uzun_seri, guncel_seri)\n        else:\n            guncel_seri = 1\n    return en_uzun_seri\n",
   "test_cases": [
     {"girdi": [[1, 1, 2, 2, 2, 3]], "beklenen": 3},
