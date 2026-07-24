@@ -502,3 +502,43 @@ Bugün ilk kez **tam matris gerçek veriyle koşuldu**: 62 görev × 7 model × 
 ### Bir Sonraki Adım
 
 Gün 16: **Hata taksonomisi (Failure-Classifier) + ölçek trendi.** Büyük koşum artık her hücrede `hata_tipleri` ve örnek çıktıları saklıyor; başarısızlıkların NEDEN olduğu (sözdizimi, yanlış mantık, Türkçe yanlış-anlama, zaman aşımı) sınıflandırılacak ve 0.5→3B ölçek eğrisi figürleri çıkarılacak.
+
+## Gün 16 Hazırlık — Endişe Kapatma: CI + Design A + Taksonomi/Figürler + Veri Seti v2
+
+Bu oturum "16. güne geçmeden önce tüm eksik bilgileri kapatalım" hedefiyle başladı. Gün 15 sonrası kıdemli bir gözden geçirme dört endişe çıkardı ve dördü de kapatıldı; ayrıca Gün 16 içeriğinin (taksonomi + figürler) çekirdeği kuruldu ve veri seti blueprint-hedefli 50 kanonik göreve çıkarıldı. Çalışma `gun16-hazirlik` dalında iki düzenli commit + PR #21 olarak kalıcılaştırıldı.
+
+**Endişe 1 — istatistiksel güç (bootstrap CI).** Metrik motoru saf nokta-tahmin üretiyordu; "+0.017 vs +0.300" gibi farkların gürültüden ayrışıp ayrışmadığı bilinmiyordu. `metrik_ozet.py`'ye görev/aile düzeyinde (sabit seed, tekrarlanabilir) bootstrap %95 GA eklendi. İlk koşuda gemma2:2b'nin defterde "sağlam" yazılı +0.150 vergisinin CI'sının sıfırı içerdiği görüldü — bir overclaim CI tarafından anında yakalandı. Tasarım hipotezinin TAM testi (derin−sığ fark-farkı CI'sı) da eklendi.
+
+**Endişe 2 — anlam kapısı.** Donmuş 62 görevde bir denetim ajanı çalıştırıldı: 62/62 okundu, 59 temiz; TR/EN parite, Türkçe dilbilgisi ve senaryo-mantığı hepsi geçti. Bulunan 3 küçük imza-uyumsuzluğunun aslında Design A confound'unun belirtisi olduğu anlaşıldı ve ayrı değil, geçişin parçası olarak düzeltildi.
+
+**Endişe 3 — tanımlayıcı confound (Design A).** En kritik boşluk: "İngilizce" koşumda bile fonksiyon/parametre adları Türkçe kalıyordu (`max_urun`, `fiyatlar`, `butce`), yani "Türkçe vergisi" manşeti sabit bir Türkçe-tanımlayıcı zemini üzerine oturuyordu. Kullanıcı onayıyla **Design A** seçildi: EN sütunu TAMAMEN İngilizce, TR TAMAMEN Türkçe (ekolojik olarak geçerli uçtan-uca vergi). `code_task`/`run_task` dil-duyarlı yapıldı (`fonksiyon_imzasi_en`/`fonksiyon_adi_en`, TR'ye güvenli fallback); 62 göreve EN tanımlayıcı eklendi ve 43 EN prompt'ta sızan Türkçe backtick düzeltildi (her iki dilde 0 sızıntı). Kritik ince nokta: imzayı değiştirmek EN prompt'lardaki backtick'leri bozuyordu — konumsal TR↔EN parametre eşlemesiyle toplu düzeltildi ve bu "0-sızıntı" özelliği kalıcı regresyon-testine çevrildi. Şema kapısı EN-tutarlılığı da denetliyor.
+
+**Design A re-run — temiz manşetler.** Genişletilmiş kablolamayla tam matris n=3→5 ile yeniden koşuldu (868 hücre, 0 eksik). Confound temizliği vergiyi ŞİŞİRMEDİ, büyük ölçüde SABİT kaldı — bu, verginin bir tanımlayıcı-artefaktı değil GERÇEK olduğunun en güçlü kanıtı. coder:3b Türkçe vergisi tam **+0.00** [−0.05,+0.04]'e indi: koda-özel eğitim vergiyi yok ediyor (kusursuz kanıt); genel modeller (llama3.2:3b +0.27, qwen0.5b +0.24, gemma +0.22, qwen1.5b +0.15) gerçek vergiyi koruyor.
+
+**Endişe 4 (bekleme operasyonları) — Gün 16 çekirdeği.** Matris koşarken, koşuma dokunmadan üç eksik kapatıldı: (a) yeni kodun test borcu (`test_metrik_ve_design_a.py`, 81 test); (b) **hata taksonomisi** (`hata_taksonomisi.py`) — mekanik `hata_tipi`'nin kör noktasını kapattı: başarısızlıkların çoğu "kod çalıştı ama yanlış" (yanlış-mantık) ve Türkçe vergisi bir **mantık vergisi** (+347 mantık vs +44 sert hata); (c) **figürler** (`figur_uret.py`, dataviz metoduyla 3 advisor-ready grafik: ölçek eğrisi, vergi+CI, taksonomi).
+
+**Veri seti v2 — blueprint'ten 50 kanoniğe.** Genişletmenin sözleşmesi önce yazıldı: `veri_seti_blueprint.md` (güç-temelli boyut hedefi — kendi verimizden ±0.07→~80, ±0.05→~158 kanonik; sektör normu HumanEval 164 ile yakınsıyor) + `veri_seti_datasheet.md` (köken, kapsam, 7 açık limit). En büyük yapısal boşluk **zor tier'ın hiç olmaması**ydı (0 zor görev → coder:3b 0.85'te tavan etkisi). `run_kalite_kapisi.py` tüm kapıları (oracle+şema+Design-A+opsiyonel uzunluk/değişmez) zincirledi. 30 yeni özgün kanonik (trc_063-092) elle yazıldı — hepsi tüm kapılardan + anlam-denetiminden geçti. Sonuç blueprint hedefini birebir tutturdu: 20→50 kanonik, 15 kolay / 23 orta / 12 zor, 6 kategori dengeli (8-9). pytest 168→339.
+
+### Bugün Öğrenilenler
+
+* Bir confound'u temizlemenin bulguyu değiştirmemesinin, o bulgunun gerçekliğinin EN güçlü kanıtı olabileceği: Design A vergiyi şişirmedi, bu yüzden vergi artefakt değil.
+* Güven aralığının değerinin ilk koşuda somutlaştığı: nokta-tahmin "sağlam" görünen bir farkın (gemma +0.150) aslında sıfırı içerdiğini yalnızca CI gösterebildi.
+* Bir tasarım düzeltmesinin (EN imza) beklenmedik ikinci-düzey etki yaratabildiği (EN prompt backtick'leri bozuldu) — ve mekanik bir invariant testinin bunu kalıcı olarak kilitlediği.
+* Mekanik hata-etiketinin bir kör noktası olduğu: başarısızlıkların %27'si "null" etiketliydi ama aslında en büyük tür olan yanlış-mantıktı; Türkçe vergisinin bir syntax değil MANTIK vergisi olduğu ancak bu ayrımla görüldü.
+* Benchmark boyutunun bir "his" değil, hedef kesinlikten geri hesaplanan bir sayı olduğu; ve en saygın kod benchmark'ının (HumanEval 164) küçük olması — güvenilirliğin ham boyuttan çok yapı geçerliliği + kontaminasyon kontrolünden geldiği.
+* Bir veri setini büyütürken "yaz sonra say" yerine "önce blueprint" disiplininin, dağılımı (zorluk, kategori) hedefe birebir oturtmayı sağladığı.
+
+### Oluşturulan Çıktılar
+
+* src/metrik_ozet.py (bootstrap CI + fark-farkı; not dinamikleştirildi)
+* src/model_client/code_task.py, src/run_task.py, src/task_io.py (Design A dil-duyarlı + şema kapısı)
+* data/tasks/trc_001-062 (EN tanımlayıcılar + backtick temizliği), trc_063-092 (30 yeni kanonik, zor tier)
+* src/hata_taksonomisi.py, src/figur_uret.py, src/run_kalite_kapisi.py
+* tests/test_metrik_ve_design_a.py (bootstrap, Design A, 0-sızıntı invariant, taksonomi — 168→339)
+* results/gun16_designA.json + .csv + .ckpt.jsonl (868 hücre, n=5, temiz); results/figures/fig1-3.png
+* docs/veri_seti_blueprint.md, docs/veri_seti_datasheet.md
+* Dal `gun16-hazirlik`: 2 commit + PR #21
+
+### Bir Sonraki Adım
+
+Dalga-4: 30 yeni kanoniğe sığ (parametric_story) + derin (story_mutation) varyant aileleri (ajan fabrikası), v2'yi git etiketiyle dondurma ve genişletilmiş sette (~150 birim) büyük koşum — CI'lar ~±0.09'a daralacak.
