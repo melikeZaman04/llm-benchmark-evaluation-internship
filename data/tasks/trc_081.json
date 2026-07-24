@@ -1,0 +1,23 @@
+{
+  "id": "trc_081",
+  "kategori": "diziler",
+  "zorluk": "kolay",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_081",
+  "variant_type": "canonical",
+  "prompt_tr": "Boş olmayan bir tam sayı listesi `sayilar` veriliyor. En büyük ve en küçük eleman arasındaki farkı döndüren bir fonksiyon yaz.",
+  "prompt_en": "A non-empty list of integers `numbers` is given. Write a function that returns the difference between the largest and smallest element.",
+  "fonksiyon_imzasi": "def aralik(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "aralik",
+  "fonksiyon_imzasi_en": "def value_range(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "value_range",
+  "referans_cozum": "def aralik(sayilar):\n    return max(sayilar) - min(sayilar)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 2},
+    {"girdi": [[5]], "beklenen": 0},
+    {"girdi": [[3, 3, 3]], "beklenen": 0},
+    {"girdi": [[10, -5]], "beklenen": 15},
+    {"girdi": [[1, 100]], "beklenen": 99}
+  ],
+  "sablon": {"ölçüm": ["sayı listesi", "sıcaklık ölçümleri", "ürün fiyatları"]}
+}

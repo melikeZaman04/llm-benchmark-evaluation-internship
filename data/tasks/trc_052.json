@@ -7,9 +7,11 @@
   "canonical_id": "trc_008",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir şair, yazdığı şiirin ölçüsünü kontrol etmek için her dizedeki hece sayısını sesli harflere bakarak tahmin ediyor. Küçük harflerden oluşan bir `dize` veriliyor. Bu dizedeki Türkçe sesli harflerin (a, e, ı, i, o, ö, u, ü) toplam sayısını döndüren bir fonksiyon yaz.",
-  "prompt_en": "A poet estimates the syllable count of each line of a poem by looking at its vowels in order to check the poem's meter. A lowercase string `dize` (verse line) is given. Write a function that returns the total count of Turkish vowels (a, e, ı, i, o, ö, u, ü) in that line.",
+  "prompt_en": "A poet estimates the syllable count of each line of a poem by looking at its vowels in order to check the poem's meter. A lowercase string `string` (verse line) is given. Write a function that returns the total count of Turkish vowels (a, e, ı, i, o, ö, u, ü) in that line.",
   "fonksiyon_imzasi": "def dize_sesli_sayaci(dize: str) -> int:",
   "fonksiyon_adi": "dize_sesli_sayaci",
+  "fonksiyon_imzasi_en": "def string_vowel_counter(string: str) -> int:",
+  "fonksiyon_adi_en": "string_vowel_counter",
   "referans_cozum": "def dize_sesli_sayaci(dize):\n    sesli_harfler = \"aeıioöuü\"\n    return sum(1 for c in dize if c in sesli_harfler)\n",
   "test_cases": [
     {"girdi": ["merhaba"], "beklenen": 3},

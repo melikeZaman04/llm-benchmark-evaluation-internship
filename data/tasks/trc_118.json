@@ -1,0 +1,24 @@
+{
+  "id": "trc_118",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_075",
+  "canonical_id": "trc_075",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir çalma listesindeki şarkı kimliklerini tutan tam sayı listesi `sarki_kimlikleri` ve negatif olmayan bir `adim` veriliyor. Çalma listesinin `adim` kez SAĞA döndürülmüş hâlini döndüren bir fonksiyon yaz (son şarkı listenin başına geçer). `adim` çalma listesinin uzunluğundan büyük olabilir.",
+  "prompt_en": "A list of integers `song_ids` holding the song IDs of a playlist and a non-negative `step` are given. Write a function that returns the playlist rotated `step` positions to the RIGHT (the last song moves to the front). `step` may exceed the playlist length.",
+  "fonksiyon_imzasi": "def calma_listesini_dondur(sarki_kimlikleri: list[int], adim: int) -> list[int]:",
+  "fonksiyon_adi": "calma_listesini_dondur",
+  "fonksiyon_imzasi_en": "def rotate_playlist(song_ids: list[int], step: int) -> list[int]:",
+  "fonksiyon_adi_en": "rotate_playlist",
+  "referans_cozum": "def calma_listesini_dondur(sarki_kimlikleri, adim):\n    n = len(sarki_kimlikleri)\n    if n == 0:\n        return []\n    adim %= n\n    return sarki_kimlikleri[-adim:] + sarki_kimlikleri[:-adim] if adim else list(sarki_kimlikleri)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4, 5], 2], "beklenen": [4, 5, 1, 2, 3]},
+    {"girdi": [[1, 2, 3], 0], "beklenen": [1, 2, 3]},
+    {"girdi": [[1, 2, 3], 3], "beklenen": [1, 2, 3]},
+    {"girdi": [[], 2], "beklenen": []},
+    {"girdi": [[1, 2], 5], "beklenen": [2, 1]},
+    {"girdi": [[1, 2, 3, 4], 1], "beklenen": [4, 1, 2, 3]}
+  ]
+}

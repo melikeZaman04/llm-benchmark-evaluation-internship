@@ -1,0 +1,23 @@
+{
+  "id": "trc_120",
+  "kategori": "string",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_076",
+  "canonical_id": "trc_076",
+  "variant_type": "story_mutation",
+  "prompt_tr": "İki dosya yolu `yol_a` ve `yol_b` veriliyor. İkisinin ortak en uzun ÖN-EKİNİN karakter cinsinden uzunluğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two file paths `path_a` and `path_b` are given. Write a function that returns the length, in characters, of their longest common PREFIX.",
+  "fonksiyon_imzasi": "def ortak_yol_onegi(yol_a: str, yol_b: str) -> int:",
+  "fonksiyon_adi": "ortak_yol_onegi",
+  "fonksiyon_imzasi_en": "def common_path_prefix(path_a: str, path_b: str) -> int:",
+  "fonksiyon_adi_en": "common_path_prefix",
+  "referans_cozum": "def ortak_yol_onegi(yol_a, yol_b):\n    n = 0\n    for x, y in zip(yol_a, yol_b):\n        if x != y:\n            break\n        n += 1\n    return n\n",
+  "test_cases": [
+    {"girdi": ["flower", "flow"], "beklenen": 4},
+    {"girdi": ["abc", "xyz"], "beklenen": 0},
+    {"girdi": ["", "a"], "beklenen": 0},
+    {"girdi": ["same", "same"], "beklenen": 4},
+    {"girdi": ["prefix", "pre"], "beklenen": 3}
+  ]
+}

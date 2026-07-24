@@ -6,9 +6,11 @@
   "canonical_id": "trc_020",
   "variant_type": "canonical",
   "prompt_tr": "Bir liste `sayilar` veriliyor. Listede ARDIŞIK VE AYNI değerlerden oluşan EN UZUN parçanın uzunluğunu döndüren bir fonksiyon yaz. Liste boşsa 0 döndür.",
-  "prompt_en": "A list `sayilar` is given. Write a function that returns the length of the LONGEST run of CONSECUTIVE IDENTICAL values in the list. If the list is empty, return 0.",
+  "prompt_en": "A list `numbers` is given. Write a function that returns the length of the LONGEST run of CONSECUTIVE IDENTICAL values in the list. If the list is empty, return 0.",
   "fonksiyon_imzasi": "def en_uzun_ardisik_dizi(sayilar: list[int]) -> int:",
   "fonksiyon_adi": "en_uzun_ardisik_dizi",
+  "fonksiyon_imzasi_en": "def longest_consecutive_run(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "longest_consecutive_run",
   "referans_cozum": "def en_uzun_ardisik_dizi(sayilar):\n    if not sayilar:\n        return 0\n    en_uzun = 1\n    guncel = 1\n    for i in range(1, len(sayilar)):\n        if sayilar[i] == sayilar[i - 1]:\n            guncel += 1\n            en_uzun = max(en_uzun, guncel)\n        else:\n            guncel = 1\n    return en_uzun\n",
   "test_cases": [
     {"girdi": [[1, 1, 2, 2, 2, 3]], "beklenen": 3},

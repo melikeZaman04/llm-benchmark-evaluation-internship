@@ -10,6 +10,8 @@
   "prompt_en": "A stair-climbing training app splits a program into steps: step 0 climbs 0 stairs and step 1 climbs 1 stair; every later step climbs as many stairs as the two steps before it combined. A non-negative integer `n` is given. Write a function that returns the number of stairs climbed at step `n`.",
   "fonksiyon_imzasi": "def fibonacci(n: int) -> int:",
   "fonksiyon_adi": "fibonacci",
+  "fonksiyon_imzasi_en": "def fibonacci(n: int) -> int:",
+  "fonksiyon_adi_en": "fibonacci",
   "referans_cozum": "def fibonacci(n):\n    if n < 2:\n        return n\n    a, b = 0, 1\n    for _ in range(n - 1):\n        a, b = b, a + b\n    return b\n",
   "test_cases": [
     {"girdi": [0], "beklenen": 0},

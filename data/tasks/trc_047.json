@@ -7,9 +7,11 @@
   "canonical_id": "trc_020",
   "variant_type": "parametric_story",
   "prompt_tr": "Bir LED panelde tek sıra pikselin soldan sağa renk kodları `sayilar` listesinde veriliyor. Panelde ARDIŞIK VE AYNI renk kodundan oluşan EN UZUN kesintisiz bölümün uzunluğunu döndüren bir fonksiyon yaz. Liste boşsa 0 döndür.",
-  "prompt_en": "The color codes of a single row of pixels on an LED panel, from left to right, are given in the list `sayilar`. Write a function that returns the length of the LONGEST uninterrupted segment of CONSECUTIVE IDENTICAL color codes on the panel. If the list is empty, return 0.",
+  "prompt_en": "The color codes of a single row of pixels on an LED panel, from left to right, are given in the list `numbers`. Write a function that returns the length of the LONGEST uninterrupted segment of CONSECUTIVE IDENTICAL color codes on the panel. If the list is empty, return 0.",
   "fonksiyon_imzasi": "def en_uzun_ardisik_dizi(sayilar: list[int]) -> int:",
   "fonksiyon_adi": "en_uzun_ardisik_dizi",
+  "fonksiyon_imzasi_en": "def longest_consecutive_run(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "longest_consecutive_run",
   "referans_cozum": "def en_uzun_ardisik_dizi(sayilar):\n    if not sayilar:\n        return 0\n    en_uzun = 1\n    guncel = 1\n    for i in range(1, len(sayilar)):\n        if sayilar[i] == sayilar[i - 1]:\n            guncel += 1\n            en_uzun = max(en_uzun, guncel)\n        else:\n            guncel = 1\n    return en_uzun\n",
   "test_cases": [
     {"girdi": [[1, 1, 2, 2, 2, 3]], "beklenen": 3},

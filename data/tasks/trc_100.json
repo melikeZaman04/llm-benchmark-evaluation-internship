@@ -1,0 +1,26 @@
+{
+  "id": "trc_100",
+  "kategori": "mantik",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_066",
+  "canonical_id": "trc_066",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir mağazada yan yana dizili rafların her birinin ödül puanını içeren, negatif olmayan tam sayılardan oluşan bir liste `raf_odulleri` veriliyor. Bir raftan ödül toplarsan, o rafa BİTİŞİK olan rafların alarmı devreye girer; bu yüzden HİÇBİR İKİSİ BİTİŞİK OLMAYACAK şekilde raf seçebilirsin. Seçtiğin raflardan elde edilebilecek MAKSİMUM ödül toplamını döndüren bir fonksiyon yaz. (Boş liste için 0.)",
+  "prompt_en": "You are given a list of non-negative integers `shelf_rewards`, where each value is the reward points of a shelf arranged in a row in a store. If you collect the reward from a shelf, the alarms of the shelves ADJACENT to it are triggered; therefore you may only pick shelves such that NO TWO PICKED shelves are adjacent. Write a function that returns the MAXIMUM total reward obtainable from the shelves you pick. (For an empty list, return 0.)",
+  "fonksiyon_imzasi": "def en_yuksek_raf_odulu(raf_odulleri: list[int]) -> int:",
+  "fonksiyon_adi": "en_yuksek_raf_odulu",
+  "fonksiyon_imzasi_en": "def max_shelf_reward(shelf_rewards: list[int]) -> int:",
+  "fonksiyon_adi_en": "max_shelf_reward",
+  "referans_cozum": "def en_yuksek_raf_odulu(raf_odulleri):\n    al = atla = 0\n    for x in raf_odulleri:\n        al, atla = atla + x, max(al, atla)\n    return max(al, atla)\n",
+  "test_cases": [
+    {"girdi": [[3, 2, 7, 10]], "beklenen": 13},
+    {"girdi": [[3, 2, 5, 10, 7]], "beklenen": 15},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5]], "beklenen": 5},
+    {"girdi": [[2, 1, 1, 2]], "beklenen": 4},
+    {"girdi": [[1, 2, 3, 1]], "beklenen": 4},
+    {"girdi": [[10, 5, 5, 10]], "beklenen": 20},
+    {"girdi": [[0, 0, 0]], "beklenen": 0}
+  ]
+}

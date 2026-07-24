@@ -1,0 +1,24 @@
+{
+  "id": "trc_148",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_090",
+  "canonical_id": "trc_090",
+  "variant_type": "story_mutation",
+  "prompt_tr": "İç içe geçebilen bir `klasor` yapısı veriliyor (elemanları ya bir dosyayı temsil eden tam sayı ya da yine bir alt klasör olabilir). Bu klasör ağacının en derin iç içe geçme DERİNLİĞİNİ döndüren bir fonksiyon yaz (en dıştaki klasör derinlik 1'dir; içinde hiçbir şey olmayan boş klasör de 1'dir).",
+  "prompt_en": "A possibly nested `folder` structure is given (its elements may be integers representing files, or further subfolders). Write a function that returns the maximum nesting DEPTH of this folder tree (the outermost folder is depth 1; an empty folder is also 1).",
+  "fonksiyon_imzasi": "def klasor_derinligi(klasor: list) -> int:",
+  "fonksiyon_adi": "klasor_derinligi",
+  "fonksiyon_imzasi_en": "def folder_depth(folder: list) -> int:",
+  "fonksiyon_adi_en": "folder_depth",
+  "referans_cozum": "def klasor_derinligi(klasor):\n    if not isinstance(klasor, list):\n        return 0\n    if not klasor:\n        return 1\n    return 1 + max(klasor_derinligi(o) for o in klasor)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 1},
+    {"girdi": [[1, [2, 3]]], "beklenen": 2},
+    {"girdi": [[[[]]]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 1},
+    {"girdi": [[1, [2, [3, [4]]]]], "beklenen": 4},
+    {"girdi": [[[1], [2]]], "beklenen": 2}
+  ]
+}

@@ -7,9 +7,11 @@
   "canonical_id": "trc_001",
   "variant_type": "parametric_story",
   "prompt_tr": "Bir kitapçıda satılan kitapların fiyatları `fiyatlar` listesiyle veriliyor. Elinde `butce` lira var. Bu bütçeyle satın alabileceğin MAKSİMUM kitap sayısını döndüren bir fonksiyon yaz.",
-  "prompt_en": "A bookstore's book prices are given as a list `fiyatlar`. You have `butce` liras. Write a function that returns the MAXIMUM number of books you can buy with this budget.",
+  "prompt_en": "A bookstore's book prices are given as a list `prices`. You have `budget` liras. Write a function that returns the MAXIMUM number of books you can buy with this budget.",
   "fonksiyon_imzasi": "def max_urun(fiyatlar: list[int], butce: int) -> int:",
   "fonksiyon_adi": "max_urun",
+  "fonksiyon_imzasi_en": "def max_products(prices: list[int], budget: int) -> int:",
+  "fonksiyon_adi_en": "max_products",
   "referans_cozum": "def max_urun(fiyatlar, butce):\n    fiyatlar = sorted(fiyatlar)\n    sayac = 0\n    for f in fiyatlar:\n        if butce >= f:\n            butce -= f\n            sayac += 1\n        else:\n            break\n    return sayac\n",
   "test_cases": [
     {"girdi": [[10, 20, 30], 40], "beklenen": 2},

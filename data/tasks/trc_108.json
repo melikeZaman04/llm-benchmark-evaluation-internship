@@ -1,0 +1,23 @@
+{
+  "id": "trc_108",
+  "kategori": "string",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_070",
+  "canonical_id": "trc_070",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Boş olmayan bir `dizi` (DNA baz dizisi) veriliyor. En SIK geçen bazı döndüren bir fonksiyon yaz. Birden fazla baz aynı sıklıktaysa, alfabetik olarak en KÜÇÜK olanı döndür.",
+  "prompt_en": "A non-empty `sequence` (DNA base sequence) is given. Write a function that returns the MOST frequent base. If several bases share the top frequency, return the alphabetically SMALLEST one.",
+  "fonksiyon_imzasi": "def en_sik_baz(dizi: str) -> str:",
+  "fonksiyon_adi": "en_sik_baz",
+  "fonksiyon_imzasi_en": "def most_frequent_base(sequence: str) -> str:",
+  "fonksiyon_adi_en": "most_frequent_base",
+  "referans_cozum": "def en_sik_baz(dizi):\n    from collections import Counter\n    sayim = Counter(dizi)\n    return min(sayim, key=lambda c: (-sayim[c], c))\n",
+  "test_cases": [
+    {"girdi": ["aabbbc"], "beklenen": "b"},
+    {"girdi": ["abc"], "beklenen": "a"},
+    {"girdi": ["zzxy"], "beklenen": "z"},
+    {"girdi": ["mississippi"], "beklenen": "i"},
+    {"girdi": ["a"], "beklenen": "a"}
+  ]
+}

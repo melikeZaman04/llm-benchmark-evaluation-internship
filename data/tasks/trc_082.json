@@ -1,0 +1,22 @@
+{
+  "id": "trc_082",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_082",
+  "variant_type": "canonical",
+  "prompt_tr": "Aynı uzunlukta iki tam sayı listesi `a` ve `b` veriliyor. Eleman-eleman toplamlarından oluşan yeni bir liste döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two equal-length integer lists `a` and `b` are given. Write a function that returns a new list of their element-wise sums.",
+  "fonksiyon_imzasi": "def eleman_topla(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi": "eleman_topla",
+  "fonksiyon_imzasi_en": "def elementwise_sum(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "elementwise_sum",
+  "referans_cozum": "def eleman_topla(a, b):\n    return [x + y for x, y in zip(a, b)]\n",
+  "test_cases": [
+    {"girdi": [[1, 2], [3, 4]], "beklenen": [4, 6]},
+    {"girdi": [[], []], "beklenen": []},
+    {"girdi": [[1], [-1]], "beklenen": [0]},
+    {"girdi": [[5, 5, 5], [1, 2, 3]], "beklenen": [6, 7, 8]}
+  ],
+  "sablon": {"kaynak": ["iki sayı listesi", "iki çeyrek satışı", "iki sensör verisi"]}
+}

@@ -1,0 +1,24 @@
+{
+  "id": "trc_075",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_075",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir tam sayı listesi `sayilar` ve negatif olmayan bir `k` veriliyor. Listenin `k` adım SAĞA döndürülmüş hâlini döndüren bir fonksiyon yaz (son eleman başa geçer). `k` liste uzunluğundan büyük olabilir.",
+  "prompt_en": "A list of integers `numbers` and a non-negative `k` are given. Write a function that returns the list rotated `k` steps to the RIGHT (the last element moves to the front). `k` may exceed the list length.",
+  "fonksiyon_imzasi": "def saga_dondur(sayilar: list[int], k: int) -> list[int]:",
+  "fonksiyon_adi": "saga_dondur",
+  "fonksiyon_imzasi_en": "def rotate_right(numbers: list[int], k: int) -> list[int]:",
+  "fonksiyon_adi_en": "rotate_right",
+  "referans_cozum": "def saga_dondur(sayilar, k):\n    n = len(sayilar)\n    if n == 0:\n        return []\n    k %= n\n    return sayilar[-k:] + sayilar[:-k] if k else list(sayilar)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4, 5], 2], "beklenen": [4, 5, 1, 2, 3]},
+    {"girdi": [[1, 2, 3], 0], "beklenen": [1, 2, 3]},
+    {"girdi": [[1, 2, 3], 3], "beklenen": [1, 2, 3]},
+    {"girdi": [[], 2], "beklenen": []},
+    {"girdi": [[1, 2], 5], "beklenen": [2, 1]},
+    {"girdi": [[1, 2, 3, 4], 1], "beklenen": [4, 1, 2, 3]}
+  ],
+  "sablon": {"liste": ["sayı dizisi", "vardiya sırası", "çalma listesi"]}
+}

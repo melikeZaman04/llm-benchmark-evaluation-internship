@@ -10,6 +10,8 @@
   "prompt_en": "In a word game, the referee checks whether the word a player submits is built from exactly the same letters as the target word. The target word `a` and the player's word `b` are given. Write a function that returns True if the two words are anagrams of each other (made of the same letters in the same counts), otherwise False. Compare letters EXACTLY (case-sensitive).",
   "fonksiyon_imzasi": "def anagram_mi(a: str, b: str) -> bool:",
   "fonksiyon_adi": "anagram_mi",
+  "fonksiyon_imzasi_en": "def is_anagram(a: str, b: str) -> bool:",
+  "fonksiyon_adi_en": "is_anagram",
   "referans_cozum": "def anagram_mi(a, b):\n    return sorted(a) == sorted(b)\n",
   "test_cases": [
     {"girdi": ["listen", "silent"], "beklenen": true},

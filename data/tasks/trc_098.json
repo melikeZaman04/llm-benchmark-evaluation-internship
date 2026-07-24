@@ -1,0 +1,26 @@
+{
+  "id": "trc_098",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_065",
+  "canonical_id": "trc_065",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir laboratuvarda bir örneğin nükleotid `dizi`si veriliyor. `dizi` içindeki en uzun PALİNDROM alt-dizinin uzunluğunu döndüren bir fonksiyon yaz. (Alt-dizi bitişik nükleotidlerden oluşur; harfler olduğu gibi, büyük/küçük harf dikkate alınarak karşılaştırılır.)",
+  "prompt_en": "In a lab you are given the nucleotide `sequence` of a sample. Write a function that returns the length of the longest PALINDROMIC subsequence-run within `sequence`. (A run is a contiguous stretch of nucleotides; letters are compared as-is, with case taken into account.)",
+  "fonksiyon_imzasi": "def en_uzun_palindrom_bolge(dizi: str) -> int:",
+  "fonksiyon_adi": "en_uzun_palindrom_bolge",
+  "fonksiyon_imzasi_en": "def longest_palindrome_region(sequence: str) -> int:",
+  "fonksiyon_adi_en": "longest_palindrome_region",
+  "referans_cozum": "def en_uzun_palindrom_bolge(dizi):\n    if not dizi:\n        return 0\n    en = 1\n    def genislet(sol, sag):\n        while sol >= 0 and sag < len(dizi) and dizi[sol] == dizi[sag]:\n            sol -= 1\n            sag += 1\n        return sag - sol - 1\n    for i in range(len(dizi)):\n        en = max(en, genislet(i, i), genislet(i, i + 1))\n    return en\n",
+  "test_cases": [
+    {"girdi": ["babad"], "beklenen": 3},
+    {"girdi": ["cbbd"], "beklenen": 2},
+    {"girdi": ["a"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["abcda"], "beklenen": 1},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["kayak"], "beklenen": 5},
+    {"girdi": ["abacabad"], "beklenen": 7}
+  ]
+}

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TR-CodeEval — Proje Rehberi & Kullanım Kılavuzu</title>
+<style>
+  :root{
+    --bg:#fbfcfd; --panel:#ffffff; --ink:#0e1116; --ink-soft:#43505f; --muted:#8792a2;
+    --line:#e6ebf1; --line-soft:#f1f4f8; --accent:#2a6fdb; --accent-soft:#e7f0fd;
+    --en:#2a78d6; --tr:#eb6834; --good:#0f9d58; --warn:#e0a100; --sig:#2a6fdb; --nsig:#9aa6b4;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,monospace;
+    --shadow:0 1px 2px rgba(14,17,22,.04),0 8px 28px rgba(14,17,22,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151a; --panel:#171b22; --ink:#eef2f6; --ink-soft:#aeb9c7; --muted:#7d8896;
+    --line:#252b34; --line-soft:#1b2027; --accent:#4b8ff0; --accent-soft:#17233a;
+    --en:#3987e5; --tr:#e06a3a; --good:#28b463; --sig:#4b8ff0; --nsig:#5c6774;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12151a; --panel:#171b22; --ink:#eef2f6; --ink-soft:#aeb9c7; --muted:#7d8896;
+      --line:#252b34; --line-soft:#1b2027; --accent:#4b8ff0; --accent-soft:#17233a;
+      --en:#3987e5; --tr:#e06a3a; --good:#28b463; --sig:#4b8ff0; --nsig:#5c6774;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.68;
+    margin:0;-webkit-font-smoothing:antialiased;font-size:16px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+  .layout{display:grid;grid-template-columns:250px 1fr;max-width:1220px;margin:0 auto;gap:0}
+  /* sidebar nav */
+  nav.side{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    padding:26px 18px 40px;border-right:1px solid var(--line);background:var(--bg)}
+  nav.side .logo{font-family:var(--mono);font-weight:600;font-size:15px;margin-bottom:4px}
+  nav.side .logo b{color:var(--accent)}
+  nav.side .tag{font-size:11.5px;color:var(--muted);margin-bottom:22px}
+  nav.side a{display:block;color:var(--ink-soft);text-decoration:none;font-size:13.5px;
+    padding:5px 10px;border-radius:7px;border-left:2px solid transparent}
+  nav.side a:hover{background:var(--line-soft);color:var(--ink)}
+  nav.side a.grp{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+    margin-top:16px;pointer-events:none;padding-left:10px}
+  .themebtn{margin-top:22px;font-size:12.5px;font-family:var(--mono);cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);color:var(--ink-soft);border-radius:8px;padding:7px 11px;width:100%}
+
+  main{padding:0 clamp(20px,4vw,60px) 90px;min-width:0}
+  .doc{max-width:760px}
+  header.hero{padding:56px 0 30px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(32px,5vw,46px);line-height:1.08;
+    letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
+  .lead{font-size:19px;color:var(--ink-soft);max-width:62ch}
+  .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+  .chip{font-size:12px;font-family:var(--mono);color:var(--ink-soft);background:var(--line-soft);
+    border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+
+  section{padding:38px 0;border-top:1px solid var(--line);scroll-margin-top:14px}
+  .kick{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.4vw,32px);letter-spacing:-.01em;margin:0 0 16px;line-height:1.15;text-wrap:balance}
+  h3{font-size:18px;font-weight:650;margin:30px 0 10px;letter-spacing:-.005em}
+  p{max-width:68ch}
+  .doc p, .doc li{color:var(--ink-soft)}
+  .doc strong{color:var(--ink);font-weight:650}
+  code.inl{font-family:var(--mono);font-size:.88em;background:var(--line-soft);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--ink);word-break:break-word}
+  a.link{color:var(--accent)}
+  ul.clean{padding-left:0;list-style:none}
+  ul.clean li{padding-left:22px;position:relative;margin:9px 0}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+  .callout{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));
+    border-radius:12px;padding:16px 20px;margin:22px 0;font-size:14.5px;color:var(--ink)}
+  .callout b{color:var(--accent)}
+
+  /* glossary */
+  .glossary{display:grid;gap:12px;margin-top:14px}
+  .term{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+  .term dt{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--accent);margin-bottom:6px}
+  .term dd{margin:0;font-size:14.5px;color:var(--ink-soft)}
+  .term dd .ex{display:block;margin-top:7px;font-size:13px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+
+  /* code blocks */
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+    overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink);margin:12px 0}
+  pre .c{color:var(--muted)} pre .p{color:var(--accent)}
+  .cmd{margin:18px 0}
+  .cmd .lbl{font-size:13px;font-weight:650;color:var(--ink);margin-bottom:2px}
+  .cmd .desc{font-size:13.5px;color:var(--ink-soft);margin:0 0 4px;max-width:68ch}
+
+  /* tree */
+  .tree{font-family:var(--mono);font-size:12.5px;line-height:1.85;color:var(--ink-soft);
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto}
+  .tree .d{color:var(--accent)} .tree .cm{color:var(--muted)}
+
+  /* charts + cards */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px;margin:20px 0}
+  .card h4{margin:0 0 3px;font-size:15px;font-weight:650}
+  .card .sub{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+  figure{margin:0;overflow-x:auto} svg{display:block;max-width:100%;height:auto}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .tt{fill:var(--ink-soft);font-family:var(--mono);font-size:11px}
+
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:20px 0}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+  .tile .n{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .tile .n.blue{color:var(--accent)} .tile .n.tr{color:var(--tr)}
+  .tile .t{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.45}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+  th,td{text-align:right;padding:9px 13px;border-bottom:1px solid var(--line-soft);font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left;font-family:var(--mono);font-size:12px}
+  thead th{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--line-soft)}
+  tbody tr:last-child td{border-bottom:none}
+  .pill{font-size:10.5px;font-family:var(--mono);padding:2px 7px;border-radius:999px;font-weight:600}
+  .pill.yes{background:var(--accent-soft);color:var(--accent)} .pill.no{background:var(--line-soft);color:var(--muted)}
+
+  .steps{counter-reset:s;padding:0;list-style:none;margin:18px 0}
+  .steps li{counter-increment:s;position:relative;padding:14px 0 14px 46px;border-bottom:1px solid var(--line-soft)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:30px;height:30px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);font-family:var(--mono);font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center}
+  .steps li b{color:var(--ink)}
+  footer{border-top:1px solid var(--line);padding:34px 0 20px;margin-top:20px;color:var(--muted);font-size:13px}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr}
+    nav.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+      display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+    nav.side .tag{display:none} nav.side a.grp{display:none}
+    nav.side a{font-size:12.5px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;border-left:1px solid var(--line)}
+    .themebtn{width:auto;margin:0 0 0 auto}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="side">
+    <div class="logo"><b>TR</b>-CodeEval</div>
+    <div class="tag">Proje Rehberi &amp; Kullanım Kılavuzu</div>
+    <a class="grp">Anlamak</a>
+    <a href="#amac">1 · Amaç &amp; genel bakış</a>
+    <a href="#sozluk">2 · Sözlük (teknik terimler)</a>
+    <a href="#mimari">3 · Mimari: nasıl çalışır</a>
+    <a class="grp">Yaptıklarımız</a>
+    <a href="#yolculuk">4 · Ne yaptık, ne amaçladık</a>
+    <a href="#bulgular">5 · Bulgular (grafikler)</a>
+    <a href="#veriseti">6 · Veri seti durumu</a>
+    <a class="grp">Kullanmak</a>
+    <a href="#kilavuz">7 · Kullanım kılavuzu</a>
+    <a href="#dizin">8 · Dizin yapısı</a>
+    <a href="#limit">9 · Sınırlar &amp; sonraki adım</a>
+    <button class="themebtn" id="themebtn">◐ Tema değiştir</button>
+  </nav>
+
+  <main><div class="doc">
+    <header class="hero">
+      <p class="eyebrow">Küçük dil modelleri için Türkçe kod değerlendirme çerçevesi</p>
+      <h1>TR-CodeEval nedir, neyi ölçer ve nasıl kullanılır?</h1>
+      <p class="lead">Bu belge iki işi birden görür: projenin <strong>dokümantasyonu</strong> (amaç, kavramlar, mimari, bulgular) ve <strong>kullanım kılavuzu</strong> (hangi komut ne yapar, veri nasıl üretilir, sonuç nasıl okunur). Teknik terimleri sıfırdan, günlük dille açıklar.</p>
+      <div class="meta-row">
+        <span class="chip">152 değerlendirme birimi</span>
+        <span class="chip">50 kanonik görev</span>
+        <span class="chip">7 model · TR + EN</span>
+        <span class="chip">523 birim testi</span>
+        <span class="chip">v2 · güncel</span>
+      </div>
+    </header>
+
+    <!-- 1 -->
+    <section id="amac">
+      <p class="kick">Bölüm 1</p>
+      <h2>Amaç &amp; genel bakış</h2>
+      <p><strong>Sorun.</strong> Büyük dil modelleri (LLM) kod yazabiliyor, ama neredeyse tüm ölçümler İngilizce yapılıyor. Bir model aynı problemi <em>Türkçe</em> sorulduğunda da aynı başarıyla çözebiliyor mu? Yoksa Türkçe "muhakeme vergisi" mi ödüyor? Bunu ölçen, kontrollü ve özgün bir Türkçe kod benchmark'ı yoktu. TR-CodeEval bu boşluğu doldurur.</p>
+      <p><strong>Ne ölçüyoruz — üç yapı.</strong> Her görev bu üç amaçtan en az birine hizmet eder; rastgele/dolgu görev yoktur:</p>
+      <ul class="clean">
+        <li><strong>Kodlama yeteneği:</strong> Model elemanter algoritmik bir problemi doğru çözen Python kodu yazabiliyor mu?</li>
+        <li><strong>Türkçe dil-sağlamlığı ("Türkçe vergisi"):</strong> Problem Türkçe sorulunca doğruluk düşüyor mu? — <code class="inl">acc(İngilizce) − acc(Türkçe)</code>.</li>
+        <li><strong>Ezber-direnci:</strong> Model problemi gerçekten çözüyor mu, yoksa eğitim verisinden <em>ezberlediği</em> bir kalıbı mı tekrarlıyor? Aynı problemi "kılık değiştirerek" sorup bunu test ederiz.</li>
+      </ul>
+      <div class="callout"><b>Neden özgün görevler?</b> HumanEval, LeetCode gibi hazır benchmark'lardan görev almıyoruz. Çünkü modeller büyük olasılıkla onlarla <b>eğitilmiş</b>; o zaman ölçtüğümüz şey "çözme yeteneği" değil "ezber" olur. Bütün görevler sıfırdan, özgün yazıldı — bu projenin ayırt edici değeri.</div>
+    </section>
+
+    <!-- 2 -->
+    <section id="sozluk">
+      <p class="kick">Bölüm 2</p>
+      <h2>Sözlük — teknik terimler ne anlama geliyor?</h2>
+      <p>Belgenin geri kalanında ve kodda geçen terimler, günlük dille:</p>
+      <dl class="glossary">
+        <div class="term"><dt>Benchmark (kıyaslama seti)</dt><dd>Modelleri aynı görevlerle sınayıp karşılaştırmayı sağlayan, sabit ve dondurulmuş bir görev + test koleksiyonu. "Güvenilir bir cetvel" gibi düşün.</dd></div>
+        <div class="term"><dt>Kanonik görev</dt><dd>Elle tasarlanmış, doğrulanmış özgün ana problem (ör. "bütçeyle en fazla ürün"). Tüm varyantların atasıdır.<span class="ex">Şu an 50 kanonik görev var.</span></dd></div>
+        <div class="term"><dt>Varyant &amp; aile</dt><dd>Bir kanonik görevin kılık değiştirmiş sürümü. Her kanonik + iki varyantı bir <b>aile</b> oluşturur. Aile, ezber ölçümünün temelidir.</dd></div>
+        <div class="term"><dt>Sığ vs derin gizleme</dt><dd><b>Sığ (parametric_story):</b> yalnız hikâye değişir, fonksiyon adı/parametreler aynı kalır. <b>Derin (story_mutation):</b> hikâyeyle birlikte fonksiyon adı, imza ve değişkenler de değişir.<span class="ex">Model yalnız derinde düşüyorsa kod yüzeyini ezberlemiştir; her ikisinde düşüyorsa hikâyeye.</span></dd></div>
+        <div class="term"><dt>pass@1 / pass@k</dt><dd><b>pass@1:</b> modelin tek denemede testi geçme oranı. <b>pass@k:</b> k denemeden en az biri geçerse başarı sayılır. İkisinin farkı, modelin "arada bir doğruyu bulup kararlı üretemediğini" gösterir.</dd></div>
+        <div class="term"><dt>Doğruluk (accuracy)</dt><dd>Görevlerin ne kadarının doğru çözüldüğü. Burada bir görev, tüm test durumlarını geçerse "doğru" sayılır — yargıyı LLM değil, deterministik kod verir.</dd></div>
+        <div class="term"><dt>Türkçe vergisi</dt><dd>Aynı problemin İngilizce ve Türkçe doğruluğu arasındaki fark: <code class="inl">acc(en) − acc(tr)</code>. Pozitifse model Türkçe'de daha kötü.</dd></div>
+        <div class="term"><dt>Confound (karıştırıcı değişken)</dt><dd>Ölçtüğünü sandığın etkiye gizlice karışan başka bir etki. Bizde: "İngilizce" koşumda bile fonksiyon adları Türkçe'ydi — vergi ölçümünü bulandırıyordu. <b>Design A</b> ile temizlendi.</dd></div>
+        <div class="term"><dt>Design A</dt><dd>Tasarım kararı: İngilizce koşum <b>tamamen</b> İngilizce (prompt + tanımlayıcılar), Türkçe koşum tamamen Türkçe olur. Böylece vergi, dilin ekolojik (uçtan uca) etkisini ölçer.<span class="ex">Aynı görev: <code class="inl">max_urun(fiyatlar, butce)</code> ↔ <code class="inl">max_products(prices, budget)</code></span></dd></div>
+        <div class="term"><dt>Oracle &amp; guardrail</dt><dd><b>Oracle:</b> bir görevin "referans çözümünü" kendi testlerine karşı çalıştırıp görevin tutarlı olduğunu doğrulayan denetleyici. <b>Guardrail:</b> geçemeyen görevi veri setine <b>almayan</b> koruma bariyeri.</dd></div>
+        <div class="term"><dt>Sandbox (kum havuzu)</dt><dd>Modelin ürettiği kodun güvenli, izole bir Docker konteynerinde çalıştırıldığı ortam. Ağ kapalı, yetkiler kısıtlı — zararlı/sonsuz kod ana sistemi etkileyemez.</dd></div>
+        <div class="term"><dt>Bootstrap güven aralığı (%95 GA)</dt><dd>Bir sayının ne kadar "kesin" olduğunu gösteren aralık. Görevleri rastgele yeniden örnekleyip metriği binlerce kez hesaplarız; sonuçların %95'inin düştüğü aralık budur. <b>GA sıfırı dışlıyorsa</b> fark istatistiksel olarak gerçektir.</dd></div>
+        <div class="term"><dt>Hata taksonomisi</dt><dd>Başarısızlıkları <em>türüne</em> göre sınıflama: sözdizimi hatası, çalışma hatası, eksik fonksiyon, zaman aşımı ve — en önemlisi — <b>yanlış-mantık</b> (kod çalıştı ama sonuç yanlış).</dd></div>
+        <div class="term"><dt>Token vergisi</dt><dd>Aynı problemi çözerken Türkçe'nin İngilizce'ye göre kaç kat daha fazla "token" (metin parçası) harcadığı. Doğruluk eşit olsa bile Türkçe daha pahalı olabilir.</dd></div>
+        <div class="term"><dt>Tavan (ceiling) etkisi</dt><dd>Görevler bir model için fazla kolaysa herkes yüksek puan alır ve modeller birbirinden ayrılamaz. Buna karşı <b>zor tier</b> (zor görev katmanı) ekledik.</dd></div>
+        <div class="term"><dt>Blueprint &amp; datasheet</dt><dd><b>Blueprint:</b> veri setinin "kategori × zorluk × sayı" sözleşmesi (yazımdan önce sabitlenir). <b>Datasheet:</b> köken, kapsam ve sınırlılıkların dürüst kaydı.</dd></div>
+      </dl>
+    </section>
+
+    <!-- 3 -->
+    <section id="mimari">
+      <p class="kick">Bölüm 3</p>
+      <h2>Mimari: sistem nasıl çalışır</h2>
+      <p>Sistem <strong>iki düzleme</strong> ayrılır ve bu ayrım kritiktir:</p>
+      <h3>Düzlem 1 — Yaratıcı Ajan Fabrikası (üretim)</h3>
+      <p>Yapay zeka ajanları (Mutator, Translator) veri setini <em>üretir</em>: kanonik görevlerden kılık değiştirmiş varyantlar oluşturur. Bu adım <strong>bir kez</strong> çalışır, çıktı git'e commit edilip <strong>dondurulur</strong>.</p>
+      <h3>Düzlem 2 — Deterministik Ölçüm</h3>
+      <p>Ölçüm sırasında (matris koşumu) <strong>hiçbir ajan çağrılmaz</strong>. Model kodu üretir; doğru/yanlış kararını yalnızca deterministik Sandbox + Oracle verir. Böylece benchmark'ın kendisi tekrarlanabilir kalır — yargıyı asla LLM'e bırakmayız.</p>
+      <div class="callout"><b>Neden bu ayrım?</b> Eğer ölçüm sırasında bir ajan görevleri üretse ya da puanlasaydı, aynı koşum iki kez farklı sonuç verebilirdi. Üretimi dondurup ölçümü saf kodla yapmak, sonuçların güvenilir ve tekrar üretilebilir olmasını sağlar.</div>
+      <h3>Kalite kapıları — her görev geçmek zorunda</h3>
+      <ol class="steps">
+        <li><b>Oracle guardrail:</b> referans çözüm kendi testlerini eksiksiz geçmeli (Docker'da).</li>
+        <li><b>Şema + Design-A tanımlayıcı:</b> alanlar doğru; EN prompt İngilizce, TR prompt Türkçe tanımlayıcı kullanmalı.</li>
+        <li><b>Anlam-denetimi:</b> iki dil aynı problemi anlatmalı, Türkçe doğal olmalı, senaryo mantıklı olmalı (ajan + insan).</li>
+        <li><b>Uzunluk kapısı:</b> varyant, ebeveyninden aşırı uzun olmamalı (uzunluk confound'unu önler).</li>
+        <li><b>Değişmezler:</b> sığ varyantın kod/test alanları ebeveyniyle birebir aynı kalmalı.</li>
+      </ol>
+    </section>
+
+    <!-- 4 -->
+    <section id="yolculuk">
+      <p class="kick">Bölüm 4</p>
+      <h2>Ne yaptık, ne amaçladık</h2>
+      <p>Bu oturumun hedefi tekti: <strong>16. güne (hata taksonomisi + ölçek) geçmeden önce tüm metodolojik ve istatistiksel boşlukları kapatmak</strong> ve veri setini gerçek bir benchmark ölçeğine taşımak. Sırayla:</p>
+      <ul class="clean">
+        <li><strong>İstatistiksel güç:</strong> Metrik motoruna bootstrap %95 GA eklendi. İlk koşuda "sağlam" sanılan bir bulgunun aslında gürültü olduğu (gemma vergisi) yakalandı.</li>
+        <li><strong>Confound temizliği (Design A):</strong> "İngilizce" koşumdaki gizli Türkçe tanımlayıcılar giderildi; 62 göreve İngilizce tanımlayıcılar eklendi, tam matris n=5 ile yeniden koşuldu. Sonuç: vergi <strong>sabit kaldı → gerçek</strong>; <code class="inl">coder:3b</code>'de tam sıfıra indi.</li>
+        <li><strong>Gün 16 çekirdeği:</strong> Hata taksonomisi başarısızlıkların çoğunun <strong>yanlış-mantık</strong> olduğunu, Türkçe vergisinin bir <em>mantık</em> vergisi olduğunu ortaya koydu. Ölçek eğrisi + 3 figür üretildi.</li>
+        <li><strong>Veri seti v2:</strong> Blueprint + datasheet yazıldı; 20 → 50 kanonik göreve çıkıldı (en büyük boşluk olan <strong>zor tier</strong> eklendi); ajan fabrikası Design-A'ya güncellendi; her kanoniğe sığ + derin aile üretildi. <strong>152 değerlendirme birimi, 50/50 tam aile.</strong></li>
+      </ul>
+    </section>
+
+    <!-- 5 -->
+    <section id="bulgular">
+      <p class="kick">Bölüm 5 · v1 / gün16 koşumu (868 hücre)</p>
+      <h2>Bulgular</h2>
+      <p>Aşağıdaki grafikler temizlenmiş (Design A) koşumun sonuçlarıdır. <em>Not:</em> yeni v2 seti (152 birim) koşulduğunda bu sayılar güncellenecek ve güven aralıkları daralacak.</p>
+
+      <div class="card">
+        <h4>Türkçe vergisi ve %95 güven aralığı</h4>
+        <p class="sub">Dolu nokta = anlamlı (GA sıfırı dışlıyor) · boş = belirsiz · dikey çizgi = vergi yok</p>
+        <figure><div id="taxchart"></div></figure>
+        <div class="legend"><span><span class="dot" style="background:var(--sig)"></span>Anlamlı</span><span><span class="dot" style="background:var(--nsig)"></span>Belirsiz</span></div>
+      </div>
+      <p><strong>Nasıl okunur:</strong> Her satır bir model. Yatay çubuk güven aralığı; nokta ölçülen vergi. Çubuk dikey sıfır çizgisini kesiyorsa vergi "belki sıfır" demektir (belirsiz). <code class="inl">coder:3b</code> ve <code class="inl">coder:1.5b</code> sıfırda — kod'a-özel eğitim Türkçe vergisini kapatıyor.</p>
+
+      <div class="card">
+        <h4>Başarısızlık türü — Türkçe vs İngilizce</h4>
+        <p class="sub">4340 örnek · Türkçe fazladan +347 yanlış-mantık, yalnız +44 sert hata</p>
+        <figure><div id="taxo"></div></figure>
+        <div class="legend"><span><span class="dot" style="background:var(--en)"></span>İngilizce</span><span><span class="dot" style="background:var(--tr)"></span>Türkçe</span></div>
+      </div>
+      <p><strong>Anlamı:</strong> Türkçe vergisi model "bozuk kod üretiyor"dan değil, "doğru kod ama yanlış mantık"tan geliyor. Yani model Türkçe'yi <em>yazabiliyor</em> ama Türkçe'de daha sık yanlış <em>düşünüyor</em>.</p>
+
+      <div class="card">
+        <h4>Ölçek eğrisi — pass@1, model boyutuna göre</h4>
+        <p class="sub">Aynı boyutta coder ailesi genelin üstünde; boyut arttıkça doğruluk artıyor</p>
+        <figure><div id="scale"></div></figure>
+        <div class="legend"><span><span class="dot" style="background:var(--en)"></span>qwen2.5 (genel)</span><span><span class="dot" style="background:var(--tr)"></span>qwen2.5-coder</span><span><span class="dot" style="background:var(--nsig)"></span>diğer</span></div>
+      </div>
+
+      <h3>Tüm modeller — özet tablo</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Model</th><th>pass@1</th><th>acc_en</th><th>acc_tr</th><th>TR vergisi</th><th>derin ezber Δ</th><th>token tr/en</th><th>vergi?</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- 6 -->
+    <section id="veriseti">
+      <p class="kick">Bölüm 6</p>
+      <h2>Veri seti durumu (v2)</h2>
+      <div class="tiles">
+        <div class="tile"><div class="n blue">152</div><div class="t">toplam değerlendirme birimi (50 kanonik + 50 sığ + 52 derin)</div></div>
+        <div class="tile"><div class="n">50 / 50</div><div class="t">tam aile — her kanoniğin sığ ve derin varyantı var</div></div>
+        <div class="tile"><div class="n tr">12</div><div class="t">zor görev (v1'de 0'dı) — tavan etkisine karşı</div></div>
+        <div class="tile"><div class="n">523</div><div class="t">birim testi geçiyor (şema, oracle, Design-A, CI, taksonomi)</div></div>
+      </div>
+      <p><strong>Zorluk dağılımı:</strong> 15 kolay / 23 orta / 12 zor — blueprint hedefi (%30/45/25) birebir. <strong>Kategoriler:</strong> diziler, string, matematik, mantık, özyineleme, sayma (her biri 8–9 görev).</p>
+      <p><strong>Boyut neden 50→~150?</strong> Kesinlikten geri hesaplandı: kendi verimizden ±0.07 güven aralığı için ~80, ±0.05 için ~158 kanonik gerekiyor; sektör normu (HumanEval 164) da aynı ölçeği gösteriyor.</p>
+    </section>
+
+    <!-- 7 -->
+    <section id="kilavuz">
+      <p class="kick">Bölüm 7</p>
+      <h2>Kullanım kılavuzu — hangi komut ne yapar</h2>
+      <p>Tüm komutlar proje kökünden, izole sanal ortamla (<code class="inl">.venv</code>) çalışır. Model koşumları için önce Ollama açık olmalı.</p>
+
+      <div class="cmd"><div class="lbl">0 · Model sunucusunu başlat</div>
+        <p class="desc">Yerel modelleri (qwen, gemma, llama) sunan servis.</p>
+        <pre>ollama serve            <span class="c"># arka planda</span>
+ollama list             <span class="c"># kurulu modeller</span></pre></div>
+
+      <div class="cmd"><div class="lbl">1 · Testleri koş</div>
+        <p class="desc">Şema, oracle, Design-A ve metrik motorunun tümünü doğrular (Docker gerekir).</p>
+        <pre>.venv/bin/python -m pytest -q</pre></div>
+
+      <div class="cmd"><div class="lbl">2 · Tek görevi dene (uçtan uca)</div>
+        <p class="desc">Bir görevi seçili modelle koşup üretilen kodu ve sonucu gösterir.</p>
+        <pre>.venv/bin/python src/run_task.py --gorev data/tasks/trc_001.json \
+    --model qwen2.5:3b --dil en</pre></div>
+
+      <div class="cmd"><div class="lbl">3 · Tam matris koşumu</div>
+        <p class="desc">Tüm görevler × modeller × diller × tekrarlar. Kontrol noktalı (<code class="inl">--devam</code> ile kaldığı yerden sürer).</p>
+        <pre>.venv/bin/python src/run_matrix.py --tekrar 5 --sicaklik 0.4 \
+    --cikti results/kosum.json          <span class="c"># --devam: kaldığı yerden</span></pre></div>
+
+      <div class="cmd"><div class="lbl">4 · Manşet metrikleri (CI'lı)</div>
+        <p class="desc">Kodlama yeteneği, Türkçe vergisi + %95 GA, iki-seviyeli ezber, token vergisi.</p>
+        <pre>.venv/bin/python src/metrik_ozet.py --girdi results/kosum.ckpt.jsonl</pre></div>
+
+      <div class="cmd"><div class="lbl">5 · Hata taksonomisi</div>
+        <p class="desc">Başarısızlıkları türe göre sınıflar; Türkçe vergisinin hangi hatadan geldiğini gösterir.</p>
+        <pre>.venv/bin/python src/hata_taksonomisi.py --girdi results/kosum.ckpt.jsonl</pre></div>
+
+      <div class="cmd"><div class="lbl">6 · Figürleri üret</div>
+        <p class="desc">Ölçek eğrisi, Türkçe vergisi+CI, taksonomi PNG'leri (<code class="inl">results/figures/</code>).</p>
+        <pre>.venv/bin/python src/figur_uret.py --girdi results/kosum.ckpt.jsonl</pre></div>
+
+      <div class="cmd"><div class="lbl">7 · Bir görevi kalite kapılarından geçir</div>
+        <p class="desc">Yeni/değişen görevi tüm kapılardan (oracle+şema+Design-A) tek çağrıda denetler.</p>
+        <pre>.venv/bin/python src/run_kalite_kapisi.py data/tasks/trc_063.json</pre></div>
+
+      <div class="cmd"><div class="lbl">8 · Varyant üret (ajan fabrikası)</div>
+        <p class="desc">Bir kanonikten derin (mutasyon) veya sığ (parametric) varyant. Claude Code CLI gerektirir (PATH'e ekli olmalı).</p>
+        <pre>export PATH="$HOME/.npm-global/bin:$PATH"
+.venv/bin/python src/run_mutator.py    --gorev data/tasks/trc_063.json --sayi 1
+.venv/bin/python src/run_parametric.py --gorev data/tasks/trc_063.json --sayi 1</pre></div>
+    </section>
+
+    <!-- 8 -->
+    <section id="dizin">
+      <p class="kick">Bölüm 8</p>
+      <h2>Dizin yapısı</h2>
+      <div class="tree">
+<span class="d">data/tasks/</span>          <span class="cm"># 152 görev JSON (trc_001 … trc_154)</span>
+<span class="d">src/</span>
+  run_matrix.py       <span class="cm"># tam matris koşumu (+ kontrol noktası)</span>
+  metrik_ozet.py      <span class="cm"># manşetler + bootstrap CI</span>
+  hata_taksonomisi.py <span class="cm"># başarısızlık türü sınıflandırma</span>
+  figur_uret.py       <span class="cm"># figürler (matplotlib)</span>
+  run_kalite_kapisi.py<span class="cm"># kalite kapısı zincir driver'ı</span>
+  task_io.py          <span class="cm"># serileştirme + tüm kapı fonksiyonları</span>
+  <span class="d">oracle/</span>            <span class="cm"># referans-çözüm doğrulayıcı</span>
+  <span class="d">sandbox/</span>           <span class="cm"># Docker izole koşucu + harness</span>
+  <span class="d">model_client/</span>      <span class="cm"># Ollama/LM Studio köprüsü</span>
+  <span class="d">agent_factory/</span>     <span class="cm"># Mutator, Translator, parametric (Design-A)</span>
+<span class="d">results/</span>            <span class="cm"># koşum çıktıları, figures/, panel</span>
+<span class="d">docs/</span>               <span class="cm"># bu rehber, blueprint, datasheet, defter, plan</span>
+<span class="d">tests/</span>              <span class="cm"># 523 birim testi</span></div>
+    </section>
+
+    <!-- 9 -->
+    <section id="limit">
+      <p class="kick">Bölüm 9</p>
+      <h2>Sınırlılıklar &amp; sonraki adımlar</h2>
+      <p><strong>Dürüst sınırlar (datasheet):</strong></p>
+      <ul class="clean">
+        <li>Yalnız 7 küçük yerel model (0.5–3B) ölçüldü; büyük/API modellere genellenmeyebilir.</li>
+        <li>Zor tier klasik algoritma arketipleri kullanır — yürütmeyi ölçer, keşfi değil.</li>
+        <li>Görev başına ~6 test; daha çok test yanlış-ama-geçen kodu daha iyi yakalar.</li>
+        <li>Yerel çıkarım 4GB VRAM'de bit-tekrarlanabilir değil; bu yüzden tekrar + CI ile raporlanır.</li>
+        <li>Anlam-denetimi tam mekanik değil; ölçekte insan-gözü darboğazı.</li>
+      </ul>
+      <p><strong>Sıradaki adım:</strong> v2 seti (152 birim) donduruldu; genişletilmiş sette tam matris koşulacak — güven aralıkları ~±0.09'a daralacak, ezber ve vergi n=50 üzerinden yeniden hesaplanacak, bu rehberdeki grafikler güncellenecek.</p>
+    </section>
+
+    <footer>
+      TR-CodeEval · Proje rehberi &amp; kullanım kılavuzu · Bulgular v1/gün16 koşumundan (868 hücre); veri seti v2 (152 birim, güncel). Bu belge yerelde açılan tek dosyalık bir HTML'dir — bağımlılık yoktur.
+    </footer>
+  </div></main>
+</div>
+
+<script>
+(function(){
+  // theme toggle
+  var btn=document.getElementById("themebtn");
+  btn.addEventListener("click",function(){
+    var cur=document.documentElement.getAttribute("data-theme");
+    var next = cur==="dark" ? "light" : (cur==="light" ? "dark" : (matchMedia("(prefers-color-scheme:dark)").matches?"light":"dark"));
+    document.documentElement.setAttribute("data-theme",next);
+    setTimeout(render,30);
+  });
+
+  var models=[
+    {name:"llama3.2:3b",size:3,p1:.724,en:.900,tr:.630,tax:.270,lo:.080,hi:.480,sig:true,tok:1.15,deep:.088},
+    {name:"qwen2.5:0.5b",size:.5,p1:.348,en:.520,tr:.280,tax:.240,lo:.080,hi:.390,sig:true,tok:1.21,deep:.088},
+    {name:"gemma2:2b",size:2,p1:.698,en:.910,tr:.690,tax:.220,lo:.020,hi:.410,sig:true,tok:3.14,deep:.138},
+    {name:"qwen2.5:1.5b",size:1.5,p1:.613,en:.800,tr:.650,tax:.150,lo:.050,hi:.270,sig:true,tok:1.94,deep:.215},
+    {name:"qwen2.5:3b",size:3,p1:.765,en:.880,tr:.770,tax:.110,lo:-.020,hi:.270,sig:false,tok:1.16,deep:.115},
+    {name:"qwen2.5-coder:1.5b",size:1.5,p1:.735,en:.790,tr:.780,tax:.010,lo:-.050,hi:.070,sig:false,tok:3.65,deep:.105},
+    {name:"qwen2.5-coder:3b",size:3,p1:.850,en:.890,tr:.890,tax:.000,lo:-.050,hi:.040,sig:false,tok:1.74,deep:.040}
+  ];
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function tx(e,s){e.appendChild(document.createTextNode(s));return e;}
+  function C(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+  function clear(id){var e=document.getElementById(id);while(e.firstChild)e.removeChild(e.firstChild);return e;}
+
+  function render(){
+    // tax
+    (function(){var W=720,rowH=44,padL=150,padR=38,padT=14,padB=40,H=padT+padB+models.length*rowH;
+      var x0=-.10,x1=.52;function X(v){return padL+(v-x0)/(x1-x0)*(W-padL-padR);}
+      var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+      [-.1,0,.1,.2,.3,.4,.5].forEach(function(t){svg.appendChild(el("line",{x1:X(t),y1:padT,x2:X(t),y2:H-padB,stroke:t===0?C('--ink-soft'):C('--line-soft'),"stroke-width":t===0?1.4:1}));
+        svg.appendChild(tx(el("text",{x:X(t),y:H-padB+17,"text-anchor":"middle",class:"tt"}),(t>0?"+":"")+t.toFixed(2)));});
+      models.forEach(function(m,i){var y=padT+i*rowH+rowH/2,col=m.sig?C('--sig'):C('--nsig');
+        svg.appendChild(tx(el("text",{x:padL-13,y:y+4,"text-anchor":"end",class:"tt",fill:C('--ink')}),m.name));
+        svg.appendChild(el("line",{x1:X(m.lo),y1:y,x2:X(m.hi),y2:y,stroke:col,"stroke-width":2.5,"stroke-linecap":"round"}));
+        [m.lo,m.hi].forEach(function(v){svg.appendChild(el("line",{x1:X(v),y1:y-5,x2:X(v),y2:y+5,stroke:col,"stroke-width":2}));});
+        svg.appendChild(el("circle",{cx:X(m.tax),cy:y,r:m.sig?7:6,fill:m.sig?col:C('--panel'),stroke:col,"stroke-width":2.4}));
+        var l=tx(el("text",{x:X(m.tax),y:y-12,"text-anchor":"middle",class:"tt",fill:C('--ink')}),(m.tax>0?"+":"")+m.tax.toFixed(2));l.style.fontWeight="700";svg.appendChild(l);});
+      clear("taxchart").appendChild(svg);})();
+    // taxonomy
+    (function(){var data=[{k:"yanlış-mantık",en:407,tr:754},{k:"import/runtime",en:43,tr:46},{k:"eksik fonksiyon",en:37,tr:70},{k:"sözdizimi",en:19,tr:28},{k:"zaman aşımı",en:1,tr:0}];
+      var W=720,rowH=52,padL=118,padR=52,padT=8,padB=8,H=padT+padB+data.length*rowH,max=800;
+      function X(v){return padL+v/max*(W-padL-padR);}var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+      data.forEach(function(d,i){var y=padT+i*rowH,bh=15,gap=4;
+        svg.appendChild(tx(el("text",{x:padL-12,y:y+rowH/2+2,"text-anchor":"end",class:"tt",fill:C('--ink')}),d.k));
+        [["en",C('--en'),d.en],["tr",C('--tr'),d.tr]].forEach(function(r,j){var by=y+rowH/2-bh-gap/2+j*(bh+gap);
+          svg.appendChild(el("rect",{x:padL,y:by,width:Math.max(2,X(r[2])-padL),height:bh,rx:4,fill:r[1]}));
+          svg.appendChild(tx(el("text",{x:X(r[2])+7,y:by+bh-3,class:"tt",fill:C('--ink-soft')}),r[2]));});});
+      clear("taxo").appendChild(svg);})();
+    // scale
+    (function(){var W=720,H=320,padL=52,padR=28,padT=22,padB=42,y0=.3,y1=.92;
+      function X(s){return padL+(s-.5)/(3-.5)*(W-padL-padR);}function Y(v){return padT+(1-(v-y0)/(y1-y0))*(H-padT-padB);}
+      var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+      [.3,.4,.5,.6,.7,.8,.9].forEach(function(t){svg.appendChild(el("line",{x1:padL,y1:Y(t),x2:W-padR,y2:Y(t),stroke:C('--line-soft')}));
+        svg.appendChild(tx(el("text",{x:padL-9,y:Y(t)+4,"text-anchor":"end",class:"tt"}),t.toFixed(1)));});
+      [.5,1.5,2,3].forEach(function(s){svg.appendChild(tx(el("text",{x:X(s),y:H-padB+19,"text-anchor":"middle",class:"tt"}),s+"B"));});
+      function line(pts,col){var d=pts.map(function(p,i){return(i?"L":"M")+X(p[0])+" "+Y(p[1]);}).join(" ");
+        svg.appendChild(el("path",{d:d,fill:"none",stroke:col,"stroke-width":2.5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+        pts.forEach(function(p){svg.appendChild(el("circle",{cx:X(p[0]),cy:Y(p[1]),r:5,fill:col}));});}
+      [[2,.698,"gemma2"],[3,.724,"llama3.2"]].forEach(function(o){svg.appendChild(el("circle",{cx:X(o[0]),cy:Y(o[1]),r:4.5,fill:C('--nsig')}));
+        svg.appendChild(tx(el("text",{x:X(o[0])+8,y:Y(o[1])+13,class:"tt",fill:C('--muted')}),o[2]));});
+      line([[.5,.348],[1.5,.613],[3,.765]],C('--en'));line([[1.5,.735],[3,.850]],C('--tr'));
+      var a=tx(el("text",{x:X(3)-4,y:Y(.765)+20,"text-anchor":"end",class:"tt",fill:C('--en')}),"qwen2.5");a.style.fontWeight="700";svg.appendChild(a);
+      var b=tx(el("text",{x:X(3)-4,y:Y(.850)-12,"text-anchor":"end",class:"tt",fill:C('--tr')}),"coder");b.style.fontWeight="700";svg.appendChild(b);
+      clear("scale").appendChild(svg);})();
+  }
+  render();
+
+  // table (once)
+  var tb=document.getElementById("tbody");
+  models.slice().sort(function(a,b){return b.p1-a.p1;}).forEach(function(m){var tr=document.createElement("tr");
+    function td(s,h){var d=document.createElement("td");if(h)d.innerHTML=s;else d.textContent=s;return d;}
+    tr.appendChild(td(m.name));tr.appendChild(td(m.p1.toFixed(3)));tr.appendChild(td(m.en.toFixed(3)));tr.appendChild(td(m.tr.toFixed(3)));
+    tr.appendChild(td((m.tax>0?"+":"")+m.tax.toFixed(3)+(m.sig?" *":"")));tr.appendChild(td((m.deep>0?"+":"")+m.deep.toFixed(3)));
+    tr.appendChild(td(m.tok.toFixed(2)+"×"));tr.appendChild(td('<span class="pill '+(m.sig?"yes":"no")+'">'+(m.sig?"anlamlı":"belirsiz")+'</span>',true));
+    tb.appendChild(tr);});
+})();
+</script>
+</body>
+</html>

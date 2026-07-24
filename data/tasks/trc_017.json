@@ -9,6 +9,8 @@
   "prompt_en": "Two positive integers `a` and `b` are given. Write a function that returns their GREATEST COMMON DIVISOR (GCD).",
   "fonksiyon_imzasi": "def en_buyuk_ortak_bolen(a: int, b: int) -> int:",
   "fonksiyon_adi": "en_buyuk_ortak_bolen",
+  "fonksiyon_imzasi_en": "def greatest_common_divisor(a: int, b: int) -> int:",
+  "fonksiyon_adi_en": "greatest_common_divisor",
   "referans_cozum": "def en_buyuk_ortak_bolen(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n",
   "test_cases": [
     {"girdi": [12, 8], "beklenen": 4},

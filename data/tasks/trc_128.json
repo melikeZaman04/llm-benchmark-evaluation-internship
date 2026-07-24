@@ -1,0 +1,25 @@
+{
+  "id": "trc_128",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_080",
+  "canonical_id": "trc_080",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sokakta sıra sıra dizilmiş kulelerin tam sayı yükseklikleri `yukseklikler` listesinde soldan sağa veriliyor. Yükseklikleri kesin ARTAN olan (kulelerin yan yana/bitişik olması gerekmez, ancak soldan sağa sıralarını koruması gerekir) en uzun kule alt-dizisinin uzunluğunu döndüren bir fonksiyon yaz. (Boş liste için 0.)",
+  "prompt_en": "The integer heights of towers lined up along a street are given from left to right in the list `heights`. Write a function that returns the length of the longest subsequence of towers whose heights are STRICTLY INCREASING (the towers need not be adjacent, but must keep their left-to-right order). (For an empty list, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_yukselen(yukseklikler: list[int]) -> int:",
+  "fonksiyon_adi": "en_uzun_yukselen",
+  "fonksiyon_imzasi_en": "def longest_rising(heights: list[int]) -> int:",
+  "fonksiyon_adi_en": "longest_rising",
+  "referans_cozum": "def en_uzun_yukselen(yukseklikler):\n    if not yukseklikler:\n        return 0\n    dp = [1] * len(yukseklikler)\n    for i in range(len(yukseklikler)):\n        for j in range(i):\n            if yukseklikler[j] < yukseklikler[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)\n",
+  "test_cases": [
+    {"girdi": [[10, 9, 2, 5, 3, 7, 101, 18]], "beklenen": 4},
+    {"girdi": [[1, 2, 3]], "beklenen": 3},
+    {"girdi": [[3, 2, 1]], "beklenen": 1},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5]], "beklenen": 1},
+    {"girdi": [[1, 3, 2, 4]], "beklenen": 3},
+    {"girdi": [[7, 7, 7]], "beklenen": 1}
+  ]
+}

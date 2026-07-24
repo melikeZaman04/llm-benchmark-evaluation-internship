@@ -7,9 +7,11 @@
   "canonical_id": "trc_004",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir atletizm yarışmasında sporcuların atladığı yükseklikler santimetre cinsinden tam sayı listesi `yukseklikler` olarak veriliyor. Listedeki İKİNCİ EN YÜKSEK FARKLI değeri döndüren bir fonksiyon yaz. Farklı yükseklik sayısı ikiden azsa -1 döndür.",
-  "prompt_en": "In an athletics competition, the heights cleared by the athletes are given in centimeters as a list of integers `yukseklikler`. Write a function that returns the SECOND HIGHEST DISTINCT value in the list. If there are fewer than two distinct heights, return -1.",
+  "prompt_en": "In an athletics competition, the heights cleared by the athletes are given in centimeters as a list of integers `heights`. Write a function that returns the SECOND HIGHEST DISTINCT value in the list. If there are fewer than two distinct heights, return -1.",
   "fonksiyon_imzasi": "def ikinci_en_yuksek(yukseklikler: list[int]) -> int:",
   "fonksiyon_adi": "ikinci_en_yuksek",
+  "fonksiyon_imzasi_en": "def second_tallest(heights: list[int]) -> int:",
+  "fonksiyon_adi_en": "second_tallest",
   "referans_cozum": "def ikinci_en_yuksek(yukseklikler):\n    benzersiz = sorted(set(yukseklikler), reverse=True)\n    if len(benzersiz) < 2:\n        return -1\n    return benzersiz[1]\n",
   "test_cases": [
     {"girdi": [[3, 1, 2]], "beklenen": 2},

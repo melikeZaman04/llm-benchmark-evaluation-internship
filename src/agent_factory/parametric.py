@@ -50,7 +50,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from agent_factory.client import AjanCagriHatasi  # noqa: E402
 from agent_factory.translator import promptlari_cevir  # noqa: E402
 from oracle.task_validator import gorevi_dogrula  # noqa: E402
-from task_io import degismezleri_dogrula, uzunluk_kapisi  # noqa: E402
+from task_io import (degismezleri_dogrula, uzunluk_kapisi,  # noqa: E402
+                     metadatayi_dogrula, tanimlayici_kapisi)
 
 
 def _secenekler(sablon: dict) -> list[dict[str, str]]:
@@ -143,6 +144,14 @@ def varyantlari_uret(kanonik: dict, idler: list[str],
             raise AjanCagriHatasi(
                 f"Parametrik varyant aşırı uzun ({yeni_id}): " + "; ".join(asirilik),
                 maliyet_usd=maliyet,
+            )
+
+        # Design-A: EN prompt İngilizce, TR prompt Türkçe tanımlayıcı kullanmalı.
+        tanimlayici_hatalari = tanimlayici_kapisi(varyant) + metadatayi_dogrula(varyant)
+        if tanimlayici_hatalari:
+            raise AjanCagriHatasi(
+                f"Parametrik varyant Design-A kapısına takıldı ({yeni_id}): "
+                + "; ".join(tanimlayici_hatalari), maliyet_usd=maliyet,
             )
 
         dogrulama = gorevi_dogrula(varyant)

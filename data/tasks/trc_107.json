@@ -1,0 +1,23 @@
+{
+  "id": "trc_107",
+  "kategori": "string",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_070",
+  "canonical_id": "trc_070",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir seçim sayımında her oy pusulasına, seçilen adayın kodu tek bir karakterle işaretleniyor ve tüm işaretler sırayla boş olmayan bir `metin` içinde toplanıyor. En ÇOK işaretlenen aday karakterini döndüren bir fonksiyon yaz. Birden fazla aday aynı sayıda işaret aldıysa, alfabetik olarak en KÜÇÜK karakteri döndür.",
+  "prompt_en": "In a vote count, each ballot marks the chosen candidate's code as a single character, and all marks are collected in order in a non-empty `text`. Write a function that returns the MOST marked candidate character. If several candidates received the same number of marks, return the alphabetically SMALLEST character.",
+  "fonksiyon_imzasi": "def en_sik_karakter(metin: str) -> str:",
+  "fonksiyon_adi": "en_sik_karakter",
+  "fonksiyon_imzasi_en": "def most_frequent_char(text: str) -> str:",
+  "fonksiyon_adi_en": "most_frequent_char",
+  "referans_cozum": "def en_sik_karakter(metin):\n    from collections import Counter\n    sayim = Counter(metin)\n    return min(sayim, key=lambda c: (-sayim[c], c))\n",
+  "test_cases": [
+    {"girdi": ["aabbbc"], "beklenen": "b"},
+    {"girdi": ["abc"], "beklenen": "a"},
+    {"girdi": ["zzxy"], "beklenen": "z"},
+    {"girdi": ["mississippi"], "beklenen": "i"},
+    {"girdi": ["a"], "beklenen": "a"}
+  ]
+}

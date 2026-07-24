@@ -1,0 +1,24 @@
+{
+  "id": "trc_109",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_071",
+  "canonical_id": "trc_071",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir depoda her ürünün pozitif bir tam sayı olan bir seri numarası `n` vardır. Bu seri numarasının FARKLI asal çarpanlarını ARTAN sırada bir liste olarak döndüren `asal_carpanlar` fonksiyonunu yaz. (Seri numarası `n`=1 ise boş liste döndür.)",
+  "prompt_en": "In a warehouse, each product has a serial number `n` that is a positive integer. Write the function `prime_factors` that returns the DISTINCT prime factors of this serial number in ASCENDING order as a list. (If the serial number `n`=1, return an empty list.)",
+  "fonksiyon_imzasi": "def asal_carpanlar(n: int) -> list[int]:",
+  "fonksiyon_adi": "asal_carpanlar",
+  "fonksiyon_imzasi_en": "def prime_factors(n: int) -> list[int]:",
+  "fonksiyon_adi_en": "prime_factors",
+  "referans_cozum": "def asal_carpanlar(n):\n    carpanlar = []\n    d = 2\n    while d * d <= n:\n        if n % d == 0:\n            carpanlar.append(d)\n            while n % d == 0:\n                n //= d\n        d += 1\n    if n > 1:\n        carpanlar.append(n)\n    return carpanlar\n",
+  "test_cases": [
+    {"girdi": [12], "beklenen": [2, 3]},
+    {"girdi": [17], "beklenen": [17]},
+    {"girdi": [1], "beklenen": []},
+    {"girdi": [60], "beklenen": [2, 3, 5]},
+    {"girdi": [8], "beklenen": [2]},
+    {"girdi": [100], "beklenen": [2, 5]}
+  ]
+}

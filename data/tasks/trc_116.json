@@ -1,0 +1,24 @@
+{
+  "id": "trc_116",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_074",
+  "canonical_id": "trc_074",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir kültürdeki tek bir hücreyle başlıyorsun. Her nesilde her hücre `bolunme_carpani` kadar hücreye bölünüyor. `nesil` negatif olmayan bir tam sayıdır. `nesil` nesil sonra kültürdeki toplam hücre sayısını (bolunme_carpani**nesil) döndüren bir fonksiyon yaz. (`nesil`=0 için başlangıçtaki tek hücre, yani 1.)",
+  "prompt_en": "You start with a single cell in a culture. In each generation every cell divides into `split_factor` cells. `generations` is a non-negative integer. Write a function that returns the total number of cells in the culture after `generations` generations (split_factor**generations). (For `generations`=0, there is only the initial single cell, i.e. 1.)",
+  "fonksiyon_imzasi": "def hucre_sayisi(bolunme_carpani: int, nesil: int) -> int:",
+  "fonksiyon_adi": "hucre_sayisi",
+  "fonksiyon_imzasi_en": "def cell_count(split_factor: int, generations: int) -> int:",
+  "fonksiyon_adi_en": "cell_count",
+  "referans_cozum": "def hucre_sayisi(bolunme_carpani, nesil):\n    if nesil == 0:\n        return 1\n    return bolunme_carpani * hucre_sayisi(bolunme_carpani, nesil - 1)\n",
+  "test_cases": [
+    {"girdi": [2, 10], "beklenen": 1024},
+    {"girdi": [5, 0], "beklenen": 1},
+    {"girdi": [3, 3], "beklenen": 27},
+    {"girdi": [1, 100], "beklenen": 1},
+    {"girdi": [10, 2], "beklenen": 100},
+    {"girdi": [7, 1], "beklenen": 7}
+  ]
+}

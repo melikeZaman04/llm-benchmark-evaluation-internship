@@ -1,0 +1,24 @@
+{
+  "id": "trc_072",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_072",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. Bu listenin 1'den n'e kadar olan sayıların bir PERMÜTASYONU olup olmadığını (her sayı tam bir kez, n = liste uzunluğu) True/False döndüren bir fonksiyon yaz. (Boş liste için True.)",
+  "prompt_en": "A list of integers `numbers` is given. Write a function that returns True/False for whether the list is a PERMUTATION of the numbers 1..n (each exactly once, where n is the list length). (For an empty list, return True.)",
+  "fonksiyon_imzasi": "def permutasyon_mu(sayilar: list[int]) -> bool:",
+  "fonksiyon_adi": "permutasyon_mu",
+  "fonksiyon_imzasi_en": "def is_permutation(numbers: list[int]) -> bool:",
+  "fonksiyon_adi_en": "is_permutation",
+  "referans_cozum": "def permutasyon_mu(sayilar):\n    return sorted(sayilar) == list(range(1, len(sayilar) + 1))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": true},
+    {"girdi": [[3, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 1, 2]], "beklenen": false},
+    {"girdi": [[]], "beklenen": true},
+    {"girdi": [[2, 3, 4]], "beklenen": false},
+    {"girdi": [[1]], "beklenen": true}
+  ],
+  "sablon": {"öğe": ["sıra numarası", "koltuk numarası", "sıra fişi"]}
+}

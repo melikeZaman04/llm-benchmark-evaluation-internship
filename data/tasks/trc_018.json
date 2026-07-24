@@ -6,9 +6,11 @@
   "canonical_id": "trc_018",
   "variant_type": "canonical",
   "prompt_tr": "Kelimeleri boşlukla ayrılmış bir `metin` veriliyor. Metindeki KELİME SAYISINI döndüren bir fonksiyon yaz. Birden fazla ardışık boşluk olabilir; başta/sonda boşluk olabilir.",
-  "prompt_en": "A string `metin` with words separated by spaces is given. Write a function that returns the NUMBER OF WORDS in the text. There may be multiple consecutive spaces, and leading/trailing spaces may exist.",
+  "prompt_en": "A string `text` with words separated by spaces is given. Write a function that returns the NUMBER OF WORDS in the text. There may be multiple consecutive spaces, and leading/trailing spaces may exist.",
   "fonksiyon_imzasi": "def kelime_sayisi(metin: str) -> int:",
   "fonksiyon_adi": "kelime_sayisi",
+  "fonksiyon_imzasi_en": "def word_count(text: str) -> int:",
+  "fonksiyon_adi_en": "word_count",
   "referans_cozum": "def kelime_sayisi(metin):\n    return len(metin.split())\n",
   "test_cases": [
     {"girdi": ["merhaba dunya"], "beklenen": 2},

@@ -43,14 +43,19 @@ VARYANT_TIPLERI = frozenset({
 DEGISMEZ_ALANLAR = ("fonksiyon_imzasi", "fonksiyon_adi", "referans_cozum",
                     "test_cases", "karsilastirma")
 
+#: Ebeveyni ile AYNI imzayı taşıyan (parametric_story) varyantlar için ek
+#: değişmezler: dil-başına tanımlayıcılar da byte-byte kopyalanmalı. Yalnız
+#: _en alanları mevcutsa denetlenir (parametric.py, story_mutation hariç).
+DEGISMEZ_ALANLAR_EN = ("fonksiyon_imzasi_en", "fonksiyon_adi_en")
+
 #: Dosyaya yazarken kullanılan sabit alan sırası. Üreteçler alanları farklı
 #: sırayla ekleyebilir (ör. `id` en sona düşebilir); veri seti yayınlanacak
 #: bir eser olduğu için dosyalar TEK ve öngörülebilir bir sırada yazılır.
 #: Listede olmayan alanlar sonuna, kendi aralarında alfabetik eklenir.
 ALAN_SIRASI = ("id", "kategori", "zorluk", "kaynak", "ebeveyn", "canonical_id",
                "variant_type", "prompt_tr", "prompt_en", "fonksiyon_imzasi",
-               "fonksiyon_adi", "referans_cozum", "test_cases", "karsilastirma",
-               "sablon")
+               "fonksiyon_adi", "fonksiyon_imzasi_en", "fonksiyon_adi_en",
+               "referans_cozum", "test_cases", "karsilastirma", "sablon")
 
 
 # --- Serileştirme ---------------------------------------------------------
@@ -160,6 +165,43 @@ def metadatayi_dogrula(gorev: dict) -> list[str]:
     if ad and f"def {ad}" not in cozum:
         hatalar.append(f"{gorev_id}: referans_cozum 'def {ad}' tanımını içermiyor")
 
+    # Dil-başına tanımlayıcılar (Design A): _en alanları varsa ikisi de bulunmalı
+    # ve fonksiyon_adi_en, fonksiyon_imzasi_en içinde 'def <ad>' olarak geçmeli.
+    imza_en = gorev.get("fonksiyon_imzasi_en")
+    ad_en = gorev.get("fonksiyon_adi_en")
+    if imza_en or ad_en:
+        if not (imza_en and ad_en):
+            hatalar.append(f"{gorev_id}: fonksiyon_imzasi_en ve fonksiyon_adi_en "
+                           "birlikte bulunmalı (biri eksik)")
+        elif f"def {ad_en}" not in imza_en:
+            hatalar.append(f"{gorev_id}: fonksiyon_imzasi_en 'def {ad_en}' içermiyor")
+
+    return hatalar
+
+
+def _imza_parametreleri(imza: str) -> set:
+    return set(re.findall(r"[(,]\s*([A-Za-z_]\w*)\s*:", imza or ""))
+
+
+def tanimlayici_kapisi(gorev: dict) -> list[str]:
+    """Design A: prompt backtick'leri İLGİLİ DİLİN imzasıyla eşleşmeli.
+
+    prompt_tr yalnız Türkçe imzadaki (fonksiyon_imzasi/adi) tanımlayıcıları,
+    prompt_en yalnız İngilizce imzadaki (fonksiyon_imzasi_en/adi_en; yoksa
+    TR'ye düşer) tanımlayıcıları backtick'leyebilir. EN sütununa Türkçe
+    tanımlayıcı sızması (ya da tersi) bu kapıda yakalanır.
+    """
+    gid = gorev.get("id", "<id yok>")
+    tr = _imza_parametreleri(gorev.get("fonksiyon_imzasi")) | {gorev.get("fonksiyon_adi")}
+    en_imza = gorev.get("fonksiyon_imzasi_en") or gorev.get("fonksiyon_imzasi")
+    en = _imza_parametreleri(en_imza) | {gorev.get("fonksiyon_adi_en") or gorev.get("fonksiyon_adi")}
+    hatalar = []
+    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_tr", "")):
+        if t not in tr:
+            hatalar.append(f"{gid}: TR prompt `{t}` TR imzada yok")
+    for t in re.findall(r"`([A-Za-z_]\w*)`", gorev.get("prompt_en", "")):
+        if t not in en:
+            hatalar.append(f"{gid}: EN prompt `{t}` EN imzada yok")
     return hatalar
 
 

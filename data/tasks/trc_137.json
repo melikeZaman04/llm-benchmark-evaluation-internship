@@ -1,0 +1,24 @@
+{
+  "id": "trc_137",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_085",
+  "canonical_id": "trc_085",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir tarayıcının gezinti geçmişi, ziyaret edilen sayfaların kodlarını sırayla içeren bir `metin` olarak veriliyor. Hiçbir sayfa kodunun TEKRARLANMADIĞI en uzun BİTİŞİK bölümün uzunluğunu döndüren bir fonksiyon yaz. (Boş geçmiş için 0.)",
+  "prompt_en": "A browser's navigation history is given as a `text` listing the codes of visited pages in order. Write a function that returns the length of the longest CONTIGUOUS stretch in which no page code REPEATS. (For an empty history, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_tekrarsiz(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_tekrarsiz",
+  "fonksiyon_imzasi_en": "def longest_unique(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_unique",
+  "referans_cozum": "def en_uzun_tekrarsiz(metin):\n    gorulen = {}\n    sol = en = 0\n    for sag, c in enumerate(metin):\n        if c in gorulen and gorulen[c] >= sol:\n            sol = gorulen[c] + 1\n        gorulen[c] = sag\n        en = max(en, sag - sol + 1)\n    return en\n",
+  "test_cases": [
+    {"girdi": ["abcabcbb"], "beklenen": 3},
+    {"girdi": ["bbbb"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["pwwkew"], "beklenen": 3},
+    {"girdi": ["abcdef"], "beklenen": 6},
+    {"girdi": ["abba"], "beklenen": 2}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "trc_117",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_075",
+  "canonical_id": "trc_075",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir ekibin nöbet sırası, çalışan numaralarından oluşan `sayilar` listesiyle veriliyor; `k` ise negatif olmayan bir kaydırma miktarıdır. Bu sırayı `k` adım SAĞA kaydıran (sondaki çalışan en öne geçer) bir fonksiyon yaz. `k`, listedeki çalışan sayısından büyük olabilir.",
+  "prompt_en": "A team's shift order is given as a list `numbers` of employee IDs, and `k` is a non-negative shift amount. Write a function that shifts this order `k` steps to the RIGHT (the last employee moves to the front). `k` may exceed the number of employees in the list.",
+  "fonksiyon_imzasi": "def saga_dondur(sayilar: list[int], k: int) -> list[int]:",
+  "fonksiyon_adi": "saga_dondur",
+  "fonksiyon_imzasi_en": "def rotate_right(numbers: list[int], k: int) -> list[int]:",
+  "fonksiyon_adi_en": "rotate_right",
+  "referans_cozum": "def saga_dondur(sayilar, k):\n    n = len(sayilar)\n    if n == 0:\n        return []\n    k %= n\n    return sayilar[-k:] + sayilar[:-k] if k else list(sayilar)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4, 5], 2], "beklenen": [4, 5, 1, 2, 3]},
+    {"girdi": [[1, 2, 3], 0], "beklenen": [1, 2, 3]},
+    {"girdi": [[1, 2, 3], 3], "beklenen": [1, 2, 3]},
+    {"girdi": [[], 2], "beklenen": []},
+    {"girdi": [[1, 2], 5], "beklenen": [2, 1]},
+    {"girdi": [[1, 2, 3, 4], 1], "beklenen": [4, 1, 2, 3]}
+  ]
+}

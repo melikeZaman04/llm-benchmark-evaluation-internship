@@ -1,0 +1,23 @@
+{
+  "id": "trc_123",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_078",
+  "canonical_id": "trc_078",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir paketleme hattında, yalnızca '(' ve ')' karakterlerinden oluşan bir `ifade` veriliyor; '(' mevcut kutunun içine yeni bir kutu yerleştirmeyi, ')' ise en içteki kutuyu kapatmayı gösterir. İç içe geçen kutuların ULAŞTIĞI en büyük derinliği döndüren bir fonksiyon yaz. (Boş metin için 0; kutuların dengeli biçimde kapatıldığı varsayılır.)",
+  "prompt_en": "On a packing line, an `expr` consisting only of '(' and ')' characters is given; '(' means placing a new box inside the current box, and ')' means closing the innermost box. Write a function that returns the maximum nesting DEPTH reached by these boxes. (For an empty string, return 0; assume the boxes are closed in a balanced way.)",
+  "fonksiyon_imzasi": "def maks_derinlik(ifade: str) -> int:",
+  "fonksiyon_adi": "maks_derinlik",
+  "fonksiyon_imzasi_en": "def max_depth(expr: str) -> int:",
+  "fonksiyon_adi_en": "max_depth",
+  "referans_cozum": "def maks_derinlik(ifade):\n    derinlik = en = 0\n    for c in ifade:\n        if c == '(':\n            derinlik += 1\n            en = max(en, derinlik)\n        elif c == ')':\n            derinlik -= 1\n    return en\n",
+  "test_cases": [
+    {"girdi": ["(())"], "beklenen": 2},
+    {"girdi": ["()()"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["((()))"], "beklenen": 3},
+    {"girdi": ["(()(()))"], "beklenen": 3}
+  ]
+}

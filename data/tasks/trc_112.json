@@ -1,0 +1,24 @@
+{
+  "id": "trc_112",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_072",
+  "canonical_id": "trc_072",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sinema salonundaki seyircilere dağıtılan koltuk numaralarının listesi `koltuk_numaralari` veriliyor. Salonda toplam n koltuk vardır (n = liste uzunluğu) ve koltuklar 1'den n'e kadar numaralanmıştır. Bu dağıtımın geçerli olması için her koltuk numarasının tam olarak bir kez kullanılmış olması gerekir. Verilen listenin 1'den n'e kadar olan koltuk numaralarının bir PERMÜTASYONU olup olmadığını (her numara tam bir kez) True/False döndüren bir fonksiyon yaz. (Boş liste için True.)",
+  "prompt_en": "A list `seat_numbers` of the seat numbers handed out to the audience in a cinema hall is given. The hall has a total of n seats (where n is the list length), numbered from 1 to n. For the assignment to be valid, each seat number must be used exactly once. Write a function that returns True/False for whether the given list is a PERMUTATION of the seat numbers 1..n (each number exactly once). (For an empty list, return True.)",
+  "fonksiyon_imzasi": "def koltuklar_gecerli_mi(koltuk_numaralari: list[int]) -> bool:",
+  "fonksiyon_adi": "koltuklar_gecerli_mi",
+  "fonksiyon_imzasi_en": "def are_seats_valid(seat_numbers: list[int]) -> bool:",
+  "fonksiyon_adi_en": "are_seats_valid",
+  "referans_cozum": "def koltuklar_gecerli_mi(koltuk_numaralari):\n    return sorted(koltuk_numaralari) == list(range(1, len(koltuk_numaralari) + 1))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": true},
+    {"girdi": [[3, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 1, 2]], "beklenen": false},
+    {"girdi": [[]], "beklenen": true},
+    {"girdi": [[2, 3, 4]], "beklenen": false},
+    {"girdi": [[1]], "beklenen": true}
+  ]
+}

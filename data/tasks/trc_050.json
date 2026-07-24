@@ -7,9 +7,11 @@
   "canonical_id": "trc_006",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir depo yönetim sisteminde her ürüne negatif olmayan bir tam sayı `stok_kodu` atanır. Sistem, kodun doğru girilip girilmediğini anlamak için kodun basamaklarının toplamından oluşan bir kontrol değeri hesaplar. Verilen `stok_kodu` için bu kontrol değerini döndüren bir fonksiyon yaz. Örneğin 4567 stok kodu için 4+5+6+7 = 22.",
-  "prompt_en": "In a warehouse management system, each product is assigned a non-negative integer `stok_kodu` (stock code). To check whether the code was entered correctly, the system computes a check value equal to the sum of the code's digits. Write a function that returns this check value for the given `stok_kodu`. For example, for the stock code 4567 the result is 4+5+6+7 = 22.",
+  "prompt_en": "In a warehouse management system, each product is assigned a non-negative integer `stock_code` (stock code). To check whether the code was entered correctly, the system computes a check value equal to the sum of the code's digits. Write a function that returns this check value for the given `stock_code`. For example, for the stock code 4567 the result is 4+5+6+7 = 22.",
   "fonksiyon_imzasi": "def kontrol_degeri(stok_kodu: int) -> int:",
   "fonksiyon_adi": "kontrol_degeri",
+  "fonksiyon_imzasi_en": "def check_value(stock_code: int) -> int:",
+  "fonksiyon_adi_en": "check_value",
   "referans_cozum": "def kontrol_degeri(stok_kodu):\n    return sum(int(c) for c in str(stok_kodu))\n",
   "test_cases": [
     {"girdi": [123], "beklenen": 6},

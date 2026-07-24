@@ -6,9 +6,11 @@
   "canonical_id": "trc_016",
   "variant_type": "canonical",
   "prompt_tr": "İçinde tam sayılar ve/veya başka listeler barındırabilen (iç içe, herhangi bir derinlikte) bir liste `liste` veriliyor. İçindeki TÜM tam sayıların toplamını döndüren bir fonksiyon yaz.",
-  "prompt_en": "A list `liste` is given that may contain integers and/or other lists (nested, at any depth). Write a function that returns the sum of ALL integers inside it.",
+  "prompt_en": "A list `lst` is given that may contain integers and/or other lists (nested, at any depth). Write a function that returns the sum of ALL integers inside it.",
   "fonksiyon_imzasi": "def ic_ice_liste_toplami(liste: list) -> int:",
   "fonksiyon_adi": "ic_ice_liste_toplami",
+  "fonksiyon_imzasi_en": "def nested_list_sum(lst: list) -> int:",
+  "fonksiyon_adi_en": "nested_list_sum",
   "referans_cozum": "def ic_ice_liste_toplami(liste):\n    toplam = 0\n    for eleman in liste:\n        if isinstance(eleman, list):\n            toplam += ic_ice_liste_toplami(eleman)\n        else:\n            toplam += eleman\n    return toplam\n",
   "test_cases": [
     {"girdi": [[1, 2, 3]], "beklenen": 6},

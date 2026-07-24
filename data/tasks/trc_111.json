@@ -1,0 +1,24 @@
+{
+  "id": "trc_111",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_072",
+  "canonical_id": "trc_072",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir tiyatro salonunda tam n koltuk vardır ve koltuklar 1'den n'e kadar numaralanmıştır. Kapıda toplanan biletlerdeki koltuk numaraları `sayilar` listesinde veriliyor. Bu listenin 1'den n'e kadar olan numaraların bir PERMÜTASYONU olup olmadığını (her koltuk numarası tam bir kez, n = liste uzunluğu) True/False döndüren bir fonksiyon yaz. (Boş liste için True.)",
+  "prompt_en": "A theater hall has exactly n seats, numbered from 1 to n. The seat numbers on the tickets collected at the door are given in the list `numbers`. Write a function that returns True/False for whether this list is a PERMUTATION of the numbers 1..n (each seat number exactly once, where n is the list length). (For an empty list, return True.)",
+  "fonksiyon_imzasi": "def permutasyon_mu(sayilar: list[int]) -> bool:",
+  "fonksiyon_adi": "permutasyon_mu",
+  "fonksiyon_imzasi_en": "def is_permutation(numbers: list[int]) -> bool:",
+  "fonksiyon_adi_en": "is_permutation",
+  "referans_cozum": "def permutasyon_mu(sayilar):\n    return sorted(sayilar) == list(range(1, len(sayilar) + 1))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": true},
+    {"girdi": [[3, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 1, 2]], "beklenen": false},
+    {"girdi": [[]], "beklenen": true},
+    {"girdi": [[2, 3, 4]], "beklenen": false},
+    {"girdi": [[1]], "beklenen": true}
+  ]
+}

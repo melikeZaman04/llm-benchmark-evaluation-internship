@@ -1,0 +1,23 @@
+{
+  "id": "trc_150",
+  "kategori": "sayma",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_091",
+  "canonical_id": "trc_091",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir otoparkta okunan araç bilet numaralarının listesi `bilet_numaralari` (tam sayılar) veriliyor. Bu listedeki ÇİFT numaralı biletlerin adedini döndüren bir fonksiyon yaz. (0 çifttir.)",
+  "prompt_en": "A list of vehicle ticket numbers `ticket_numbers` (integers) read at a parking lot is given. Write a function that returns the count of EVEN-numbered tickets in this list. (0 is even.)",
+  "fonksiyon_imzasi": "def cift_bilet_sayisi(bilet_numaralari: list[int]) -> int:",
+  "fonksiyon_adi": "cift_bilet_sayisi",
+  "fonksiyon_imzasi_en": "def count_even_tickets(ticket_numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "count_even_tickets",
+  "referans_cozum": "def cift_bilet_sayisi(bilet_numaralari):\n    return sum(1 for x in bilet_numaralari if x % 2 == 0)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4]], "beklenen": 2},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[1, 3, 5]], "beklenen": 0},
+    {"girdi": [[2, 4, 6]], "beklenen": 3},
+    {"girdi": [[0]], "beklenen": 1}
+  ]
+}

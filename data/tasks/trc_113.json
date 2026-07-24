@@ -1,0 +1,23 @@
+{
+  "id": "trc_113",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_073",
+  "canonical_id": "trc_073",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir renk şeridi, her karakteri bir boncuğun rengini temsil eden `metin` olarak veriliyor. Aynı rengin ARDIŞIK olarak tekrarlandığı en uzun kesintisiz bölümün uzunluğunu döndüren bir fonksiyon yaz. (Boş şerit için 0.)",
+  "prompt_en": "A color strip is given as a `text` in which each character represents the color of one bead. Write a function that returns the length of the longest unbroken section where the same color repeats CONSECUTIVELY. (For an empty strip, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_tekrar(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_tekrar",
+  "fonksiyon_imzasi_en": "def longest_run(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_run",
+  "referans_cozum": "def en_uzun_tekrar(metin):\n    if not metin:\n        return 0\n    en = sayac = 1\n    for i in range(1, len(metin)):\n        if metin[i] == metin[i - 1]:\n            sayac += 1\n            en = max(en, sayac)\n        else:\n            sayac = 1\n    return en\n",
+  "test_cases": [
+    {"girdi": ["aabbbc"], "beklenen": 3},
+    {"girdi": ["abc"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["aabbaa"], "beklenen": 2}
+  ]
+}

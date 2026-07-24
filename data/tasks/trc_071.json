@@ -1,0 +1,24 @@
+{
+  "id": "trc_071",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_071",
+  "variant_type": "canonical",
+  "prompt_tr": "Pozitif bir tam sayı `n` veriliyor. `n`'in FARKLI asal çarpanlarını ARTAN sırada bir liste olarak döndüren bir fonksiyon yaz. (`n`=1 için boş liste.)",
+  "prompt_en": "A positive integer `n` is given. Write a function that returns the DISTINCT prime factors of `n` in ASCENDING order as a list. (For `n`=1, return an empty list.)",
+  "fonksiyon_imzasi": "def asal_carpanlar(n: int) -> list[int]:",
+  "fonksiyon_adi": "asal_carpanlar",
+  "fonksiyon_imzasi_en": "def prime_factors(n: int) -> list[int]:",
+  "fonksiyon_adi_en": "prime_factors",
+  "referans_cozum": "def asal_carpanlar(n):\n    carpanlar = []\n    d = 2\n    while d * d <= n:\n        if n % d == 0:\n            carpanlar.append(d)\n            while n % d == 0:\n                n //= d\n        d += 1\n    if n > 1:\n        carpanlar.append(n)\n    return carpanlar\n",
+  "test_cases": [
+    {"girdi": [12], "beklenen": [2, 3]},
+    {"girdi": [17], "beklenen": [17]},
+    {"girdi": [1], "beklenen": []},
+    {"girdi": [60], "beklenen": [2, 3, 5]},
+    {"girdi": [8], "beklenen": [2]},
+    {"girdi": [100], "beklenen": [2, 5]}
+  ],
+  "sablon": {"sayı": ["tam sayı", "seri numarası", "ürün kodu"]}
+}

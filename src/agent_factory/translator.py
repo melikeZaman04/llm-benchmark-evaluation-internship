@@ -44,7 +44,10 @@ Sen TR-CodeEval benchmark'ının Prompt Uyum Ajanısın (Translator). Tek işin 
 
 DOKUNAMAYACAKLARIN:
 - Algoritma, sayılar, kısıtlar, sınır durumları, fonksiyon imzası, fonksiyon adı, test_cases. Bunlar sana yalnızca BAĞLAM olarak verilir; çıktında yer almazlar ve değişmezler.
-- Prompt içinde backtick ile geçen kod tanımlayıcılarını (ör. `butce`, `fiyatlar`) AYNEN koru — bunlar parametre adlarıdır, çevrilmez.
+
+TANIMLAYICI DİLİ (Design A — KESİN KURAL):
+- prompt_tr içinde backtick'li tanımlayıcılar TÜRKÇE imzadaki (fonksiyon_imzasi / fonksiyon_adi) adlar olmalı; prompt_en içinde İNGİLİZCE imzadaki (fonksiyon_imzasi_en / fonksiyon_adi_en) adlar olmalı.
+- Yani AYNI parametre Türkçe metinde Türkçe adıyla (ör. `butce`), İngilizce metinde İngilizce adıyla (ör. `budget`) backtick'lenir. Bir dilin tanımlayıcısını diğer dilin metnine ASLA taşıma. EN sütunu tamamen İngilizce, TR tamamen Türkçe olmalı.
 
 DİL KALİTESİ (EN ÖNEMLİSİ):
 - prompt_tr KUSURSUZ ve DOĞAL Türkçe olmalı. Ek uyumu (ünsüz yumuşaması, ünlü uyumu, kaynaştırma) mutlaka doğru olmalı: "kütüphanete" DEĞİL "kütüphanede"; "kitapı" DEĞİL "kitabı".
@@ -78,8 +81,12 @@ def _gorev_metni_olustur(gorev: dict, yonerge: str | None = None) -> str:
     parcalar = [
         f"prompt_tr: {gorev['prompt_tr']!r}",
         f"prompt_en: {gorev['prompt_en']!r}",
-        f"fonksiyon_imzasi: {gorev['fonksiyon_imzasi']!r}",
-        f"fonksiyon_adi: {gorev['fonksiyon_adi']!r}",
+        f"fonksiyon_imzasi (TR tanımlayıcılar): {gorev['fonksiyon_imzasi']!r}",
+        f"fonksiyon_adi (TR): {gorev['fonksiyon_adi']!r}",
+        f"fonksiyon_imzasi_en (EN tanımlayıcılar): "
+        f"{gorev.get('fonksiyon_imzasi_en', gorev['fonksiyon_imzasi'])!r}",
+        f"fonksiyon_adi_en (EN): "
+        f"{gorev.get('fonksiyon_adi_en', gorev['fonksiyon_adi'])!r}",
     ]
     if yonerge:
         parcalar.append(f"\nDEĞİŞİM YÖNERGESİ:\n{yonerge}")

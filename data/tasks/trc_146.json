@@ -1,0 +1,25 @@
+{
+  "id": "trc_146",
+  "kategori": "mantik",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_089",
+  "canonical_id": "trc_089",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir depoda ürünler üç boy iç içe kaba yerleştiriliyor: küçük '()', orta '[]' ve büyük '{}'. Her kabın açılışı bir sol karakter, kapanışı ise ona uygun sağ karakterle temsil ediliyor. Yalnızca bu altı karakterden oluşan bir `dizilim` veriliyor. Kapların doğru türde ve doğru sırada (yani en son açılan kabın ilk kapanması kuralına uygun) kapatılıp kapatılmadığını (dengeli mi) True/False döndüren bir fonksiyon yaz. (Boş dizilim için True.)",
+  "prompt_en": "In a warehouse, items are placed into three sizes of nested containers: small '()', medium '[]' and large '{}'. Each container's opening is a left character and its closing is the matching right character. A `sequence` consisting only of these six characters is given. Write a function that returns True/False for whether the containers are closed in the correct type and correct order (i.e. the most recently opened container must close first), meaning balanced. (For an empty sequence, return True.)",
+  "fonksiyon_imzasi": "def kaplar_dengeli_mi(dizilim: str) -> bool:",
+  "fonksiyon_adi": "kaplar_dengeli_mi",
+  "fonksiyon_imzasi_en": "def containers_balanced(sequence: str) -> bool:",
+  "fonksiyon_adi_en": "containers_balanced",
+  "referans_cozum": "def kaplar_dengeli_mi(dizilim):\n    es = {')': '(', ']': '[', '}': '{'}\n    yigin = []\n    for c in dizilim:\n        if c in '([{':\n            yigin.append(c)\n        elif c in es:\n            if not yigin or yigin.pop() != es[c]:\n                return False\n    return not yigin\n",
+  "test_cases": [
+    {"girdi": ["()[]{}"], "beklenen": true},
+    {"girdi": ["([)]"], "beklenen": false},
+    {"girdi": ["{[]}"], "beklenen": true},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["("], "beklenen": false},
+    {"girdi": ["]"], "beklenen": false},
+    {"girdi": ["((()))"], "beklenen": true}
+  ]
+}

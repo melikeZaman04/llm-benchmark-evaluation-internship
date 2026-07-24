@@ -1,0 +1,26 @@
+{
+  "id": "trc_065",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_065",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir `metin` veriliyor. `metin` içindeki en uzun PALİNDROM alt-dizgenin uzunluğunu döndüren bir fonksiyon yaz. (Alt-dizge bitişik karakterlerden oluşur; büyük/küçük harf olduğu gibi dikkate alınır.)",
+  "prompt_en": "You are given a `text`. Write a function that returns the length of the longest PALINDROMIC substring within `text`. (A substring is a contiguous run of characters; letter case is taken as-is.)",
+  "fonksiyon_imzasi": "def en_uzun_palindrom(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_palindrom",
+  "fonksiyon_imzasi_en": "def longest_palindrome(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_palindrome",
+  "referans_cozum": "def en_uzun_palindrom(metin):\n    if not metin:\n        return 0\n    en = 1\n    def genislet(sol, sag):\n        while sol >= 0 and sag < len(metin) and metin[sol] == metin[sag]:\n            sol -= 1\n            sag += 1\n        return sag - sol - 1\n    for i in range(len(metin)):\n        en = max(en, genislet(i, i), genislet(i, i + 1))\n    return en\n",
+  "test_cases": [
+    {"girdi": ["babad"], "beklenen": 3},
+    {"girdi": ["cbbd"], "beklenen": 2},
+    {"girdi": ["a"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["abcda"], "beklenen": 1},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["kayak"], "beklenen": 5},
+    {"girdi": ["abacabad"], "beklenen": 7}
+  ],
+  "sablon": {"metin": ["karakter dizisi", "DNA dizisi", "boncuk dizilimi"]}
+}

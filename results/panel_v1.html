@@ -1,0 +1,388 @@
+<style>
+  :root{
+    --bg:#fbfcfd; --panel:#ffffff; --ink:#0e1116; --ink-soft:#43505f;
+    --muted:#8792a2; --line:#e6ebf1; --line-soft:#eef2f6;
+    --accent:#2a6fdb; --accent-soft:#e7f0fd;
+    --en:#2a78d6; --tr:#eb6834; --good:#0f9d58; --warn:#e0a100;
+    --sig:#2a6fdb; --nsig:#9aa6b4;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,monospace;
+    --shadow:0 1px 2px rgba(14,17,22,.04),0 8px 28px rgba(14,17,22,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#12151a; --panel:#171b22; --ink:#eef2f6; --ink-soft:#aeb9c7;
+      --muted:#7d8896; --line:#252b34; --line-soft:#1e232b;
+      --accent:#4b8ff0; --accent-soft:#17233a;
+      --en:#3987e5; --tr:#e06a3a; --good:#28b463; --warn:#e0a100;
+      --sig:#4b8ff0; --nsig:#5c6774;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfcfd; --panel:#ffffff; --ink:#0e1116; --ink-soft:#43505f; --muted:#8792a2;
+    --line:#e6ebf1; --line-soft:#eef2f6; --accent:#2a6fdb; --accent-soft:#e7f0fd;
+    --en:#2a78d6; --tr:#eb6834; --sig:#2a6fdb; --nsig:#9aa6b4;
+    --shadow:0 1px 2px rgba(14,17,22,.04),0 8px 28px rgba(14,17,22,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151a; --panel:#171b22; --ink:#eef2f6; --ink-soft:#aeb9c7; --muted:#7d8896;
+    --line:#252b34; --line-soft:#1e232b; --accent:#4b8ff0; --accent-soft:#17233a;
+    --en:#3987e5; --tr:#e06a3a; --sig:#4b8ff0; --nsig:#5c6774;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);
+    line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+  a{color:var(--accent)}
+
+  /* header */
+  header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;gap:14px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  .brand{font-family:var(--mono);font-weight:600;letter-spacing:-.01em;font-size:15px}
+  .brand b{color:var(--accent)}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}
+  .chip{font-size:11.5px;font-family:var(--mono);color:var(--ink-soft);
+    background:var(--line-soft);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:#fff;background:var(--warn);border-radius:5px;padding:3px 8px}
+  @media(prefers-color-scheme:dark){.badge{color:#12151a}}
+
+  /* hero */
+  .hero{padding:58px 0 30px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 18px}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,50px);
+    line-height:1.1;letter-spacing:-.015em;margin:0 0 20px;text-wrap:balance;max-width:17ch}
+  .hero p.lead{font-size:clamp(16px,2.1vw,19px);color:var(--ink-soft);max-width:60ch;margin:0}
+  .instrument{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0 0}
+  .idcard{flex:1;min-width:230px;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+  .idcard .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+    display:flex;align-items:center;gap:7px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .idcard code{font-family:var(--mono);font-size:13.5px;color:var(--ink);display:block;line-height:1.7;word-break:break-word}
+  .idcard code .k{color:var(--accent)}
+
+  /* sections */
+  section{padding:40px 0;border-top:1px solid var(--line)}
+  .sec-head{margin:0 0 6px}
+  .sec-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);letter-spacing:-.01em;
+    margin:0 0 12px;line-height:1.15;text-wrap:balance}
+  .prose{color:var(--ink-soft);max-width:64ch;font-size:15.5px}
+  .prose strong{color:var(--ink);font-weight:650}
+  .prose code,code.inl{font-family:var(--mono);font-size:.9em;background:var(--line-soft);
+    border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--ink)}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:22px;margin-top:22px}
+  .card h3{margin:0 0 4px;font-size:16px;font-weight:650}
+  .card .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+  figure{margin:0;overflow-x:auto}
+  svg{display:block;max-width:100%;height:auto}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+
+  /* stat tiles */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:22px}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+  .tile .n{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.02em;color:var(--ink);
+    font-variant-numeric:tabular-nums;line-height:1}
+  .tile .n.blue{color:var(--accent)} .tile .n.tr{color:var(--tr)}
+  .tile .t{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.45}
+  .tile .cap{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px}
+
+  /* table */
+  .tbl-wrap{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+  th,td{text-align:right;padding:10px 14px;border-bottom:1px solid var(--line-soft);font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left;font-family:var(--mono);font-size:12.5px}
+  thead th{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--line-soft)}
+  tbody tr:last-child td{border-bottom:none}
+  .pill{font-size:11px;font-family:var(--mono);padding:2px 7px;border-radius:999px;font-weight:600}
+  .pill.yes{background:var(--accent-soft);color:var(--accent)}
+  .pill.no{background:var(--line-soft);color:var(--muted)}
+
+  /* gates row */
+  .gates{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+  .gate{font-size:12.5px;display:inline-flex;align-items:center;gap:7px;background:var(--panel);
+    border:1px solid var(--line);border-radius:9px;padding:8px 12px;color:var(--ink-soft)}
+  .gate .ck{color:var(--good);font-weight:700}
+
+  /* ladder */
+  .ladder{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;align-items:flex-end}
+  .barcol{flex:1;min-width:120px;text-align:center}
+  .barcol .bars{display:flex;align-items:flex-end;justify-content:center;gap:8px;height:150px}
+  .bseg{width:34px;border-radius:6px 6px 0 0;position:relative;transition:height .6s cubic-bezier(.2,.7,.2,1)}
+  .bseg.v1{background:var(--nsig)} .bseg.v2{background:var(--accent)}
+  .barcol .cap{font-size:12px;color:var(--ink-soft);margin-top:10px}
+  .barcol .val{font-size:11px;color:var(--muted);font-family:var(--mono)}
+
+  footer{border-top:1px solid var(--line);padding:36px 0 60px;margin-top:20px}
+  footer h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .limits{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .limit{font-size:13px;color:var(--ink-soft);padding-left:16px;position:relative;line-height:1.5}
+  .limit::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--warn)}
+  .foot-note{margin-top:26px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:16px}
+  .tt{fill:var(--ink-soft);font-family:var(--mono);font-size:11px}
+  .axis{stroke:var(--line);stroke-width:1}
+  .grid{stroke:var(--line-soft);stroke-width:1}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top"><div class="wrap">
+  <span class="brand"><b>TR</b>-CodeEval</span>
+  <span class="badge">Ara sonuç</span>
+  <div class="chips">
+    <span class="chip">v1 · gün16 koşumu</span>
+    <span class="chip">868 hücre</span>
+    <span class="chip">7 model</span>
+    <span class="chip">TR + EN</span>
+    <span class="chip">n=5 · sıcaklık 0.4</span>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <p class="eyebrow">Küçük LLM'lerde Türkçe muhakeme vergisi</p>
+    <h1>Confound temizlendiğinde Türkçe vergisi kaybolmadı — demek ki gerçek.</h1>
+    <p class="lead">Aynı problemi iki dilde sorduk. Önce "İngilizce" koşum bile Türkçe tanımlayıcılar taşıyordu; bunu düzeltip her iki sütunu da kendi dilinde saf hale getirdik. Vergi büyük ölçüde <strong>sabit kaldı</strong> — bir ölçüm artefaktı değil. Ve kod'a-özel eğitilen model onu tamamen kapatıyor.</p>
+    <div class="instrument">
+      <div class="idcard">
+        <div class="lbl"><span class="dot" style="background:var(--tr)"></span>Türkçe koşum</div>
+        <code><span class="k">def</span> max_urun(fiyatlar, butce)</code>
+      </div>
+      <div class="idcard">
+        <div class="lbl"><span class="dot" style="background:var(--en)"></span>İngilizce koşum (Design A)</div>
+        <code><span class="k">def</span> max_products(prices, budget)</code>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <p class="sec-kicker">Manşet 1 · flagship</p>
+    <h2>Türkçe vergisi ve %95 güven aralığı</h2>
+    <p class="prose"><strong>Vergi = acc(İngilizce) − acc(Türkçe)</strong>, kanonik görevlerde. Nokta tahmin tek başına yanıltır; asıl soru farkın gürültüden ayrışıp ayrışmadığıdır. Görev düzeyinde bootstrap ile hesaplanan %95 GA <strong>sıfırı dışlıyorsa</strong> vergi istatistiksel olarak gerçektir (dolu nokta). Genel modeller gerçek vergi öderken, <code>qwen2.5-coder:3b</code> tam sıfırda.</p>
+    <div class="card">
+      <h3>Model başına Türkçe vergisi</h3>
+      <p class="sub">Yatay çubuk = %95 GA · dikey çizgi = sıfır (vergi yok)</p>
+      <figure><div id="taxchart"></div></figure>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--sig)"></span>Anlamlı (GA sıfırı dışlıyor)</span>
+        <span><span class="dot" style="background:var(--nsig)"></span>Belirsiz (GA sıfırı içeriyor)</span>
+      </div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="n blue">+0.00</div><div class="t"><code class="inl">coder:3b</code> Türkçe vergisi — dar GA [−0.05, +0.04]. Koda-özel eğitim vergiyi yok ediyor.</div></div>
+      <div class="tile"><div class="n">4 / 7</div><div class="t">modelde vergi istatistiksel olarak anlamlı; en ağırı <code class="inl">llama3.2:3b</code> (+0.27).</div></div>
+      <div class="tile"><div class="n">~sabit</div><div class="t">Confound temizliği vergiyi şişirmedi → tanımlayıcı-artefaktı değil, gerçek dil etkisi.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">Manşet 5 · yeniden çerçeveleme</p>
+    <h2>Bu bir sözdizimi vergisi değil — bir mantık vergisi</h2>
+    <p class="prose">Başarısızlıkların çoğu "kod çalışmadı" değil, <strong>"kod çalıştı ama yanlış"</strong>. Model Türkçe'de de geçerli kod üretiyor; sadece daha sık mantıken hatalı. Türkçe'nin fazladan ürettiği başarısızlığın ezici çoğunluğu yanlış-mantık (<strong>+347</strong>), sert hatalar (sözdizimi/çökme) yalnızca +44.</p>
+    <div class="card">
+      <h3>Başarısızlık türü — TR vs EN</h3>
+      <p class="sub">4340 örnek · başarısız hücrelerin tür dağılımı</p>
+      <figure><div id="taxo"></div></figure>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--en)"></span>İngilizce</span>
+        <span><span class="dot" style="background:var(--tr)"></span>Türkçe</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">Ölçek trendi</p>
+    <h2>Ölçek yardım ediyor — koda-özel eğitim daha da fazla</h2>
+    <p class="prose">Aynı boyutta <code>qwen2.5-coder</code> genel <code>qwen2.5</code>'in üstünde; boyut büyüdükçe pass@1 monoton artıyor. Tavan etkisi başladığı için (coder:3b 0.85) veri setine <strong>zor tier</strong> ekledik.</p>
+    <div class="card">
+      <h3>pass@1 — model boyutuna göre</h3>
+      <p class="sub">tüm görev · tr+en ortalaması</p>
+      <figure><div id="scale"></div></figure>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--en)"></span>qwen2.5 (genel)</span>
+        <span><span class="dot" style="background:var(--tr)"></span>qwen2.5-coder</span>
+        <span><span class="dot" style="background:var(--nsig)"></span>diğer modeller</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">Manşet 3 + 4</p>
+    <h2>İki-seviyeli ezber ve token vergisi</h2>
+    <p class="prose">Her kanonik görevin iki gizleme derinliğinde varyantı var: <strong>sığ</strong> (yalnız hikâye değişir) ve <strong>derin</strong> (ad/imza/değişken de). Derin gizleme çoğu modelde daha çok düşürüyor → model kod yüzeyine tutunuyor. Ayrıca doğruluk eşitken bile Türkçe daha pahalı olabiliyor: <code>coder:1.5b</code> Türkçe'de 3.65× token harcıyor.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Model</th><th>pass@1</th><th>acc_en</th><th>acc_tr</th><th>Türkçe vergisi</th><th>derin ezber Δ</th><th>token tr/en</th><th>vergi?</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <p class="sec-kicker">Veri seti · v1 → v2</p>
+    <h2>Blueprint hedefiyle 20'den 50 kanonik göreve</h2>
+    <p class="prose">Boyut bir "his" değil, hedef kesinlikten geri hesaplandı: ±0.07 için ~80, ±0.05 için ~158 kanonik (sektör normu HumanEval 164 ile yakınsıyor). En büyük yapısal boşluk — <strong>hiç zor görev olmaması</strong> — kapatıldı. Her görev özgün (kontaminasyonsuz) ve tam kalite kapısı geçiyor.</p>
+    <div class="ladder" id="ladder"></div>
+    <div class="gates">
+      <span class="gate"><span class="ck">✓</span> Oracle guardrail (Docker)</span>
+      <span class="gate"><span class="ck">✓</span> Şema + Design-A tanımlayıcı</span>
+      <span class="gate"><span class="ck">✓</span> Anlam-denetimi (ajan)</span>
+      <span class="gate"><span class="ck">✓</span> Uzunluk kapısı</span>
+      <span class="gate"><span class="ck">✓</span> Değişmezler</span>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="n">20 → 50</div><div class="t">kanonik görev (v1 → v2). Dağılım hedefi birebir: %30 kolay / %45 orta / %25 zor.</div><div class="cap">6 kategori · 8–9 görev</div></div>
+      <div class="tile"><div class="n tr">0 → 12</div><div class="t">zor görev (DP, iki-işaretçi, kombinatorik, Josephus, LIS). Tavan etkisine karşı.</div></div>
+      <div class="tile"><div class="n">×3</div><div class="t">her kanonik → kanonik + sığ + derin aile; ezber metriğini besler (üretim sürüyor).</div></div>
+    </div>
+  </section>
+
+  <footer><div>
+    <h4>Bilinen sınırlılıklar — açık ve kayıtlı (datasheet)</h4>
+    <div class="limits">
+      <div class="limit">n=20 kanonik HumanEval'in altında; manşetler geniş CI'lara yaslanıyor (v2 ~±0.09'a daraltıyor).</div>
+      <div class="limit">Yalnız 7 küçük yerel model (0.5–3B); büyük/API modellere genellenmeyebilir.</div>
+      <div class="limit">Zor tier klasik algoritma arketipleri kullanır — yürütmeyi ölçer, keşfi değil.</div>
+      <div class="limit">Görev başına ~6 test; daha çok test yanlış-ama-geçen kodu daha iyi yakalar.</div>
+      <div class="limit">Yerel çıkarım 4GB VRAM'de bit-tekrarlanabilir değil; bu yüzden tekrar + CI ile raporlanır.</div>
+      <div class="limit">Anlam-denetimi tam mekanik değil; ölçekte insan-gözü darboğazı.</div>
+    </div>
+    <p class="foot-note">Bu panel <strong>v1 / gün16</strong> koşumunun (62 görev, 868 hücre) ara görüntüsüdür. Veri seti v2 (50 kanonik + aileler) koşumu tamamlandığında rakamlar güncellenecek — CI'lar daralacak, ezber ve vergi n=50 üzerinden yeniden hesaplanacak.</p>
+  </div></footer>
+</main>
+
+<script>
+(function(){
+  var css=getComputedStyle(document.documentElement);
+  function C(n){return css.getPropertyValue(n).trim();}
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function txt(e,s){e.appendChild(document.createTextNode(s));return e;}
+
+  var models=[
+    {name:"llama3.2:3b",size:3,coder:false,p1:.724,en:.900,tr:.630,tax:.270,lo:.080,hi:.480,sig:true,tok:1.15,deep:.088},
+    {name:"qwen2.5:0.5b",size:.5,coder:false,p1:.348,en:.520,tr:.280,tax:.240,lo:.080,hi:.390,sig:true,tok:1.21,deep:.088},
+    {name:"gemma2:2b",size:2,coder:false,p1:.698,en:.910,tr:.690,tax:.220,lo:.020,hi:.410,sig:true,tok:3.14,deep:.138},
+    {name:"qwen2.5:1.5b",size:1.5,coder:false,p1:.613,en:.800,tr:.650,tax:.150,lo:.050,hi:.270,sig:true,tok:1.94,deep:.215},
+    {name:"qwen2.5:3b",size:3,coder:false,p1:.765,en:.880,tr:.770,tax:.110,lo:-.020,hi:.270,sig:false,tok:1.16,deep:.115},
+    {name:"qwen2.5-coder:1.5b",size:1.5,coder:true,p1:.735,en:.790,tr:.780,tax:.010,lo:-.050,hi:.070,sig:false,tok:3.65,deep:.105},
+    {name:"qwen2.5-coder:3b",size:3,coder:true,p1:.850,en:.890,tr:.890,tax:.000,lo:-.050,hi:.040,sig:false,tok:1.74,deep:.040}
+  ];
+
+  // ---- Tax CI dot plot ----
+  (function(){
+    var W=760,rowH=46,padL=150,padR=40,padT=16,padB=42;
+    var H=padT+padB+models.length*rowH;
+    var x0=-.10,x1=.52;
+    function X(v){return padL+(v-x0)/(x1-x0)*(W-padL-padR);}
+    var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+    // gridlines + ticks
+    [-.1,0,.1,.2,.3,.4,.5].forEach(function(t){
+      svg.appendChild(el("line",{x1:X(t),y1:padT,x2:X(t),y2:H-padB,class:t===0?"":"grid",stroke:t===0?C('--ink-soft'):C('--line-soft'),"stroke-width":t===0?1.4:1}));
+      svg.appendChild(txt(el("text",{x:X(t),y:H-padB+18,"text-anchor":"middle",class:"tt"}),(t>0?"+":"")+t.toFixed(2)));
+    });
+    models.forEach(function(m,i){
+      var y=padT+i*rowH+rowH/2;
+      var col=m.sig?C('--sig'):C('--nsig');
+      svg.appendChild(txt(el("text",{x:padL-14,y:y+4,"text-anchor":"end",class:"tt",fill:C('--ink')}),m.name));
+      svg.appendChild(el("line",{x1:X(m.lo),y1:y,x2:X(m.hi),y2:y,stroke:col,"stroke-width":2.5,"stroke-linecap":"round"}));
+      [m.lo,m.hi].forEach(function(v){svg.appendChild(el("line",{x1:X(v),y1:y-5,x2:X(v),y2:y+5,stroke:col,"stroke-width":2}));});
+      var c=el("circle",{cx:X(m.tax),cy:y,r:m.sig?7:6,fill:m.sig?col:C('--panel'),stroke:col,"stroke-width":2.4});
+      svg.appendChild(c);
+      var lab=txt(el("text",{x:X(m.tax),y:y-13,"text-anchor":"middle",class:"tt",fill:C('--ink')}),(m.tax>0?"+":"")+m.tax.toFixed(2));
+      lab.style.fontWeight="700";svg.appendChild(lab);
+    });
+    document.getElementById("taxchart").appendChild(svg);
+  })();
+
+  // ---- Taxonomy grouped bars ----
+  (function(){
+    var data=[{k:"yanlış-mantık",en:407,tr:754},{k:"import/runtime",en:43,tr:46},
+      {k:"eksik fonksiyon",en:37,tr:70},{k:"sözdizimi",en:19,tr:28},{k:"zaman aşımı",en:1,tr:0}];
+    var W=760,rowH=54,padL=118,padR=54,padT=10,padB=10;
+    var H=padT+padB+data.length*rowH, max=800;
+    function X(v){return padL+v/max*(W-padL-padR);}
+    var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+    data.forEach(function(d,i){
+      var y=padT+i*rowH, bh=15, gap=4;
+      svg.appendChild(txt(el("text",{x:padL-12,y:y+rowH/2+2,"text-anchor":"end",class:"tt",fill:C('--ink')}),d.k));
+      [["en",C('--en'),d.en],["tr",C('--tr'),d.tr]].forEach(function(r,j){
+        var by=y+rowH/2-bh-gap/2+j*(bh+gap);
+        svg.appendChild(el("rect",{x:padL,y:by,width:Math.max(2,X(r[2])-padL),height:bh,rx:4,fill:r[1]}));
+        var t=txt(el("text",{x:X(r[2])+7,y:by+bh-3,class:"tt",fill:C('--ink-soft')}),r[2]);
+        svg.appendChild(t);
+      });
+    });
+    document.getElementById("taxo").appendChild(svg);
+  })();
+
+  // ---- Scale line ----
+  (function(){
+    var W=760,H=340,padL=54,padR=30,padT=24,padB=44;
+    var xs=[.5,1.5,2,3], y0=.3,y1=.92;
+    function X(s){return padL+(s-.5)/(3-.5)*(W-padL-padR);}
+    function Y(v){return padT+(1-(v-y0)/(y1-y0))*(H-padT-padB);}
+    var svg=el("svg",{viewBox:"0 0 "+W+" "+H,width:W,role:"img"});
+    [.3,.4,.5,.6,.7,.8,.9].forEach(function(t){
+      svg.appendChild(el("line",{x1:padL,y1:Y(t),x2:W-padR,y2:Y(t),class:"grid",stroke:C('--line-soft')}));
+      svg.appendChild(txt(el("text",{x:padL-10,y:Y(t)+4,"text-anchor":"end",class:"tt"}),t.toFixed(1)));
+    });
+    [.5,1.5,2,3].forEach(function(s){svg.appendChild(txt(el("text",{x:X(s),y:H-padB+20,"text-anchor":"middle",class:"tt"}),s+"B"));});
+    function line(pts,col){
+      var d=pts.map(function(p,i){return (i?"L":"M")+X(p[0])+" "+Y(p[1]);}).join(" ");
+      svg.appendChild(el("path",{d:d,fill:"none",stroke:col,"stroke-width":2.5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+      pts.forEach(function(p){svg.appendChild(el("circle",{cx:X(p[0]),cy:Y(p[1]),r:5,fill:col}));});
+    }
+    // others (context)
+    [[2,.698,"gemma2"],[3,.724,"llama3.2"]].forEach(function(o){
+      svg.appendChild(el("circle",{cx:X(o[0]),cy:Y(o[1]),r:4.5,fill:C('--nsig')}));
+      svg.appendChild(txt(el("text",{x:X(o[0])+8,y:Y(o[1])+13,class:"tt",fill:C('--muted')}),o[2]));
+    });
+    line([[.5,.348],[1.5,.613],[3,.765]],C('--en'));
+    line([[1.5,.735],[3,.850]],C('--tr'));
+    var l1=txt(el("text",{x:X(3)-4,y:Y(.765)+20,"text-anchor":"end",class:"tt",fill:C('--en')}),"qwen2.5");l1.style.fontWeight="700";svg.appendChild(l1);
+    var l2=txt(el("text",{x:X(3)-4,y:Y(.850)-12,"text-anchor":"end",class:"tt",fill:C('--tr')}),"coder");l2.style.fontWeight="700";svg.appendChild(l2);
+    document.getElementById("scale").appendChild(svg);
+  })();
+
+  // ---- Table ----
+  (function(){
+    var tb=document.getElementById("tbody");
+    models.slice().sort(function(a,b){return b.p1-a.p1;}).forEach(function(m){
+      var tr=document.createElement("tr");
+      function td(s,cls){var d=document.createElement("td");if(cls)d.innerHTML=s;else d.textContent=s;return d;}
+      tr.appendChild(td(m.name));
+      tr.appendChild(td(m.p1.toFixed(3)));
+      tr.appendChild(td(m.en.toFixed(3)));
+      tr.appendChild(td(m.tr.toFixed(3)));
+      tr.appendChild(td((m.tax>0?"+":"")+m.tax.toFixed(3)+(m.sig?" *":"")));
+      tr.appendChild(td((m.deep>0?"+":"")+m.deep.toFixed(3)));
+      tr.appendChild(td(m.tok.toFixed(2)+"×"));
+      var p=document.createElement("td");p.innerHTML='<span class="pill '+(m.sig?"yes":"no")+'">'+(m.sig?"anlamlı":"belirsiz")+'</span>';
+      tr.appendChild(p);
+      tb.appendChild(tr);
+    });
+  })();
+
+  // ---- Difficulty ladder ----
+  (function(){
+    var cats=[{k:"kolay",v1:12,v2:15},{k:"orta",v1:8,v2:23},{k:"zor",v1:0,v2:12}];
+    var max=24,Hpx=150;var box=document.getElementById("ladder");
+    cats.forEach(function(c){
+      var col=document.createElement("div");col.className="barcol";
+      col.innerHTML='<div class="bars">'+
+        '<div class="bseg v1" style="height:'+(c.v1/max*Hpx)+'px" title="v1: '+c.v1+'"></div>'+
+        '<div class="bseg v2" style="height:'+(c.v2/max*Hpx)+'px" title="v2: '+c.v2+'"></div>'+
+        '</div><div class="cap">'+c.k+'</div><div class="val">v1 '+c.v1+' → v2 '+c.v2+'</div>';
+      box.appendChild(col);
+    });
+  })();
+})();
+</script>

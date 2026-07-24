@@ -7,9 +7,11 @@
   "canonical_id": "trc_007",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir müzenin turnike sistemi, gün boyunca içeri giren ziyaretçilerin kart numaralarını sırayla kaydediyor. Aynı ziyaretçi gün içinde birden fazla kez giriş yapabildiği için aynı kart numarası kayıtta birkaç kez görünebilir. Kaydedilen kart numaralarının tutulduğu bir tam sayı listesi `kimlikler` veriliyor. O gün müzeyi ziyaret eden BENZERSIZ (tekrarsız) kart numaralarını içeren bir liste döndüren bir fonksiyon yaz. Elemanların SIRASI önemli değildir.",
-  "prompt_en": "A museum's turnstile system records, in order, the card numbers of the visitors entering throughout the day. Since the same visitor may enter more than once during the day, the same card number can appear several times in the log. A list of integers `kimlikler` holding the recorded card numbers is given. Write a function that returns a list containing the UNIQUE (deduplicated) card numbers that visited the museum that day. The ORDER of elements does not matter.",
+  "prompt_en": "A museum's turnstile system records, in order, the card numbers of the visitors entering throughout the day. Since the same visitor may enter more than once during the day, the same card number can appear several times in the log. A list of integers `ids` holding the recorded card numbers is given. Write a function that returns a list containing the UNIQUE (deduplicated) card numbers that visited the museum that day. The ORDER of elements does not matter.",
   "fonksiyon_imzasi": "def benzersiz_kimlikler(kimlikler: list[int]) -> list[int]:",
   "fonksiyon_adi": "benzersiz_kimlikler",
+  "fonksiyon_imzasi_en": "def unique_ids(ids: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "unique_ids",
   "referans_cozum": "def benzersiz_kimlikler(kimlikler):\n    return list(set(kimlikler))\n",
   "test_cases": [
     {"girdi": [[1, 2, 2, 3]], "beklenen": [1, 2, 3]},

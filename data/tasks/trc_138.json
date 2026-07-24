@@ -1,0 +1,24 @@
+{
+  "id": "trc_138",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_085",
+  "canonical_id": "trc_085",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir oyuncunun bastığı tuşlar, sırayla bir `tus_dizisi` (karakter dizisi) olarak kaydediliyor. Hiçbir tuşun TEKRARLANMADIĞI en uzun BİTİŞİK bölümün uzunluğunu döndüren bir fonksiyon yaz. (Boş dizi için 0.)",
+  "prompt_en": "A player's key presses are recorded in order as a `key_sequence` (a string). Write a function that returns the length of the longest CONTIGUOUS segment in which no key REPEATS. (For an empty sequence, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_benzersiz_seri(tus_dizisi: str) -> int:",
+  "fonksiyon_adi": "en_uzun_benzersiz_seri",
+  "fonksiyon_imzasi_en": "def longest_unique_streak(key_sequence: str) -> int:",
+  "fonksiyon_adi_en": "longest_unique_streak",
+  "referans_cozum": "def en_uzun_benzersiz_seri(tus_dizisi):\n    gorulen = {}\n    sol = en = 0\n    for sag, c in enumerate(tus_dizisi):\n        if c in gorulen and gorulen[c] >= sol:\n            sol = gorulen[c] + 1\n        gorulen[c] = sag\n        en = max(en, sag - sol + 1)\n    return en\n",
+  "test_cases": [
+    {"girdi": ["abcabcbb"], "beklenen": 3},
+    {"girdi": ["bbbb"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["pwwkew"], "beklenen": 3},
+    {"girdi": ["abcdef"], "beklenen": 6},
+    {"girdi": ["abba"], "beklenen": 2}
+  ]
+}

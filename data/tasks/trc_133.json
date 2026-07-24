@@ -1,0 +1,25 @@
+{
+  "id": "trc_133",
+  "kategori": "diziler",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_083",
+  "canonical_id": "trc_083",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir muhasebecinin defterindeki borç-alacak kayıtları, her biri işaretli bir tam sayı olacak şekilde `sayilar` listesinde tutuluyor. Farklı üç konumdaki kaydın tutar toplamı tam olarak 0 olan (yani birbirini götüren) bir üçlü bulunup bulunmadığını True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "An accountant's debit-credit entries are stored in the list `numbers`, each as a signed integer. Write a function that returns True/False for whether there exist three entries at distinct positions whose amounts sum to exactly 0 (that is, they cancel each other out).",
+  "fonksiyon_imzasi": "def sifir_uclu_var_mi(sayilar: list[int]) -> bool:",
+  "fonksiyon_adi": "sifir_uclu_var_mi",
+  "fonksiyon_imzasi_en": "def has_zero_triple(numbers: list[int]) -> bool:",
+  "fonksiyon_adi_en": "has_zero_triple",
+  "referans_cozum": "def sifir_uclu_var_mi(sayilar):\n    s = sorted(sayilar)\n    n = len(s)\n    for i in range(n):\n        sol, sag = i + 1, n - 1\n        while sol < sag:\n            t = s[i] + s[sol] + s[sag]\n            if t == 0:\n                return True\n            if t < 0:\n                sol += 1\n            else:\n                sag -= 1\n    return False\n",
+  "test_cases": [
+    {"girdi": [[-1, 0, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 2, 3]], "beklenen": false},
+    {"girdi": [[0, 0, 0]], "beklenen": true},
+    {"girdi": [[-2, 1, 1]], "beklenen": true},
+    {"girdi": [[]], "beklenen": false},
+    {"girdi": [[3, -1, -2]], "beklenen": true},
+    {"girdi": [[1, 1, 1]], "beklenen": false}
+  ]
+}

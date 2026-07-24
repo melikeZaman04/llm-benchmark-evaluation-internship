@@ -1,0 +1,24 @@
+{
+  "id": "trc_087",
+  "kategori": "matematik",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_087",
+  "variant_type": "canonical",
+  "prompt_tr": "Pozitif bir tam sayı `n` veriliyor. `n`. asal sayıyı (1. asal = 2) döndüren bir fonksiyon yaz.",
+  "prompt_en": "A positive integer `n` is given. Write a function that returns the `n`-th prime number (the 1st prime is 2).",
+  "fonksiyon_imzasi": "def n_asal(n: int) -> int:",
+  "fonksiyon_adi": "n_asal",
+  "fonksiyon_imzasi_en": "def nth_prime(n: int) -> int:",
+  "fonksiyon_adi_en": "nth_prime",
+  "referans_cozum": "def n_asal(n):\n    def asal(x):\n        if x < 2:\n            return False\n        d = 2\n        while d * d <= x:\n            if x % d == 0:\n                return False\n            d += 1\n        return True\n    sayi = 1\n    bulunan = 0\n    while bulunan < n:\n        sayi += 1\n        if asal(sayi):\n            bulunan += 1\n    return sayi\n",
+  "test_cases": [
+    {"girdi": [1], "beklenen": 2},
+    {"girdi": [2], "beklenen": 3},
+    {"girdi": [3], "beklenen": 5},
+    {"girdi": [6], "beklenen": 13},
+    {"girdi": [10], "beklenen": 29},
+    {"girdi": [25], "beklenen": 97}
+  ],
+  "sablon": {"sıra": ["asal sıralaması", "şanslı bilet sırası", "eleman sırası"]}
+}

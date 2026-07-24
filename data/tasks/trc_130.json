@@ -1,0 +1,23 @@
+{
+  "id": "trc_130",
+  "kategori": "diziler",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_081",
+  "canonical_id": "trc_081",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir gün boyunca kaydedilen boş olmayan bir sıcaklık ölçümleri listesi `olcumler` veriliyor. En yüksek ve en düşük ölçüm arasındaki farkı döndüren bir fonksiyon yaz.",
+  "prompt_en": "A non-empty list of temperature readings `readings` recorded over a day is given. Write a function that returns the difference between the highest and lowest reading.",
+  "fonksiyon_imzasi": "def sicaklik_araligi(olcumler: list[int]) -> int:",
+  "fonksiyon_adi": "sicaklik_araligi",
+  "fonksiyon_imzasi_en": "def temperature_range(readings: list[int]) -> int:",
+  "fonksiyon_adi_en": "temperature_range",
+  "referans_cozum": "def sicaklik_araligi(olcumler):\n    return max(olcumler) - min(olcumler)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 2},
+    {"girdi": [[5]], "beklenen": 0},
+    {"girdi": [[3, 3, 3]], "beklenen": 0},
+    {"girdi": [[10, -5]], "beklenen": 15},
+    {"girdi": [[1, 100]], "beklenen": 99}
+  ]
+}

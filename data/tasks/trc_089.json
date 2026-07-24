@@ -1,0 +1,25 @@
+{
+  "id": "trc_089",
+  "kategori": "mantik",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_089",
+  "variant_type": "canonical",
+  "prompt_tr": "Yalnızca '()', '[]' ve '{}' parantez karakterlerinden oluşan bir `ifade` veriliyor. Parantezlerin doğru türde ve doğru sırada kapanıp kapanmadığını (dengeli mi) True/False döndüren bir fonksiyon yaz. (Boş metin için True.)",
+  "prompt_en": "An `expr` consisting only of the bracket characters '()', '[]' and '{}' is given. Write a function that returns True/False for whether the brackets are closed in the correct type and order (balanced). (For an empty string, return True.)",
+  "fonksiyon_imzasi": "def parantez_gecerli_mi(ifade: str) -> bool:",
+  "fonksiyon_adi": "parantez_gecerli_mi",
+  "fonksiyon_imzasi_en": "def brackets_valid(expr: str) -> bool:",
+  "fonksiyon_adi_en": "brackets_valid",
+  "referans_cozum": "def parantez_gecerli_mi(ifade):\n    es = {')': '(', ']': '[', '}': '{'}\n    yigin = []\n    for c in ifade:\n        if c in '([{':\n            yigin.append(c)\n        elif c in es:\n            if not yigin or yigin.pop() != es[c]:\n                return False\n    return not yigin\n",
+  "test_cases": [
+    {"girdi": ["()[]{}"], "beklenen": true},
+    {"girdi": ["([)]"], "beklenen": false},
+    {"girdi": ["{[]}"], "beklenen": true},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["("], "beklenen": false},
+    {"girdi": ["]"], "beklenen": false},
+    {"girdi": ["((()))"], "beklenen": true}
+  ],
+  "sablon": {"yapı": ["parantez dizisi", "HTML etiketleri", "iç içe kaplar"]}
+}

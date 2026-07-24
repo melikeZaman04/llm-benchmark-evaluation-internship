@@ -1,0 +1,24 @@
+{
+  "id": "trc_069",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_069",
+  "variant_type": "canonical",
+  "prompt_tr": "İki tam sayı listesi `a` ve `b` veriliyor. İkisinde de ORTAK olan değerleri, tekrarsız ve ARTAN sırada bir liste olarak döndüren bir fonksiyon yaz.",
+  "prompt_en": "You are given two integer lists `a` and `b`. Write a function that returns the values COMMON to both, without duplicates and in ASCENDING order, as a list.",
+  "fonksiyon_imzasi": "def kesisim(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi": "kesisim",
+  "fonksiyon_imzasi_en": "def intersection(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "intersection",
+  "referans_cozum": "def kesisim(a, b):\n    return sorted(set(a) & set(b))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3], [2, 3, 4]], "beklenen": [2, 3]},
+    {"girdi": [[1, 1, 2], [1]], "beklenen": [1]},
+    {"girdi": [[], [1]], "beklenen": []},
+    {"girdi": [[5, 4], [4, 5]], "beklenen": [4, 5]},
+    {"girdi": [[1, 2], [3, 4]], "beklenen": []},
+    {"girdi": [[7, 7, 7], [7, 7]], "beklenen": [7]}
+  ],
+  "sablon": {"öğe": ["sayı", "ürün etiketi", "üye numarası"]}
+}

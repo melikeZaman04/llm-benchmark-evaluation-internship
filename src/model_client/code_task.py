@@ -31,14 +31,15 @@ SISTEM_EN = (
     "what is requested."
 )
 
-# NOT (Türkçe vergisi confound'u): `fonksiyon_imzasi`/`fonksiyon_adi` tek
-# alandır ve TR/EN koşumları arasında BİLİNÇLİ olarak sabit tutulur (Türkçe
-# tanımlayıcı adları — ör. `sayilar`, `butce`). Ölçülen değişken yalnızca
-# PROBLEM CÜMLESİNİN dilidir; tanımlayıcı dili ayrıca değişseydi "Türkçe
-# vergisi" iki farklı etkiyi (problem-dili + tanımlayıcı-dili) karıştırırdı.
-# Sistem promptu bu yüzden dil'e göre seçilir (aşağıda) — aksi halde EN
-# koşumda bile Türkçe talimat verilmiş olurdu, ki bu kontrolsüz bir
-# confound'du (Gün 11 sonrası, kullanıcı ile birlikte tespit edildi).
+# TASARIM (Türkçe vergisi — dil-başına tanımlayıcılar): EN koşumu artık
+# `fonksiyon_imzasi_en` (İngilizce tanımlayıcılar, ör. `prices`, `budget`)
+# kullanır; TR koşumu Türkçe imzayı (`fiyatlar`, `butce`). Böylece EN sütunu
+# TAMAMEN İngilizce, TR sütunu TAMAMEN Türkçe olur ve "Türkçe vergisi"
+# ekolojik olarak geçerli uçtan-uca ölçüm haline gelir (problem cümlesi +
+# tanımlayıcılar birlikte). `_en` alanı yoksa güvenli biçimde TR imzaya düşer
+# (geriye dönük uyum). Önceki durum — EN prompt ama Türkçe imza — kontrolsüz
+# bir confound'du (Gün 15 jüri kritiği; kullanıcı onayıyla Design A seçildi).
+# Sistem promptu da dil'e göre seçilir (aşağıda).
 
 
 def kod_prompt_olustur(gorev: dict, dil: str = "tr") -> str:
@@ -57,7 +58,11 @@ def kod_prompt_olustur(gorev: dict, dil: str = "tr") -> str:
         raise ValueError("Görevde 'fonksiyon_imzasi' alanı yok.")
 
     problem = gorev[anahtar].strip()
-    imza = gorev["fonksiyon_imzasi"].strip()
+    # EN koşumu İngilizce imzayı kullanır (varsa); yoksa TR imzaya düşer.
+    if dil == "en" and gorev.get("fonksiyon_imzasi_en"):
+        imza = gorev["fonksiyon_imzasi_en"].strip()
+    else:
+        imza = gorev["fonksiyon_imzasi"].strip()
 
     if dil == "tr":
         satirlar = [

@@ -1,0 +1,25 @@
+{
+  "id": "trc_083",
+  "kategori": "diziler",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_083",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. FARKLI üç konumdaki elemanın toplamı tam olarak 0 olan bir üçlü olup olmadığını True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of integers `numbers` is given. Write a function that returns True/False for whether there exist three elements at DISTINCT positions whose sum is exactly 0.",
+  "fonksiyon_imzasi": "def sifir_uclu_var_mi(sayilar: list[int]) -> bool:",
+  "fonksiyon_adi": "sifir_uclu_var_mi",
+  "fonksiyon_imzasi_en": "def has_zero_triple(numbers: list[int]) -> bool:",
+  "fonksiyon_adi_en": "has_zero_triple",
+  "referans_cozum": "def sifir_uclu_var_mi(sayilar):\n    s = sorted(sayilar)\n    n = len(s)\n    for i in range(n):\n        sol, sag = i + 1, n - 1\n        while sol < sag:\n            t = s[i] + s[sol] + s[sag]\n            if t == 0:\n                return True\n            if t < 0:\n                sol += 1\n            else:\n                sag -= 1\n    return False\n",
+  "test_cases": [
+    {"girdi": [[-1, 0, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 2, 3]], "beklenen": false},
+    {"girdi": [[0, 0, 0]], "beklenen": true},
+    {"girdi": [[-2, 1, 1]], "beklenen": true},
+    {"girdi": [[]], "beklenen": false},
+    {"girdi": [[3, -1, -2]], "beklenen": true},
+    {"girdi": [[1, 1, 1]], "beklenen": false}
+  ],
+  "sablon": {"değer": ["tam sayı listesi", "borç-alacak kayıtları", "sıcaklık sapmaları"]}
+}

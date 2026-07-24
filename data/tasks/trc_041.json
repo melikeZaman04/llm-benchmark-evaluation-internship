@@ -10,6 +10,8 @@
   "prompt_en": "A gym labels the days of its training calendar: you are given `n`, the number of days elapsed since the program started. The gym tags a day \"FizzBuzz\" if it is a multiple of both 3 and 5, \"Fizz\" if it is a multiple of 3 only, \"Buzz\" if it is a multiple of 5 only, and otherwise uses the day number itself as the label. Write a function that returns this label for the given `n` as a STRING.",
   "fonksiyon_imzasi": "def fizzbuzz_tek_deger(n: int) -> str:",
   "fonksiyon_adi": "fizzbuzz_tek_deger",
+  "fonksiyon_imzasi_en": "def fizzbuzz_value(n: int) -> str:",
+  "fonksiyon_adi_en": "fizzbuzz_value",
   "referans_cozum": "def fizzbuzz_tek_deger(n):\n    if n % 15 == 0:\n        return \"FizzBuzz\"\n    if n % 3 == 0:\n        return \"Fizz\"\n    if n % 5 == 0:\n        return \"Buzz\"\n    return str(n)\n",
   "test_cases": [
     {"girdi": [15], "beklenen": "FizzBuzz"},

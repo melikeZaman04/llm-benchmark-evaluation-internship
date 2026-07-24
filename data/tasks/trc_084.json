@@ -1,0 +1,23 @@
+{
+  "id": "trc_084",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_084",
+  "variant_type": "canonical",
+  "prompt_tr": "İki metin `a` ve `b` veriliyor. `a`, `b`'nin tersten yazılmış hâli mi (karakterler ters sırada, olduğu gibi) True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two texts `a` and `b` are given. Write a function that returns True/False for whether `a` is `b` written backwards (characters in reverse order, as-is).",
+  "fonksiyon_imzasi": "def ters_mi(a: str, b: str) -> bool:",
+  "fonksiyon_adi": "ters_mi",
+  "fonksiyon_imzasi_en": "def is_reverse(a: str, b: str) -> bool:",
+  "fonksiyon_adi_en": "is_reverse",
+  "referans_cozum": "def ters_mi(a, b):\n    return a == b[::-1]\n",
+  "test_cases": [
+    {"girdi": ["abc", "cba"], "beklenen": true},
+    {"girdi": ["ab", "ab"], "beklenen": false},
+    {"girdi": ["", ""], "beklenen": true},
+    {"girdi": ["a", "a"], "beklenen": true},
+    {"girdi": ["abc", "cbaa"], "beklenen": false}
+  ],
+  "sablon": {"metin": ["kelime", "erişim kodu", "sembol dizisi"]}
+}

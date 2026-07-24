@@ -1,0 +1,24 @@
+{
+  "id": "trc_115",
+  "kategori": "ozyineleme",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_074",
+  "canonical_id": "trc_074",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir biyolog, laboratuvardaki bir kültürün her evrede kendini `taban` katına katladığını gözlemliyor. `us` evre geçtikten sonra kültürün başlangıca göre kaç kat büyüdüğünü (`taban`**`us`) döndüren bir fonksiyon yaz. (`us`=0 için, yani hiç evre geçmemişse, büyüme katsayısı 1'dir.)",
+  "prompt_en": "A biologist observes that a lab culture folds itself by a factor of `base` at each stage. Write a function that returns how much the culture has grown relative to its start after `exp` stages (`base`**`exp`). (For `exp`=0, i.e. when no stages have passed, the growth factor is 1.)",
+  "fonksiyon_imzasi": "def us_al(taban: int, us: int) -> int:",
+  "fonksiyon_adi": "us_al",
+  "fonksiyon_imzasi_en": "def power(base: int, exp: int) -> int:",
+  "fonksiyon_adi_en": "power",
+  "referans_cozum": "def us_al(taban, us):\n    if us == 0:\n        return 1\n    return taban * us_al(taban, us - 1)\n",
+  "test_cases": [
+    {"girdi": [2, 10], "beklenen": 1024},
+    {"girdi": [5, 0], "beklenen": 1},
+    {"girdi": [3, 3], "beklenen": 27},
+    {"girdi": [1, 100], "beklenen": 1},
+    {"girdi": [10, 2], "beklenen": 100},
+    {"girdi": [7, 1], "beklenen": 7}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "trc_085",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_085",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir `metin` veriliyor. İçinde hiçbir karakter TEKRARLANMAYAN en uzun BİTİŞİK alt-dizgenin uzunluğunu döndüren bir fonksiyon yaz. (Boş metin için 0.)",
+  "prompt_en": "A `text` is given. Write a function that returns the length of the longest CONTIGUOUS substring in which no character REPEATS. (For an empty text, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_tekrarsiz(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_tekrarsiz",
+  "fonksiyon_imzasi_en": "def longest_unique(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_unique",
+  "referans_cozum": "def en_uzun_tekrarsiz(metin):\n    gorulen = {}\n    sol = en = 0\n    for sag, c in enumerate(metin):\n        if c in gorulen and gorulen[c] >= sol:\n            sol = gorulen[c] + 1\n        gorulen[c] = sag\n        en = max(en, sag - sol + 1)\n    return en\n",
+  "test_cases": [
+    {"girdi": ["abcabcbb"], "beklenen": 3},
+    {"girdi": ["bbbb"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["pwwkew"], "beklenen": 3},
+    {"girdi": ["abcdef"], "beklenen": 6},
+    {"girdi": ["abba"], "beklenen": 2}
+  ],
+  "sablon": {"metin": ["karakter dizisi", "gezinti geçmişi", "tuş dizisi"]}
+}

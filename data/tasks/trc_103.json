@@ -1,0 +1,26 @@
+{
+  "id": "trc_103",
+  "kategori": "matematik",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_068",
+  "canonical_id": "trc_068",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir masa oyununda `kisi_sayisi` oyuncu masanın etrafına 1'den `kisi_sayisi`'na kadar numaralandırılarak oturur. 1 numaralı oyuncudan başlayarak her `adim`'inci oyuncu oyundan elenir ve sayıma bir sonraki oyuncudan devam edilir. Geriye kalan son oyuncunun numarasını döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a table game, `count` players sit around the table, numbered 1 to `count`. Starting from player 1, every `step`-th player is eliminated from the game and counting continues from the next player. Write a function that returns the number of the last remaining player.",
+  "fonksiyon_imzasi": "def son_kalan(kisi_sayisi: int, adim: int) -> int:",
+  "fonksiyon_adi": "son_kalan",
+  "fonksiyon_imzasi_en": "def last_survivor(count: int, step: int) -> int:",
+  "fonksiyon_adi_en": "last_survivor",
+  "referans_cozum": "def son_kalan(kisi_sayisi, adim):\n    r = 0\n    for i in range(2, kisi_sayisi + 1):\n        r = (r + adim) % i\n    return r + 1\n",
+  "test_cases": [
+    {"girdi": [1, 3], "beklenen": 1},
+    {"girdi": [5, 2], "beklenen": 3},
+    {"girdi": [7, 3], "beklenen": 4},
+    {"girdi": [2, 1], "beklenen": 2},
+    {"girdi": [4, 2], "beklenen": 1},
+    {"girdi": [10, 2], "beklenen": 5},
+    {"girdi": [6, 5], "beklenen": 1},
+    {"girdi": [1, 1], "beklenen": 1}
+  ]
+}

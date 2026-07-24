@@ -1,0 +1,22 @@
+{
+  "id": "trc_132",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_082",
+  "canonical_id": "trc_082",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir mağazanın ürünlerinin iki farklı çeyrekteki satış adetlerini tutan, aynı uzunlukta iki tam sayı listesi `birinci_ceyrek` ve `ikinci_ceyrek` veriliyor. Her ürünün iki çeyrekteki toplam satış adedini eleman-eleman toplayarak yeni bir liste döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two equal-length integer lists `first_quarter` and `second_quarter` are given, holding a store's per-product sales counts in two different quarters. Write a function that returns a new list of each product's total sales by summing the two quarters element-wise.",
+  "fonksiyon_imzasi": "def satis_topla(birinci_ceyrek: list[int], ikinci_ceyrek: list[int]) -> list[int]:",
+  "fonksiyon_adi": "satis_topla",
+  "fonksiyon_imzasi_en": "def sum_sales(first_quarter: list[int], second_quarter: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "sum_sales",
+  "referans_cozum": "def satis_topla(birinci_ceyrek, ikinci_ceyrek):\n    return [x + y for x, y in zip(birinci_ceyrek, ikinci_ceyrek)]\n",
+  "test_cases": [
+    {"girdi": [[1, 2], [3, 4]], "beklenen": [4, 6]},
+    {"girdi": [[], []], "beklenen": []},
+    {"girdi": [[1], [-1]], "beklenen": [0]},
+    {"girdi": [[5, 5, 5], [1, 2, 3]], "beklenen": [6, 7, 8]}
+  ]
+}

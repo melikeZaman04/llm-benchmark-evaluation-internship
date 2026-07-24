@@ -1,0 +1,25 @@
+{
+  "id": "trc_064",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_064",
+  "variant_type": "canonical",
+  "prompt_tr": "Kupür değerlerinden oluşan bir liste `kupurler` ve bir hedef `tutar` veriliyor. Her kupürden istediğin kadar kullanabilirsin. `tutar`'ı oluşturmak için gereken MİNİMUM kupür sayısını döndür; oluşturmak imkânsızsa -1 döndür.",
+  "prompt_en": "You are given a list of coin denominations `coins` and a target `amount`. You may use each coin as many times as you like. Return the MINIMUM number of coins needed to make `amount`; return -1 if it is impossible.",
+  "fonksiyon_imzasi": "def min_para(kupurler: list[int], tutar: int) -> int:",
+  "fonksiyon_adi": "min_para",
+  "fonksiyon_imzasi_en": "def min_coins(coins: list[int], amount: int) -> int:",
+  "fonksiyon_adi_en": "min_coins",
+  "referans_cozum": "def min_para(kupurler, tutar):\n    sonsuz = float(\"inf\")\n    dp = [0] + [sonsuz] * tutar\n    for t in range(1, tutar + 1):\n        for c in kupurler:\n            if c <= t and dp[t - c] + 1 < dp[t]:\n                dp[t] = dp[t - c] + 1\n    return dp[tutar] if dp[tutar] != sonsuz else -1\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 5], 11], "beklenen": 3},
+    {"girdi": [[2], 3], "beklenen": -1},
+    {"girdi": [[1], 0], "beklenen": 0},
+    {"girdi": [[3, 5, 7], 1], "beklenen": -1},
+    {"girdi": [[1, 3, 4], 6], "beklenen": 2},
+    {"girdi": [[5, 10, 25], 30], "beklenen": 2},
+    {"girdi": [[4, 6, 9], 23], "beklenen": 4}
+  ],
+  "sablon": {"birim": ["madeni para", "posta pulu", "jeton"]}
+}

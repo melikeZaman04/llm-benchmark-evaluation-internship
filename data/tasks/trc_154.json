@@ -1,0 +1,25 @@
+{
+  "id": "trc_154",
+  "kategori": "diziler",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_083",
+  "canonical_id": "trc_083",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sensörden alınan tam sayı sıcaklık sapmaları `sapmalar` (bir referans değerden pozitif ya da negatif farklar) veriliyor. FARKLI üç konumdaki sapmanın toplamı tam olarak 0 olan, yani birbirini dengeleyen bir üçlü olup olmadığını True/False döndüren `dengeleyen_uclu_var_mi` fonksiyonunu yaz.",
+  "prompt_en": "A list of integer temperature deviations `deviations` (positive or negative differences from a reference value) recorded by a sensor is given. Write a function `has_balancing_triple` that returns True/False for whether there exist three deviations at DISTINCT positions whose sum is exactly 0, i.e. they balance each other out.",
+  "fonksiyon_imzasi": "def dengeleyen_uclu_var_mi(sapmalar: list[int]) -> bool:",
+  "fonksiyon_adi": "dengeleyen_uclu_var_mi",
+  "fonksiyon_imzasi_en": "def has_balancing_triple(deviations: list[int]) -> bool:",
+  "fonksiyon_adi_en": "has_balancing_triple",
+  "referans_cozum": "def dengeleyen_uclu_var_mi(sapmalar):\n    s = sorted(sapmalar)\n    n = len(s)\n    for i in range(n):\n        sol, sag = i + 1, n - 1\n        while sol < sag:\n            t = s[i] + s[sol] + s[sag]\n            if t == 0:\n                return True\n            if t < 0:\n                sol += 1\n            else:\n                sag -= 1\n    return False\n",
+  "test_cases": [
+    {"girdi": [[-1, 0, 1, 2]], "beklenen": true},
+    {"girdi": [[1, 2, 3]], "beklenen": false},
+    {"girdi": [[0, 0, 0]], "beklenen": true},
+    {"girdi": [[-2, 1, 1]], "beklenen": true},
+    {"girdi": [[]], "beklenen": false},
+    {"girdi": [[3, -1, -2]], "beklenen": true},
+    {"girdi": [[1, 1, 1]], "beklenen": false}
+  ]
+}

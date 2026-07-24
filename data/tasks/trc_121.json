@@ -1,0 +1,23 @@
+{
+  "id": "trc_121",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_077",
+  "canonical_id": "trc_077",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir otoparkın plaka tanıma sistemi, araçların yalnızca rakamlardan oluşan plaka numarasını `n` olarak okuyor (negatif olmayan bir tam sayı). Kameranın plakayı ters açıdan gördüğü durumları test etmek için, `n`'in basamaklarını TERS sıraya çevirip oluşan sayıyı (baştaki sıfırlar düşer) döndüren bir fonksiyon yaz.",
+  "prompt_en": "A parking lot's plate recognition system reads each vehicle's numeric plate number as `n` (a non-negative integer). To test cases where the camera sees the plate from a mirrored angle, write a function that returns the number formed by REVERSING the digits of `n` (leading zeros are dropped).",
+  "fonksiyon_imzasi": "def basamak_ters(n: int) -> int:",
+  "fonksiyon_adi": "basamak_ters",
+  "fonksiyon_imzasi_en": "def reverse_digits(n: int) -> int:",
+  "fonksiyon_adi_en": "reverse_digits",
+  "referans_cozum": "def basamak_ters(n):\n    return int(str(n)[::-1])\n",
+  "test_cases": [
+    {"girdi": [123], "beklenen": 321},
+    {"girdi": [100], "beklenen": 1},
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [5], "beklenen": 5},
+    {"girdi": [1200], "beklenen": 21}
+  ]
+}

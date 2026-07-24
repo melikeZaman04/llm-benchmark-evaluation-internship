@@ -1,0 +1,23 @@
+{
+  "id": "trc_151",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_092",
+  "canonical_id": "trc_092",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir müzenin giriş kaydında, gelen her ziyaretçinin ülkesi sayısal bir ülke koduyla `sayilar` listesine ekleniyor. Ziyaretçilerin kaç FARKLI ülkeden geldiğini döndüren bir fonksiyon yaz.",
+  "prompt_en": "At a museum's entrance log, each incoming visitor's country is recorded as a numeric country code in the list `numbers`. Write a function that returns how many DISTINCT countries the visitors came from.",
+  "fonksiyon_imzasi": "def farkli_sayisi(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "farkli_sayisi",
+  "fonksiyon_imzasi_en": "def distinct_count(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "distinct_count",
+  "referans_cozum": "def farkli_sayisi(sayilar):\n    return len(set(sayilar))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 2, 3]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5, 5, 5]], "beklenen": 1},
+    {"girdi": [[1, 2, 3]], "beklenen": 3},
+    {"girdi": [[7]], "beklenen": 1}
+  ]
+}

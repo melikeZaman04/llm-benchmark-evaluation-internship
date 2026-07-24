@@ -1,0 +1,23 @@
+{
+  "id": "trc_092",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_092",
+  "variant_type": "canonical",
+  "prompt_tr": "Bir tam sayı listesi `sayilar` veriliyor. Listede birbirinden FARKLI kaç değer bulunduğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of integers `numbers` is given. Write a function that returns how many DISTINCT values the list contains.",
+  "fonksiyon_imzasi": "def farkli_sayisi(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "farkli_sayisi",
+  "fonksiyon_imzasi_en": "def distinct_count(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "distinct_count",
+  "referans_cozum": "def farkli_sayisi(sayilar):\n    return len(set(sayilar))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 2, 3]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5, 5, 5]], "beklenen": 1},
+    {"girdi": [[1, 2, 3]], "beklenen": 3},
+    {"girdi": [[7]], "beklenen": 1}
+  ],
+  "sablon": {"öğe": ["sayı listesi", "ziyaretçi ülkeleri", "ürün türleri"]}
+}

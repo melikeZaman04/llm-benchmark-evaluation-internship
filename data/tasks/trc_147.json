@@ -1,0 +1,24 @@
+{
+  "id": "trc_147",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_090",
+  "canonical_id": "trc_090",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir depoda, içine tek tek ürünler (tam sayılarla temsil edilir) ya da başka kutular yerleştirilebilen bir `liste` (kutu) veriliyor. Bu kutunun en derine yerleştirilmiş kutuya kadar olan iç içe geçme DERİNLİĞİNİ döndüren bir fonksiyon yaz (en dıştaki kutu derinlik 1'dir; boş kutu da 1).",
+  "prompt_en": "In a warehouse, a box `lst` is given that may hold individual products (represented by integers) or other boxes. Write a function that returns the nesting DEPTH down to the most deeply nested box (the outermost box is depth 1; an empty box is also 1).",
+  "fonksiyon_imzasi": "def liste_derinligi(liste: list) -> int:",
+  "fonksiyon_adi": "liste_derinligi",
+  "fonksiyon_imzasi_en": "def list_depth(lst: list) -> int:",
+  "fonksiyon_adi_en": "list_depth",
+  "referans_cozum": "def liste_derinligi(liste):\n    if not isinstance(liste, list):\n        return 0\n    if not liste:\n        return 1\n    return 1 + max(liste_derinligi(o) for o in liste)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3]], "beklenen": 1},
+    {"girdi": [[1, [2, 3]]], "beklenen": 2},
+    {"girdi": [[[[]]]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 1},
+    {"girdi": [[1, [2, [3, [4]]]]], "beklenen": 4},
+    {"girdi": [[[1], [2]]], "beklenen": 2}
+  ]
+}

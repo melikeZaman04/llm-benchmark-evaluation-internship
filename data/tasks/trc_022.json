@@ -7,9 +7,11 @@
   "canonical_id": "trc_001",
   "variant_type": "story_mutation",
   "prompt_tr": "Bir kırtasiye dükkanında kalemlerin ağırlıkları (gram cinsinden) bir liste olarak veriliyor. Elindeki çantanın taşıyabileceği maksimum ağırlık kapasitesi `kapasite` gramdır. Bu kapasiteyi aşmadan çantana koyabileceğin MAKSİMUM kalem sayısını döndüren bir fonksiyon yaz.",
-  "prompt_en": "In a stationery store, the weights of pens (in grams) are given as a list. Your bag can carry a maximum weight capacity of `kapasite` grams. Write a function that returns the MAXIMUM number of pens you can fit in your bag without exceeding this capacity.",
+  "prompt_en": "In a stationery store, the weights of pens (in grams) are given as a list. Your bag can carry a maximum weight capacity of `capacity` grams. Write a function that returns the MAXIMUM number of pens you can fit in your bag without exceeding this capacity.",
   "fonksiyon_imzasi": "def max_kalem(agirliklar: list[int], kapasite: int) -> int:",
   "fonksiyon_adi": "max_kalem",
+  "fonksiyon_imzasi_en": "def max_pens(weights: list[int], capacity: int) -> int:",
+  "fonksiyon_adi_en": "max_pens",
   "referans_cozum": "def max_kalem(agirliklar, kapasite):\n    agirliklar = sorted(agirliklar)\n    sayac = 0\n    for a in agirliklar:\n        if kapasite >= a:\n            kapasite -= a\n            sayac += 1\n        else:\n            break\n    return sayac\n",
   "test_cases": [
     {"girdi": [[10, 20, 30], 40], "beklenen": 2},

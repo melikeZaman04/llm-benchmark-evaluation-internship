@@ -1,0 +1,24 @@
+{
+  "id": "trc_142",
+  "kategori": "matematik",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_087",
+  "canonical_id": "trc_087",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir çekilişte, numarası asal sayı olan biletler \"şanslı bilet\" sayılır. Pozitif bir tam sayı `n` veriliyor. Şanslı biletleri numaralarına göre küçükten büyüğe sıraladığımızda, `n`. şanslı biletin numarasını (1. şanslı bilet numarası 2) döndüren bir `n_sansli_bilet` fonksiyonu yaz.",
+  "prompt_en": "In a raffle, a ticket whose number is a prime number is considered a \"lucky ticket\". A positive integer `n` is given. When the lucky tickets are ordered by their numbers from smallest to largest, write a function `nth_lucky_ticket` that returns the number of the `n`-th lucky ticket (the 1st lucky ticket number is 2).",
+  "fonksiyon_imzasi": "def n_sansli_bilet(n: int) -> int:",
+  "fonksiyon_adi": "n_sansli_bilet",
+  "fonksiyon_imzasi_en": "def nth_lucky_ticket(n: int) -> int:",
+  "fonksiyon_adi_en": "nth_lucky_ticket",
+  "referans_cozum": "def n_sansli_bilet(n):\n    def asal(x):\n        if x < 2:\n            return False\n        d = 2\n        while d * d <= x:\n            if x % d == 0:\n                return False\n            d += 1\n        return True\n    numara = 1\n    bulunan = 0\n    while bulunan < n:\n        numara += 1\n        if asal(numara):\n            bulunan += 1\n    return numara\n",
+  "test_cases": [
+    {"girdi": [1], "beklenen": 2},
+    {"girdi": [2], "beklenen": 3},
+    {"girdi": [3], "beklenen": 5},
+    {"girdi": [6], "beklenen": 13},
+    {"girdi": [10], "beklenen": 29},
+    {"girdi": [25], "beklenen": 97}
+  ]
+}

@@ -7,9 +7,11 @@
   "canonical_id": "trc_004",
   "variant_type": "parametric_story",
   "prompt_tr": "Bir okul bilgi yarışmasında yarışmacıların aldığı puanlar `sayilar` listesinde tam sayı olarak tutuluyor. Listedeki İKİNCİ EN BÜYÜK FARKLI puanı döndüren bir fonksiyon yaz. Listede ikiden az farklı puan varsa -1 döndür.",
-  "prompt_en": "In a school quiz competition, the scores earned by the contestants are stored as integers in the list `sayilar`. Write a function that returns the SECOND LARGEST DISTINCT score in the list. If the list contains fewer than two distinct scores, return -1.",
+  "prompt_en": "In a school quiz competition, the scores earned by the contestants are stored as integers in the list `numbers`. Write a function that returns the SECOND LARGEST DISTINCT score in the list. If the list contains fewer than two distinct scores, return -1.",
   "fonksiyon_imzasi": "def ikinci_en_buyuk(sayilar: list[int]) -> int:",
   "fonksiyon_adi": "ikinci_en_buyuk",
+  "fonksiyon_imzasi_en": "def second_largest(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "second_largest",
   "referans_cozum": "def ikinci_en_buyuk(sayilar):\n    benzersiz = sorted(set(sayilar), reverse=True)\n    if len(benzersiz) < 2:\n        return -1\n    return benzersiz[1]\n",
   "test_cases": [
     {"girdi": [[3, 1, 2]], "beklenen": 2},

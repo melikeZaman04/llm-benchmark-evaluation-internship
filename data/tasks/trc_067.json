@@ -1,0 +1,26 @@
+{
+  "id": "trc_067",
+  "kategori": "sayma",
+  "zorluk": "zor",
+  "kaynak": "ozgun",
+  "canonical_id": "trc_067",
+  "variant_type": "canonical",
+  "prompt_tr": "`basamak` basamaklı bir merdiveni her adımda 1, 2 veya 3 basamak atlayarak çıkabilirsin. En üste ulaşmanın kaç FARKLI yolu olduğunu döndüren bir fonksiyon yaz. (`basamak`=0 için 1.)",
+  "prompt_en": "You can climb a staircase of `steps` steps by moving up 1, 2, or 3 steps at a time. Write a function that returns how many DISTINCT ways there are to reach the top. (For `steps`=0, return 1.)",
+  "fonksiyon_imzasi": "def cikis_yollari(basamak: int) -> int:",
+  "fonksiyon_adi": "cikis_yollari",
+  "fonksiyon_imzasi_en": "def climb_ways(steps: int) -> int:",
+  "fonksiyon_adi_en": "climb_ways",
+  "referans_cozum": "def cikis_yollari(basamak):\n    if basamak < 0:\n        return 0\n    dp = [0] * (basamak + 1)\n    dp[0] = 1\n    for i in range(1, basamak + 1):\n        dp[i] = dp[i - 1] + (dp[i - 2] if i >= 2 else 0) + (dp[i - 3] if i >= 3 else 0)\n    return dp[basamak]\n",
+  "test_cases": [
+    {"girdi": [0], "beklenen": 1},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [2], "beklenen": 2},
+    {"girdi": [3], "beklenen": 4},
+    {"girdi": [4], "beklenen": 7},
+    {"girdi": [5], "beklenen": 13},
+    {"girdi": [6], "beklenen": 24},
+    {"girdi": [10], "beklenen": 274}
+  ],
+  "sablon": {"basamak": ["merdiven basamağı", "bina katı", "podyum turu"]}
+}
