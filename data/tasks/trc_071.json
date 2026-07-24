@@ -19,5 +19,6 @@
     {"girdi": [60], "beklenen": [2, 3, 5]},
     {"girdi": [8], "beklenen": [2]},
     {"girdi": [100], "beklenen": [2, 5]}
-  ]
+  ],
+  "sablon": {"sayı": ["tam sayı", "seri numarası", "ürün kodu"]}
 }

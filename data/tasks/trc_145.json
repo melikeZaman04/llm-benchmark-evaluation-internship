@@ -1,0 +1,25 @@
+{
+  "id": "trc_145",
+  "kategori": "mantik",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_089",
+  "canonical_id": "trc_089",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir şablon motorunda etiketler sadeleştirilmiş biçimde yazılıyor: aç/kapa çiftleri '()', '[]' ve '{}' karakterleriyle gösteriliyor. Sana yalnızca bu karakterlerden oluşan bir `ifade` veriliyor. Her açılan etiketin doğru türle ve doğru sırada kapandığını (yani etiketlerin düzgün iç içe geçtiğini) True/False döndüren bir fonksiyon yaz. (Boş `ifade` için True.)",
+  "prompt_en": "In a template engine, tags are written in a simplified form: each open/close pair is shown with the characters '()', '[]' and '{}'. You are given an `expr` consisting only of these characters. Write a function that returns True/False for whether every opening tag closes with the correct type and in the correct order (that is, the tags are properly nested). (For an empty `expr`, return True.)",
+  "fonksiyon_imzasi": "def parantez_gecerli_mi(ifade: str) -> bool:",
+  "fonksiyon_adi": "parantez_gecerli_mi",
+  "fonksiyon_imzasi_en": "def brackets_valid(expr: str) -> bool:",
+  "fonksiyon_adi_en": "brackets_valid",
+  "referans_cozum": "def parantez_gecerli_mi(ifade):\n    es = {')': '(', ']': '[', '}': '{'}\n    yigin = []\n    for c in ifade:\n        if c in '([{':\n            yigin.append(c)\n        elif c in es:\n            if not yigin or yigin.pop() != es[c]:\n                return False\n    return not yigin\n",
+  "test_cases": [
+    {"girdi": ["()[]{}"], "beklenen": true},
+    {"girdi": ["([)]"], "beklenen": false},
+    {"girdi": ["{[]}"], "beklenen": true},
+    {"girdi": [""], "beklenen": true},
+    {"girdi": ["("], "beklenen": false},
+    {"girdi": ["]"], "beklenen": false},
+    {"girdi": ["((()))"], "beklenen": true}
+  ]
+}

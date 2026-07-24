@@ -1,0 +1,24 @@
+{
+  "id": "trc_126",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_079",
+  "canonical_id": "trc_079",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir kişinin ardışık günlerde attığı adım sayılarını tutan, negatif olmayan tam sayılardan oluşan bir liste `gunluk_adimlar` ve bir `hedef_adim` veriliyor. Toplam adım sayısı tam olarak `hedef_adim`'e eşit olan, BOŞ OLMAYAN, BİTİŞİK (ardışık günlerden oluşan) bir gün aralığı olup olmadığını True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of non-negative integers `daily_steps` holding the number of steps a person took on consecutive days, and a `target_steps` value are given. Write a function that returns True/False for whether there exists a NON-EMPTY, CONTIGUOUS (consecutive days) range whose total step count equals exactly `target_steps`.",
+  "fonksiyon_imzasi": "def hedef_adim_araligi_var_mi(gunluk_adimlar: list[int], hedef_adim: int) -> bool:",
+  "fonksiyon_adi": "hedef_adim_araligi_var_mi",
+  "fonksiyon_imzasi_en": "def has_target_step_span(daily_steps: list[int], target_steps: int) -> bool:",
+  "fonksiyon_adi_en": "has_target_step_span",
+  "referans_cozum": "def hedef_adim_araligi_var_mi(gunluk_adimlar, hedef_adim):\n    sol = 0\n    toplam = 0\n    for sag in range(len(gunluk_adimlar)):\n        toplam += gunluk_adimlar[sag]\n        while toplam > hedef_adim and sol <= sag:\n            toplam -= gunluk_adimlar[sol]\n            sol += 1\n        if toplam == hedef_adim and sol <= sag:\n            return True\n    return False\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3], 5], "beklenen": true},
+    {"girdi": [[1, 2, 3], 7], "beklenen": false},
+    {"girdi": [[], 0], "beklenen": false},
+    {"girdi": [[5], 5], "beklenen": true},
+    {"girdi": [[1, 1, 1], 2], "beklenen": true},
+    {"girdi": [[1, 2, 3], 6], "beklenen": true}
+  ]
+}

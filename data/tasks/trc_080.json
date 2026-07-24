@@ -20,5 +20,6 @@
     {"girdi": [[5]], "beklenen": 1},
     {"girdi": [[1, 3, 2, 4]], "beklenen": 3},
     {"girdi": [[7, 7, 7]], "beklenen": 1}
-  ]
+  ],
+  "sablon": {"dizi": ["sayı listesi", "günlük sıcaklıklar", "kule yükseklikleri"]}
 }

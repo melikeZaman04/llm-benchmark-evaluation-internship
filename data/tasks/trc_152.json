@@ -1,0 +1,23 @@
+{
+  "id": "trc_152",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_092",
+  "canonical_id": "trc_092",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir web sitesini ziyaret eden kişilerin ülkelerini temsil eden tam sayı kodları `ulke_kodlari` listesi veriliyor. Ziyaretçilerin toplam kaç FARKLI ülkeden geldiğini döndüren bir fonksiyon yaz.",
+  "prompt_en": "A list of integer codes `country_codes` representing the countries of people who visited a website is given. Write a function that returns how many DISTINCT countries the visitors came from.",
+  "fonksiyon_imzasi": "def farkli_ulke_sayisi(ulke_kodlari: list[int]) -> int:",
+  "fonksiyon_adi": "farkli_ulke_sayisi",
+  "fonksiyon_imzasi_en": "def distinct_country_count(country_codes: list[int]) -> int:",
+  "fonksiyon_adi_en": "distinct_country_count",
+  "referans_cozum": "def farkli_ulke_sayisi(ulke_kodlari):\n    return len(set(ulke_kodlari))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 2, 3]], "beklenen": 3},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5, 5, 5]], "beklenen": 1},
+    {"girdi": [[1, 2, 3]], "beklenen": 3},
+    {"girdi": [[7]], "beklenen": 1}
+  ]
+}

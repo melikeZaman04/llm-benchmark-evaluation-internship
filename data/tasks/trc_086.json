@@ -19,5 +19,6 @@
     {"girdi": [7, 7], "beklenen": 7},
     {"girdi": [1, 9], "beklenen": 9},
     {"girdi": [12, 18], "beklenen": 36}
-  ]
+  ],
+  "sablon": {"sayı": ["iki sayı", "iki çark dişi sayısı", "iki sinyal periyodu"]}
 }

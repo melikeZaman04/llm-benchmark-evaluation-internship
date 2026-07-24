@@ -19,5 +19,6 @@
     {"girdi": [1, 100], "beklenen": 1},
     {"girdi": [10, 2], "beklenen": 100},
     {"girdi": [7, 1], "beklenen": 7}
-  ]
+  ],
+  "sablon": {"işlem": ["taban-üs", "büyüme katlanması", "hücre bölünmesi"]}
 }

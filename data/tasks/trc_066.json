@@ -21,5 +21,6 @@
     {"girdi": [[1, 2, 3, 1]], "beklenen": 4},
     {"girdi": [[10, 5, 5, 10]], "beklenen": 20},
     {"girdi": [[0, 0, 0]], "beklenen": 0}
-  ]
+  ],
+  "sablon": {"değer": ["sayı listesi", "raf ödülleri", "günlük kazançlar"]}
 }

@@ -19,5 +19,6 @@
     {"girdi": [[]], "beklenen": true},
     {"girdi": [[2, 3, 4]], "beklenen": false},
     {"girdi": [[1]], "beklenen": true}
-  ]
+  ],
+  "sablon": {"öğe": ["sıra numarası", "koltuk numarası", "sıra fişi"]}
 }

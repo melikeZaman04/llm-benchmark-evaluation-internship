@@ -21,5 +21,6 @@
     {"girdi": ["aaaa"], "beklenen": 4},
     {"girdi": ["kayak"], "beklenen": 5},
     {"girdi": ["abacabad"], "beklenen": 7}
-  ]
+  ],
+  "sablon": {"metin": ["karakter dizisi", "DNA dizisi", "boncuk dizilimi"]}
 }

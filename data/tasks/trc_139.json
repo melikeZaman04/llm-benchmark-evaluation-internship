@@ -1,0 +1,24 @@
+{
+  "id": "trc_139",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_086",
+  "canonical_id": "trc_086",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir dişli mekanizmasında birbirine geçen iki çarkın diş sayıları `a` ve `b` pozitif tam sayıları ile veriliyor. İki çarkın da aynı anda başlangıç konumuna dönmesi için dönmesi gereken diş sayısı, bu iki diş sayısının en küçük ortak katına (EKOK) eşittir. Bu değeri döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a gear mechanism, two meshed gears have `a` and `b` teeth, given as positive integers. The number of teeth that must pass for both gears to return to their starting position at the same time equals the least common multiple (LCM) of these two teeth counts. Write a function that returns this value.",
+  "fonksiyon_imzasi": "def ekok(a: int, b: int) -> int:",
+  "fonksiyon_adi": "ekok",
+  "fonksiyon_imzasi_en": "def lcm(a: int, b: int) -> int:",
+  "fonksiyon_adi_en": "lcm",
+  "referans_cozum": "def ekok(a, b):\n    import math\n    return a * b // math.gcd(a, b)\n",
+  "test_cases": [
+    {"girdi": [4, 6], "beklenen": 12},
+    {"girdi": [3, 5], "beklenen": 15},
+    {"girdi": [2, 4], "beklenen": 4},
+    {"girdi": [7, 7], "beklenen": 7},
+    {"girdi": [1, 9], "beklenen": 9},
+    {"girdi": [12, 18], "beklenen": 36}
+  ]
+}

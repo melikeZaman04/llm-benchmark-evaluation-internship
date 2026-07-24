@@ -19,5 +19,6 @@
     {"girdi": [[5], 5], "beklenen": true},
     {"girdi": [[1, 1, 1], 2], "beklenen": true},
     {"girdi": [[1, 2, 3], 6], "beklenen": true}
-  ]
+  ],
+  "sablon": {"değer": ["sayı listesi", "günlük harcamalar", "adım sayıları"]}
 }

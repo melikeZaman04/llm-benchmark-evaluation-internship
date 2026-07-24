@@ -1,0 +1,23 @@
+{
+  "id": "trc_136",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_084",
+  "canonical_id": "trc_084",
+  "variant_type": "story_mutation",
+  "prompt_tr": "İki erişim kodu `kod` ve `kaynak` veriliyor. `kod`, `kaynak`'ın tersten yazılmış hâli mi (karakterler ters sırada, olduğu gibi) True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "Two access codes `code` and `source` are given. Write a function that returns True/False for whether `code` is `source` written backwards (characters in reverse order, as-is).",
+  "fonksiyon_imzasi": "def tersten_yazilmis_mi(kod: str, kaynak: str) -> bool:",
+  "fonksiyon_adi": "tersten_yazilmis_mi",
+  "fonksiyon_imzasi_en": "def is_written_backwards(code: str, source: str) -> bool:",
+  "fonksiyon_adi_en": "is_written_backwards",
+  "referans_cozum": "def tersten_yazilmis_mi(kod, kaynak):\n    return kod == kaynak[::-1]\n",
+  "test_cases": [
+    {"girdi": ["abc", "cba"], "beklenen": true},
+    {"girdi": ["ab", "ab"], "beklenen": false},
+    {"girdi": ["", ""], "beklenen": true},
+    {"girdi": ["a", "a"], "beklenen": true},
+    {"girdi": ["abc", "cbaa"], "beklenen": false}
+  ]
+}

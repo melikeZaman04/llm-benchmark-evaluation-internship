@@ -1,0 +1,23 @@
+{
+  "id": "trc_149",
+  "kategori": "sayma",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_091",
+  "canonical_id": "trc_091",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir otobüs kontrolörü, denetlediği yolcuların bilet numaralarını `sayilar` adlı bir tam sayı listesinde topluyor. Bu listedeki ÇİFT bilet numaralarının adedini döndüren bir fonksiyon yaz. (0 çifttir.)",
+  "prompt_en": "A bus inspector collects the ticket numbers of the passengers being checked in a list of integers called `numbers`. Write a function that returns the count of EVEN ticket numbers in this list. (0 is even.)",
+  "fonksiyon_imzasi": "def cift_sayisi(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "cift_sayisi",
+  "fonksiyon_imzasi_en": "def count_evens(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "count_evens",
+  "referans_cozum": "def cift_sayisi(sayilar):\n    return sum(1 for x in sayilar if x % 2 == 0)\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3, 4]], "beklenen": 2},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[1, 3, 5]], "beklenen": 0},
+    {"girdi": [[2, 4, 6]], "beklenen": 3},
+    {"girdi": [[0]], "beklenen": 1}
+  ]
+}

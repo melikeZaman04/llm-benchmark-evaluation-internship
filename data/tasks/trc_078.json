@@ -18,5 +18,6 @@
     {"girdi": [""], "beklenen": 0},
     {"girdi": ["((()))"], "beklenen": 3},
     {"girdi": ["(()(()))"], "beklenen": 3}
-  ]
+  ],
+  "sablon": {"yapı": ["parantez dizisi", "iç içe kutular", "klasör derinliği"]}
 }

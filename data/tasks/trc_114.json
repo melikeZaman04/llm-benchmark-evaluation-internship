@@ -1,0 +1,23 @@
+{
+  "id": "trc_114",
+  "kategori": "sayma",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_073",
+  "canonical_id": "trc_073",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sensörden gelen `sinyal_dizisi` veriliyor. Aynı sinyalin ARDIŞIK olarak tekrarlandığı en uzun kesintisiz bloğun uzunluğunu döndüren bir fonksiyon yaz. (Boş dizi için 0.)",
+  "prompt_en": "A `signal_sequence` coming from a sensor is given. Write a function that returns the length of the longest uninterrupted block where the same signal repeats CONSECUTIVELY. (For an empty sequence, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_seri(sinyal_dizisi: str) -> int:",
+  "fonksiyon_adi": "en_uzun_seri",
+  "fonksiyon_imzasi_en": "def longest_streak(signal_sequence: str) -> int:",
+  "fonksiyon_adi_en": "longest_streak",
+  "referans_cozum": "def en_uzun_seri(sinyal_dizisi):\n    if not sinyal_dizisi:\n        return 0\n    en = sayac = 1\n    for i in range(1, len(sinyal_dizisi)):\n        if sinyal_dizisi[i] == sinyal_dizisi[i - 1]:\n            sayac += 1\n            en = max(en, sayac)\n        else:\n            sayac = 1\n    return en\n",
+  "test_cases": [
+    {"girdi": ["aabbbc"], "beklenen": 3},
+    {"girdi": ["abc"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["aabbaa"], "beklenen": 2}
+  ]
+}

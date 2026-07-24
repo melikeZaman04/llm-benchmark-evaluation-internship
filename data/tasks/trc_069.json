@@ -19,5 +19,6 @@
     {"girdi": [[5, 4], [4, 5]], "beklenen": [4, 5]},
     {"girdi": [[1, 2], [3, 4]], "beklenen": []},
     {"girdi": [[7, 7, 7], [7, 7]], "beklenen": [7]}
-  ]
+  ],
+  "sablon": {"öğe": ["sayı", "ürün etiketi", "üye numarası"]}
 }

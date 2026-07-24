@@ -18,5 +18,6 @@
     {"girdi": [[3, 3, 3]], "beklenen": 0},
     {"girdi": [[10, -5]], "beklenen": 15},
     {"girdi": [[1, 100]], "beklenen": 99}
-  ]
+  ],
+  "sablon": {"ölçüm": ["sayı listesi", "sıcaklık ölçümleri", "ürün fiyatları"]}
 }

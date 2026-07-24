@@ -20,5 +20,6 @@
     {"girdi": [[1, 2, 3], 0], "beklenen": 0},
     {"girdi": [[4, 4, 4, 3, 3, 2], 2], "beklenen": 5},
     {"girdi": [[1, 2, 1, 3, 4], 3], "beklenen": 4}
-  ]
+  ],
+  "sablon": {"veri": ["sayı listesi", "ziyaretçi ülke kodları", "çalınan şarkı türleri"]}
 }

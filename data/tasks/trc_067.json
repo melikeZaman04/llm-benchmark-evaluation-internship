@@ -21,5 +21,6 @@
     {"girdi": [5], "beklenen": 13},
     {"girdi": [6], "beklenen": 24},
     {"girdi": [10], "beklenen": 274}
-  ]
+  ],
+  "sablon": {"basamak": ["merdiven basamağı", "bina katı", "podyum turu"]}
 }

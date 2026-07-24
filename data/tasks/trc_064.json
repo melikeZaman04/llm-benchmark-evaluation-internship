@@ -20,5 +20,6 @@
     {"girdi": [[1, 3, 4], 6], "beklenen": 2},
     {"girdi": [[5, 10, 25], 30], "beklenen": 2},
     {"girdi": [[4, 6, 9], 23], "beklenen": 4}
-  ]
+  ],
+  "sablon": {"birim": ["madeni para", "posta pulu", "jeton"]}
 }

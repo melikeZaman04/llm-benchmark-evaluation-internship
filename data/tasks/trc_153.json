@@ -1,0 +1,24 @@
+{
+  "id": "trc_153",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_071",
+  "canonical_id": "trc_071",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir depodaki her ürün, pozitif bir tam sayı olan `urun_kodu` ile etiketlenir. `urun_kodu`'nun FARKLI asal bölenlerini ARTAN sırada bir liste olarak döndüren bir fonksiyon yaz. (`urun_kodu`=1 için boş liste.)",
+  "prompt_en": "Every item in a warehouse is labeled with a positive integer `product_code`. Write a function that returns the DISTINCT prime divisors of `product_code` in ASCENDING order as a list. (For `product_code`=1, return an empty list.)",
+  "fonksiyon_imzasi": "def asal_bilesenler(urun_kodu: int) -> list[int]:",
+  "fonksiyon_adi": "asal_bilesenler",
+  "fonksiyon_imzasi_en": "def prime_components(product_code: int) -> list[int]:",
+  "fonksiyon_adi_en": "prime_components",
+  "referans_cozum": "def asal_bilesenler(n):\n    carpanlar = []\n    d = 2\n    while d * d <= n:\n        if n % d == 0:\n            carpanlar.append(d)\n            while n % d == 0:\n                n //= d\n        d += 1\n    if n > 1:\n        carpanlar.append(n)\n    return carpanlar\n",
+  "test_cases": [
+    {"girdi": [12], "beklenen": [2, 3]},
+    {"girdi": [17], "beklenen": [17]},
+    {"girdi": [1], "beklenen": []},
+    {"girdi": [60], "beklenen": [2, 3, 5]},
+    {"girdi": [8], "beklenen": [2]},
+    {"girdi": [100], "beklenen": [2, 5]}
+  ]
+}

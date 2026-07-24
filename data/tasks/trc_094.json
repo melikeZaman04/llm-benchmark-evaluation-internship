@@ -1,0 +1,25 @@
+{
+  "id": "trc_094",
+  "kategori": "diziler",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_063",
+  "canonical_id": "trc_063",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sunucunun erişim günlüğünde, ziyaretçilerin geliş sırasına göre ülke kodları `ulke_kodlari` listesinde tutuluyor ve bir `k` sayısı veriliyor. İçinde EN FAZLA `k` FARKLI ülke bulunan en uzun BİTİŞİK ziyaretçi dizisinin uzunluğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "A server's access log stores visitor country codes in arrival order in a list `country_codes`, along with an integer `k`. Write a function that returns the length of the longest CONTIGUOUS run of visitors that contains AT MOST `k` DISTINCT countries.",
+  "fonksiyon_imzasi": "def en_uzun_k_ulke(ulke_kodlari: list[int], k: int) -> int:",
+  "fonksiyon_adi": "en_uzun_k_ulke",
+  "fonksiyon_imzasi_en": "def longest_k_countries(country_codes: list[int], k: int) -> int:",
+  "fonksiyon_adi_en": "longest_k_countries",
+  "referans_cozum": "def en_uzun_k_ulke(ulke_kodlari, k):\n    if k <= 0:\n        return 0\n    sayim = {}\n    sol = 0\n    en_uzun = 0\n    for sag in range(len(ulke_kodlari)):\n        sayim[ulke_kodlari[sag]] = sayim.get(ulke_kodlari[sag], 0) + 1\n        while len(sayim) > k:\n            sayim[ulke_kodlari[sol]] -= 1\n            if sayim[ulke_kodlari[sol]] == 0:\n                del sayim[ulke_kodlari[sol]]\n            sol += 1\n        en_uzun = max(en_uzun, sag - sol + 1)\n    return en_uzun\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 1, 2, 3], 2], "beklenen": 4},
+    {"girdi": [[1, 2, 3, 4], 1], "beklenen": 1},
+    {"girdi": [[1, 1, 1, 1], 5], "beklenen": 4},
+    {"girdi": [[], 2], "beklenen": 0},
+    {"girdi": [[1, 2, 3], 0], "beklenen": 0},
+    {"girdi": [[4, 4, 4, 3, 3, 2], 2], "beklenen": 5},
+    {"girdi": [[1, 2, 1, 3, 4], 3], "beklenen": 4}
+  ]
+}

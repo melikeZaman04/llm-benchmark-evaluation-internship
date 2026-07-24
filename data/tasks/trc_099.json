@@ -1,0 +1,26 @@
+{
+  "id": "trc_099",
+  "kategori": "mantik",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_066",
+  "canonical_id": "trc_066",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir mağazanın rafında soldan sağa dizilmiş ödül kutularının puan değerleri `sayilar` listesinde veriliyor; değerler negatif olmayan tam sayılardır. Yan yana duran iki kutuyu birlikte alamazsın. Seçtiğin kutuların puanlarıyla elde edilebilecek MAKSİMUM toplamı döndüren bir fonksiyon yaz. (Boş liste için 0.)",
+  "prompt_en": "The point values of prize boxes lined up left to right on a store shelf are given in the list `numbers`; the values are non-negative integers. You cannot take two boxes that sit right next to each other. Write a function that returns the MAXIMUM total obtainable from the points of the boxes you pick. (For an empty list, return 0.)",
+  "fonksiyon_imzasi": "def maks_bitisiksiz_toplam(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "maks_bitisiksiz_toplam",
+  "fonksiyon_imzasi_en": "def max_non_adjacent_sum(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "max_non_adjacent_sum",
+  "referans_cozum": "def maks_bitisiksiz_toplam(sayilar):\n    al = atla = 0\n    for x in sayilar:\n        al, atla = atla + x, max(al, atla)\n    return max(al, atla)\n",
+  "test_cases": [
+    {"girdi": [[3, 2, 7, 10]], "beklenen": 13},
+    {"girdi": [[3, 2, 5, 10, 7]], "beklenen": 15},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5]], "beklenen": 5},
+    {"girdi": [[2, 1, 1, 2]], "beklenen": 4},
+    {"girdi": [[1, 2, 3, 1]], "beklenen": 4},
+    {"girdi": [[10, 5, 5, 10]], "beklenen": 20},
+    {"girdi": [[0, 0, 0]], "beklenen": 0}
+  ]
+}

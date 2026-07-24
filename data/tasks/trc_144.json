@@ -1,0 +1,24 @@
+{
+  "id": "trc_144",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_088",
+  "canonical_id": "trc_088",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir sensörden alınan üç tam sayı ölçüm `olcum_a`, `olcum_b`, `olcum_c` veriliyor. Bu üç ölçümün (herhangi bir sırada) EŞİT ARALIKLI olup olmadığını — yani küçükten büyüğe sıralandığında ardışık ölçümler arasındaki farklar eşit mi — True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "Three integer readings `reading_a`, `reading_b`, `reading_c` taken from a sensor are given. Write a function that returns True/False for whether the three readings are EVENLY SPACED in some order — i.e. when sorted from smallest to largest, the differences between consecutive readings are equal.",
+  "fonksiyon_imzasi": "def esit_aralikli_mi(olcum_a: int, olcum_b: int, olcum_c: int) -> bool:",
+  "fonksiyon_adi": "esit_aralikli_mi",
+  "fonksiyon_imzasi_en": "def is_evenly_spaced(reading_a: int, reading_b: int, reading_c: int) -> bool:",
+  "fonksiyon_adi_en": "is_evenly_spaced",
+  "referans_cozum": "def esit_aralikli_mi(olcum_a, olcum_b, olcum_c):\n    x, y, z = sorted([olcum_a, olcum_b, olcum_c])\n    return y - x == z - y\n",
+  "test_cases": [
+    {"girdi": [1, 3, 5], "beklenen": true},
+    {"girdi": [5, 1, 3], "beklenen": true},
+    {"girdi": [1, 2, 4], "beklenen": false},
+    {"girdi": [2, 2, 2], "beklenen": true},
+    {"girdi": [10, 0, 5], "beklenen": true},
+    {"girdi": [1, 1, 3], "beklenen": false}
+  ]
+}

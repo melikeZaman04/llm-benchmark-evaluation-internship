@@ -19,5 +19,6 @@
     {"girdi": ["pwwkew"], "beklenen": 3},
     {"girdi": ["abcdef"], "beklenen": 6},
     {"girdi": ["abba"], "beklenen": 2}
-  ]
+  ],
+  "sablon": {"metin": ["karakter dizisi", "gezinti geçmişi", "tuş dizisi"]}
 }

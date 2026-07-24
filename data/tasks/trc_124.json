@@ -1,0 +1,23 @@
+{
+  "id": "trc_124",
+  "kategori": "mantik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_078",
+  "canonical_id": "trc_078",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Yalnızca '(' ve ')' karakterlerinden oluşan bir `kutu_dizisi` veriliyor; burada '(' bir kutunun içine yeni bir kutu yerleştirildiğini, ')' ise en içteki kutunun kapatıldığını gösterir. İç içe yerleştirilmiş kutuların ULAŞTIĞI en büyük iç içe geçme derinliğini döndüren bir fonksiyon yaz. (Boş dizi için 0; dizinin dengeli olduğu varsayılır.)",
+  "prompt_en": "A `box_sequence` consisting only of '(' and ')' characters is given, where '(' means a new box is placed inside the current one and ')' means the innermost box is closed. Write a function that returns the maximum nesting DEPTH reached by the nested boxes. (For an empty sequence, return 0; assume the sequence is balanced.)",
+  "fonksiyon_imzasi": "def en_ic_ice_derinlik(kutu_dizisi: str) -> int:",
+  "fonksiyon_adi": "en_ic_ice_derinlik",
+  "fonksiyon_imzasi_en": "def innermost_depth(box_sequence: str) -> int:",
+  "fonksiyon_adi_en": "innermost_depth",
+  "referans_cozum": "def en_ic_ice_derinlik(kutu_dizisi):\n    derinlik = en = 0\n    for c in kutu_dizisi:\n        if c == '(':\n            derinlik += 1\n            en = max(en, derinlik)\n        elif c == ')':\n            derinlik -= 1\n    return en\n",
+  "test_cases": [
+    {"girdi": ["(())"], "beklenen": 2},
+    {"girdi": ["()()"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["((()))"], "beklenen": 3},
+    {"girdi": ["(()(()))"], "beklenen": 3}
+  ]
+}

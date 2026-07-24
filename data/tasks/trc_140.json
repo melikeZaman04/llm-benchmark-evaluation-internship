@@ -1,0 +1,24 @@
+{
+  "id": "trc_140",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_086",
+  "canonical_id": "trc_086",
+  "variant_type": "story_mutation",
+  "prompt_tr": "İki periyodik sinyalin tekrarlanma periyotları pozitif tam sayılar olarak `periyot_a` ve `periyot_b` veriliyor. Her iki sinyal aynı anda başlar; ikisinin de aynı anda tekrar başladığı en küçük ortak süreyi (en küçük ortak kat, EKOK) döndüren bir fonksiyon yaz.",
+  "prompt_en": "The repetition periods of two periodic signals are given as positive integers `period_a` and `period_b`. Both signals start at the same time; write a function that returns the smallest common time at which both signals restart together (the least common multiple, LCM).",
+  "fonksiyon_imzasi": "def ortak_periyot(periyot_a: int, periyot_b: int) -> int:",
+  "fonksiyon_adi": "ortak_periyot",
+  "fonksiyon_imzasi_en": "def common_period(period_a: int, period_b: int) -> int:",
+  "fonksiyon_adi_en": "common_period",
+  "referans_cozum": "def ortak_periyot(periyot_a, periyot_b):\n    import math\n    return periyot_a * periyot_b // math.gcd(periyot_a, periyot_b)\n",
+  "test_cases": [
+    {"girdi": [4, 6], "beklenen": 12},
+    {"girdi": [3, 5], "beklenen": 15},
+    {"girdi": [2, 4], "beklenen": 4},
+    {"girdi": [7, 7], "beklenen": 7},
+    {"girdi": [1, 9], "beklenen": 9},
+    {"girdi": [12, 18], "beklenen": 36}
+  ]
+}

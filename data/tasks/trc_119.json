@@ -1,0 +1,23 @@
+{
+  "id": "trc_119",
+  "kategori": "string",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_076",
+  "canonical_id": "trc_076",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir dosya sisteminde iki dosya yolu `a` ve `b` veriliyor. Bu iki yolun ortak en uzun ÖN-EKİNİN uzunluğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a file system, two file paths `a` and `b` are given. Write a function that returns the length of their longest common PREFIX.",
+  "fonksiyon_imzasi": "def ortak_onek(a: str, b: str) -> int:",
+  "fonksiyon_adi": "ortak_onek",
+  "fonksiyon_imzasi_en": "def common_prefix(a: str, b: str) -> int:",
+  "fonksiyon_adi_en": "common_prefix",
+  "referans_cozum": "def ortak_onek(a, b):\n    n = 0\n    for x, y in zip(a, b):\n        if x != y:\n            break\n        n += 1\n    return n\n",
+  "test_cases": [
+    {"girdi": ["flower", "flow"], "beklenen": 4},
+    {"girdi": ["abc", "xyz"], "beklenen": 0},
+    {"girdi": ["", "a"], "beklenen": 0},
+    {"girdi": ["same", "same"], "beklenen": 4},
+    {"girdi": ["prefix", "pre"], "beklenen": 3}
+  ]
+}

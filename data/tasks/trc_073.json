@@ -18,5 +18,6 @@
     {"girdi": [""], "beklenen": 0},
     {"girdi": ["aaaa"], "beklenen": 4},
     {"girdi": ["aabbaa"], "beklenen": 2}
-  ]
+  ],
+  "sablon": {"metin": ["karakter dizisi", "renk şeridi", "sinyal dizisi"]}
 }

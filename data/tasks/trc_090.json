@@ -19,5 +19,6 @@
     {"girdi": [[]], "beklenen": 1},
     {"girdi": [[1, [2, [3, [4]]]]], "beklenen": 4},
     {"girdi": [[[1], [2]]], "beklenen": 2}
-  ]
+  ],
+  "sablon": {"yapı": ["iç içe liste", "iç içe kutu", "klasör ağacı"]}
 }

@@ -18,5 +18,6 @@
     {"girdi": [[5, 5, 5]], "beklenen": 1},
     {"girdi": [[1, 2, 3]], "beklenen": 3},
     {"girdi": [[7]], "beklenen": 1}
-  ]
+  ],
+  "sablon": {"öğe": ["sayı listesi", "ziyaretçi ülkeleri", "ürün türleri"]}
 }

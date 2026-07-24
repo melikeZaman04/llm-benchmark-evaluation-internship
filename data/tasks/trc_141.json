@@ -1,0 +1,24 @@
+{
+  "id": "trc_141",
+  "kategori": "matematik",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_087",
+  "canonical_id": "trc_087",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir çekilişte numarası asal sayı olan biletler \"şanslı\" ilan ediliyor. Pozitif bir tam sayı `n` veriliyor; `n`. şanslı biletin numarasını döndüren bir fonksiyon yaz (1. şanslı bilet 2 numaralıdır).",
+  "prompt_en": "In a raffle, tickets whose numbers are prime are declared \"lucky.\" Given a positive integer `n`, write a function that returns the number on the `n`-th lucky ticket (the 1st lucky ticket is numbered 2).",
+  "fonksiyon_imzasi": "def n_asal(n: int) -> int:",
+  "fonksiyon_adi": "n_asal",
+  "fonksiyon_imzasi_en": "def nth_prime(n: int) -> int:",
+  "fonksiyon_adi_en": "nth_prime",
+  "referans_cozum": "def n_asal(n):\n    def asal(x):\n        if x < 2:\n            return False\n        d = 2\n        while d * d <= x:\n            if x % d == 0:\n                return False\n            d += 1\n        return True\n    sayi = 1\n    bulunan = 0\n    while bulunan < n:\n        sayi += 1\n        if asal(sayi):\n            bulunan += 1\n    return sayi\n",
+  "test_cases": [
+    {"girdi": [1], "beklenen": 2},
+    {"girdi": [2], "beklenen": 3},
+    {"girdi": [3], "beklenen": 5},
+    {"girdi": [6], "beklenen": 13},
+    {"girdi": [10], "beklenen": 29},
+    {"girdi": [25], "beklenen": 97}
+  ]
+}

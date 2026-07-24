@@ -18,5 +18,6 @@
     {"girdi": [[1, 3, 5]], "beklenen": 0},
     {"girdi": [[2, 4, 6]], "beklenen": 3},
     {"girdi": [[0]], "beklenen": 1}
-  ]
+  ],
+  "sablon": {"öğe": ["sayı listesi", "bilet numaraları", "kat numaraları"]}
 }

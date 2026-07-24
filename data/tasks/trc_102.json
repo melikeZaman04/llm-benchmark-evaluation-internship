@@ -1,0 +1,26 @@
+{
+  "id": "trc_102",
+  "kategori": "sayma",
+  "zorluk": "zor",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_067",
+  "canonical_id": "trc_067",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir dağıtım robotu, `kat_sayisi` katlı bir binada zemin kattan en üst kata çıkmaya çalışıyor. Robot her hamlede 1, 2 veya 3 kat birden yukarı çıkabiliyor. En üst kata ulaşmanın kaç FARKLI yolu olduğunu döndüren bir fonksiyon yaz. (`kat_sayisi`=0 için 1.)",
+  "prompt_en": "A delivery robot is trying to reach the top floor of a building with `floor_count` floors, starting from the ground floor. On each move the robot can go up 1, 2, or 3 floors at once. Write a function that returns how many DISTINCT ways there are to reach the top floor. (For `floor_count`=0, return 1.)",
+  "fonksiyon_imzasi": "def kat_cikma_yollari(kat_sayisi: int) -> int:",
+  "fonksiyon_adi": "kat_cikma_yollari",
+  "fonksiyon_imzasi_en": "def floor_climb_ways(floor_count: int) -> int:",
+  "fonksiyon_adi_en": "floor_climb_ways",
+  "referans_cozum": "def kat_cikma_yollari(kat_sayisi):\n    if kat_sayisi < 0:\n        return 0\n    dp = [0] * (kat_sayisi + 1)\n    dp[0] = 1\n    for i in range(1, kat_sayisi + 1):\n        dp[i] = dp[i - 1] + (dp[i - 2] if i >= 2 else 0) + (dp[i - 3] if i >= 3 else 0)\n    return dp[kat_sayisi]\n",
+  "test_cases": [
+    {"girdi": [0], "beklenen": 1},
+    {"girdi": [1], "beklenen": 1},
+    {"girdi": [2], "beklenen": 2},
+    {"girdi": [3], "beklenen": 4},
+    {"girdi": [4], "beklenen": 7},
+    {"girdi": [5], "beklenen": 13},
+    {"girdi": [6], "beklenen": 24},
+    {"girdi": [10], "beklenen": 274}
+  ]
+}

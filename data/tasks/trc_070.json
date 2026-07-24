@@ -18,5 +18,6 @@
     {"girdi": ["zzxy"], "beklenen": "z"},
     {"girdi": ["mississippi"], "beklenen": "i"},
     {"girdi": ["a"], "beklenen": "a"}
-  ]
+  ],
+  "sablon": {"metin": ["harf dizisi", "oy pusulası işaretleri", "DNA bazları"]}
 }

@@ -1,0 +1,25 @@
+{
+  "id": "trc_127",
+  "kategori": "ozyineleme",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_080",
+  "canonical_id": "trc_080",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir meteoroloji istasyonu, bir sezon boyunca ölçtüğü günlük sıcaklıkları sırayla `sayilar` listesinde tutuyor. Ardışık olması gerekmeyen, kronolojik sırayı koruyan ve her ölçümü bir öncekinden kesin olarak daha yüksek olan en uzun sıcaklık dizisinin kaç günden oluştuğunu döndüren bir fonksiyon yaz. (Liste boşsa 0 döndür.)",
+  "prompt_en": "A weather station records its daily temperatures for a season, in order, in the list `numbers`. Write a function that returns how many days make up the longest run of temperatures that preserves chronological order and in which each reading is strictly higher than the previous one (the days need not be consecutive). (If the list is empty, return 0.)",
+  "fonksiyon_imzasi": "def en_uzun_artan(sayilar: list[int]) -> int:",
+  "fonksiyon_adi": "en_uzun_artan",
+  "fonksiyon_imzasi_en": "def longest_increasing(numbers: list[int]) -> int:",
+  "fonksiyon_adi_en": "longest_increasing",
+  "referans_cozum": "def en_uzun_artan(sayilar):\n    if not sayilar:\n        return 0\n    dp = [1] * len(sayilar)\n    for i in range(len(sayilar)):\n        for j in range(i):\n            if sayilar[j] < sayilar[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)\n",
+  "test_cases": [
+    {"girdi": [[10, 9, 2, 5, 3, 7, 101, 18]], "beklenen": 4},
+    {"girdi": [[1, 2, 3]], "beklenen": 3},
+    {"girdi": [[3, 2, 1]], "beklenen": 1},
+    {"girdi": [[]], "beklenen": 0},
+    {"girdi": [[5]], "beklenen": 1},
+    {"girdi": [[1, 3, 2, 4]], "beklenen": 3},
+    {"girdi": [[7, 7, 7]], "beklenen": 1}
+  ]
+}

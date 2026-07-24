@@ -1,0 +1,26 @@
+{
+  "id": "trc_097",
+  "kategori": "string",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_065",
+  "canonical_id": "trc_065",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir laboratuvarda dizilenmiş `metin` adında bir DNA dizisi (A, C, G, T bazlarından oluşan bir karakter dizisi) veriliyor. Bu dizideki en uzun PALİNDROM alt-dizinin uzunluğunu döndüren bir fonksiyon yaz. (Alt-dizi, `metin` içindeki bitişik bazlardan oluşur; bazlar olduğu gibi, büyük/küçük harf ayrımı korunarak dikkate alınır.)",
+  "prompt_en": "You are given a DNA sequence named `text` (a string of bases such as A, C, G, T) that was read out in a lab. Write a function that returns the length of the longest PALINDROMIC subsequence run within it. (Such a run consists of contiguous bases in `text`; the bases are taken as-is, preserving their letter case.)",
+  "fonksiyon_imzasi": "def en_uzun_palindrom(metin: str) -> int:",
+  "fonksiyon_adi": "en_uzun_palindrom",
+  "fonksiyon_imzasi_en": "def longest_palindrome(text: str) -> int:",
+  "fonksiyon_adi_en": "longest_palindrome",
+  "referans_cozum": "def en_uzun_palindrom(metin):\n    if not metin:\n        return 0\n    en = 1\n    def genislet(sol, sag):\n        while sol >= 0 and sag < len(metin) and metin[sol] == metin[sag]:\n            sol -= 1\n            sag += 1\n        return sag - sol - 1\n    for i in range(len(metin)):\n        en = max(en, genislet(i, i), genislet(i, i + 1))\n    return en\n",
+  "test_cases": [
+    {"girdi": ["babad"], "beklenen": 3},
+    {"girdi": ["cbbd"], "beklenen": 2},
+    {"girdi": ["a"], "beklenen": 1},
+    {"girdi": [""], "beklenen": 0},
+    {"girdi": ["abcda"], "beklenen": 1},
+    {"girdi": ["aaaa"], "beklenen": 4},
+    {"girdi": ["kayak"], "beklenen": 5},
+    {"girdi": ["abacabad"], "beklenen": 7}
+  ]
+}

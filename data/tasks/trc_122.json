@@ -1,0 +1,23 @@
+{
+  "id": "trc_122",
+  "kategori": "matematik",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_077",
+  "canonical_id": "trc_077",
+  "variant_type": "story_mutation",
+  "prompt_tr": "Bir kasanın kilit kodu negatif olmayan bir tam sayı `kod` olarak veriliyor. `kod`'un basamaklarını TERS sıraya çevirip oluşan sayıyı (baştaki sıfırlar düşer) döndüren bir fonksiyon yaz.",
+  "prompt_en": "A vault's lock code is given as a non-negative integer `code`. Write a function that returns the number formed by REVERSING the digits of `code` (leading zeros are dropped).",
+  "fonksiyon_imzasi": "def kod_ters(kod: int) -> int:",
+  "fonksiyon_adi": "kod_ters",
+  "fonksiyon_imzasi_en": "def reverse_code(code: int) -> int:",
+  "fonksiyon_adi_en": "reverse_code",
+  "referans_cozum": "def kod_ters(kod):\n    return int(str(kod)[::-1])\n",
+  "test_cases": [
+    {"girdi": [123], "beklenen": 321},
+    {"girdi": [100], "beklenen": 1},
+    {"girdi": [0], "beklenen": 0},
+    {"girdi": [5], "beklenen": 5},
+    {"girdi": [1200], "beklenen": 21}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "trc_135",
+  "kategori": "string",
+  "zorluk": "kolay",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_084",
+  "canonical_id": "trc_084",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir güvenlik sisteminde yönetici, iki erişim kodu `a` ve `b` giriyor. `a` erişim kodunun, `b` erişim kodunun tersten yazılmış hâli olup olmadığını (karakterler ters sırada, olduğu gibi) True/False döndüren bir fonksiyon yaz.",
+  "prompt_en": "In a security system, an administrator enters two access codes `a` and `b`. Write a function that returns True/False for whether access code `a` is access code `b` written backwards (characters in reverse order, as-is).",
+  "fonksiyon_imzasi": "def ters_mi(a: str, b: str) -> bool:",
+  "fonksiyon_adi": "ters_mi",
+  "fonksiyon_imzasi_en": "def is_reverse(a: str, b: str) -> bool:",
+  "fonksiyon_adi_en": "is_reverse",
+  "referans_cozum": "def ters_mi(a, b):\n    return a == b[::-1]\n",
+  "test_cases": [
+    {"girdi": ["abc", "cba"], "beklenen": true},
+    {"girdi": ["ab", "ab"], "beklenen": false},
+    {"girdi": ["", ""], "beklenen": true},
+    {"girdi": ["a", "a"], "beklenen": true},
+    {"girdi": ["abc", "cbaa"], "beklenen": false}
+  ]
+}

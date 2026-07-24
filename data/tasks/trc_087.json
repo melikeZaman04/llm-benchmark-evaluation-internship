@@ -19,5 +19,6 @@
     {"girdi": [6], "beklenen": 13},
     {"girdi": [10], "beklenen": 29},
     {"girdi": [25], "beklenen": 97}
-  ]
+  ],
+  "sablon": {"sıra": ["asal sıralaması", "şanslı bilet sırası", "eleman sırası"]}
 }

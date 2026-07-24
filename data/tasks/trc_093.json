@@ -1,0 +1,25 @@
+{
+  "id": "trc_093",
+  "kategori": "diziler",
+  "zorluk": "zor",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_063",
+  "canonical_id": "trc_063",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir web sitesinin ziyaretçileri geldikleri sıraya göre kaydediliyor; her ziyaretçinin ülke kodu, geliş sırasını koruyan `sayilar` listesinde tutuluyor. İçinde EN FAZLA `k` FARKLI ülke geçen en uzun BİTİŞİK ziyaret aralığının uzunluğunu döndüren bir fonksiyon yaz.",
+  "prompt_en": "A website logs its visitors in the order they arrive, and each visitor's country code is kept in the list `numbers`, preserving the order of arrival. Write a function that returns the length of the longest CONTIGUOUS run of visits in which AT MOST `k` DISTINCT countries appear.",
+  "fonksiyon_imzasi": "def en_uzun_k_farkli(sayilar: list[int], k: int) -> int:",
+  "fonksiyon_adi": "en_uzun_k_farkli",
+  "fonksiyon_imzasi_en": "def longest_k_distinct(numbers: list[int], k: int) -> int:",
+  "fonksiyon_adi_en": "longest_k_distinct",
+  "referans_cozum": "def en_uzun_k_farkli(sayilar, k):\n    if k <= 0:\n        return 0\n    sayim = {}\n    sol = 0\n    en_uzun = 0\n    for sag in range(len(sayilar)):\n        sayim[sayilar[sag]] = sayim.get(sayilar[sag], 0) + 1\n        while len(sayim) > k:\n            sayim[sayilar[sol]] -= 1\n            if sayim[sayilar[sol]] == 0:\n                del sayim[sayilar[sol]]\n            sol += 1\n        en_uzun = max(en_uzun, sag - sol + 1)\n    return en_uzun\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 1, 2, 3], 2], "beklenen": 4},
+    {"girdi": [[1, 2, 3, 4], 1], "beklenen": 1},
+    {"girdi": [[1, 1, 1, 1], 5], "beklenen": 4},
+    {"girdi": [[], 2], "beklenen": 0},
+    {"girdi": [[1, 2, 3], 0], "beklenen": 0},
+    {"girdi": [[4, 4, 4, 3, 3, 2], 2], "beklenen": 5},
+    {"girdi": [[1, 2, 1, 3, 4], 3], "beklenen": 4}
+  ]
+}

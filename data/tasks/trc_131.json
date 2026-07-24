@@ -1,0 +1,22 @@
+{
+  "id": "trc_131",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "parametrik",
+  "ebeveyn": "trc_082",
+  "canonical_id": "trc_082",
+  "variant_type": "parametric_story",
+  "prompt_tr": "Bir mağaza zincirinin şubelerinin iki çeyrekteki satış adetleri, aynı uzunlukta iki tam sayı listesi olarak veriliyor: `a` birinci çeyreği, `b` ikinci çeyreği tutar ve aynı indeks aynı şubeye karşılık gelir. Her şubenin iki çeyrekteki toplam satışını, yani listelerin eleman-eleman toplamlarını içeren yeni bir liste döndüren bir fonksiyon yaz.",
+  "prompt_en": "A retail chain's per-branch sales counts for two quarters are given as two equal-length integer lists: `a` holds the first quarter and `b` the second, with the same index referring to the same branch. Write a function that returns a new list containing each branch's total sales across both quarters, that is, the element-wise sums of the lists.",
+  "fonksiyon_imzasi": "def eleman_topla(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi": "eleman_topla",
+  "fonksiyon_imzasi_en": "def elementwise_sum(a: list[int], b: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "elementwise_sum",
+  "referans_cozum": "def eleman_topla(a, b):\n    return [x + y for x, y in zip(a, b)]\n",
+  "test_cases": [
+    {"girdi": [[1, 2], [3, 4]], "beklenen": [4, 6]},
+    {"girdi": [[], []], "beklenen": []},
+    {"girdi": [[1], [-1]], "beklenen": [0]},
+    {"girdi": [[5, 5, 5], [1, 2, 3]], "beklenen": [6, 7, 8]}
+  ]
+}

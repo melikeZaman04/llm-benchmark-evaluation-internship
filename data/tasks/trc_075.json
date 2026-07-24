@@ -19,5 +19,6 @@
     {"girdi": [[], 2], "beklenen": []},
     {"girdi": [[1, 2], 5], "beklenen": [2, 1]},
     {"girdi": [[1, 2, 3, 4], 1], "beklenen": [4, 1, 2, 3]}
-  ]
+  ],
+  "sablon": {"liste": ["sayı dizisi", "vardiya sırası", "çalma listesi"]}
 }

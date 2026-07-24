@@ -18,5 +18,6 @@
     {"girdi": ["", "a"], "beklenen": 0},
     {"girdi": ["same", "same"], "beklenen": 4},
     {"girdi": ["prefix", "pre"], "beklenen": 3}
-  ]
+  ],
+  "sablon": {"metin": ["kelime", "dosya yolu", "telefon kodu"]}
 }

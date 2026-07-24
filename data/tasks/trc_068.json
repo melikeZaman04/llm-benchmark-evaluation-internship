@@ -21,5 +21,6 @@
     {"girdi": [10, 2], "beklenen": 5},
     {"girdi": [6, 5], "beklenen": 1},
     {"girdi": [1, 1], "beklenen": 1}
-  ]
+  ],
+  "sablon": {"birim": ["çemberdeki kişi", "masadaki oyuncu", "sıradaki sandalye"]}
 }

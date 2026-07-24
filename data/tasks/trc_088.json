@@ -19,5 +19,6 @@
     {"girdi": [2, 2, 2], "beklenen": true},
     {"girdi": [10, 0, 5], "beklenen": true},
     {"girdi": [1, 1, 3], "beklenen": false}
-  ]
+  ],
+  "sablon": {"değer": ["üç sayı", "üç ölçüm", "üç fiyat"]}
 }

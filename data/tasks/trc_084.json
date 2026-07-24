@@ -18,5 +18,6 @@
     {"girdi": ["", ""], "beklenen": true},
     {"girdi": ["a", "a"], "beklenen": true},
     {"girdi": ["abc", "cbaa"], "beklenen": false}
-  ]
+  ],
+  "sablon": {"metin": ["kelime", "erişim kodu", "sembol dizisi"]}
 }

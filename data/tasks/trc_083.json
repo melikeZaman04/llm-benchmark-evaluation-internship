@@ -20,5 +20,6 @@
     {"girdi": [[]], "beklenen": false},
     {"girdi": [[3, -1, -2]], "beklenen": true},
     {"girdi": [[1, 1, 1]], "beklenen": false}
-  ]
+  ],
+  "sablon": {"değer": ["tam sayı listesi", "borç-alacak kayıtları", "sıcaklık sapmaları"]}
 }

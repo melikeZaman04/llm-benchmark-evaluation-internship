@@ -17,5 +17,6 @@
     {"girdi": [[], []], "beklenen": []},
     {"girdi": [[1], [-1]], "beklenen": [0]},
     {"girdi": [[5, 5, 5], [1, 2, 3]], "beklenen": [6, 7, 8]}
-  ]
+  ],
+  "sablon": {"kaynak": ["iki sayı listesi", "iki çeyrek satışı", "iki sensör verisi"]}
 }

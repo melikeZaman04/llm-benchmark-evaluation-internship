@@ -1,0 +1,24 @@
+{
+  "id": "trc_106",
+  "kategori": "diziler",
+  "zorluk": "orta",
+  "kaynak": "mutasyon",
+  "ebeveyn": "trc_069",
+  "canonical_id": "trc_069",
+  "variant_type": "story_mutation",
+  "prompt_tr": "İki spor kulübünün üye numaralarını içeren iki tam sayı listesi `birinci_kulup` ve `ikinci_kulup` veriliyor. Her iki kulübe de kayıtlı olan üye numaralarını, tekrarsız ve ARTAN sırada bir liste olarak döndüren bir fonksiyon yaz.",
+  "prompt_en": "You are given two integer lists `first_club` and `second_club` containing the member numbers of two sports clubs. Write a function that returns the member numbers registered in BOTH clubs, without duplicates and in ASCENDING order, as a list.",
+  "fonksiyon_imzasi": "def ortak_uyeler(birinci_kulup: list[int], ikinci_kulup: list[int]) -> list[int]:",
+  "fonksiyon_adi": "ortak_uyeler",
+  "fonksiyon_imzasi_en": "def common_members(first_club: list[int], second_club: list[int]) -> list[int]:",
+  "fonksiyon_adi_en": "common_members",
+  "referans_cozum": "def ortak_uyeler(birinci_kulup, ikinci_kulup):\n    return sorted(set(birinci_kulup) & set(ikinci_kulup))\n",
+  "test_cases": [
+    {"girdi": [[1, 2, 3], [2, 3, 4]], "beklenen": [2, 3]},
+    {"girdi": [[1, 1, 2], [1]], "beklenen": [1]},
+    {"girdi": [[], [1]], "beklenen": []},
+    {"girdi": [[5, 4], [4, 5]], "beklenen": [4, 5]},
+    {"girdi": [[1, 2], [3, 4]], "beklenen": []},
+    {"girdi": [[7, 7, 7], [7, 7]], "beklenen": [7]}
+  ]
+}

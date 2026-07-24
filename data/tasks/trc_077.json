@@ -18,5 +18,6 @@
     {"girdi": [0], "beklenen": 0},
     {"girdi": [5], "beklenen": 5},
     {"girdi": [1200], "beklenen": 21}
-  ]
+  ],
+  "sablon": {"sayı": ["tam sayı", "plaka numarası", "kasa kodu"]}
 }

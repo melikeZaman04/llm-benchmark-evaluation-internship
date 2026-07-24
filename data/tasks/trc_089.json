@@ -20,5 +20,6 @@
     {"girdi": ["("], "beklenen": false},
     {"girdi": ["]"], "beklenen": false},
     {"girdi": ["((()))"], "beklenen": true}
-  ]
+  ],
+  "sablon": {"yapı": ["parantez dizisi", "HTML etiketleri", "iç içe kaplar"]}
 }
