@@ -14,11 +14,11 @@
   kontaminasyon riski taşır; Türkçe muhakeme vergisini ve ezberi ayrıştıran
   kontrollü, özgün, çift-dilli bir set yoktu.
 
-## 2. Bileşim
-- **62 görev** = 20 kanonik + 20 parametric_story (sığ gizleme) + 22 story_mutation
-  (derin gizleme). **20/20 tam aile.**
-- 6 kategori (diziler, string, matematik, mantık, özyineleme, sayma); zorluk 12
-  kolay + 8 orta (**henüz zor yok** — bkz. limitler).
+## 2. Bileşim (v2)
+- **152 görev** = 50 kanonik + 50 parametric_story (sığ gizleme) + 52 story_mutation
+  (derin gizleme). **50/50 tam aile.**
+- 6 kategori (diziler, string, matematik, mantık, özyineleme, sayma; her biri 8–9);
+  zorluk **15 kolay + 23 orta + 12 zor** (blueprint hedefi %30/45/25 birebir).
 - Her görev: `prompt_tr`, `prompt_en`, `fonksiyon_imzasi(_en)`, `fonksiyon_adi(_en)`,
   `referans_cozum` (oracle için, TR), `test_cases` (~6), `karsilastirma` modu.
 - Her örnek/hücre: pass@1/@k, örnek başına token, hata_tipi.
@@ -48,8 +48,10 @@
   sözleşmesine göre (v2 ~50, v3 ~120 kanonik).
 
 ## 7. Bilinen limitler (açık ve kayıtlı)
-1. **n=20 kanonik** — HumanEval'in (164) altında; manşetler geniş CI'lara yaslanır.
-2. **Zor tier yok** — 0 zor görev; güçlü modellerde (coder:3b 0.85) tavan etkisi.
+1. **n=50 kanonik** — HumanEval ölçeğine (164) yaklaşıyor; v2 CI'ları ~±0.09'a
+   daraltır (v1'deki n=20 ~±0.10'dan). Yayın-kalitesi (±0.05) için ~158 hedeflenir.
+2. **Zor tier klasik arketipler** — zor görevler (DP, LIS, Josephus…) yürütmeyi
+   ölçer, algoritma keşfini değil (v1'deki "zor tier yok" boşluğu kapandı).
 3. **Yalnız 7 küçük yerel model** ölçüldü — büyük/API modellere genellenmeyebilir.
 4. **Görev başına ~6 test** — HumanEval+'ın dersi: daha çok test yanlış-ama-geçen
    kodu daha iyi yakalar.
@@ -63,3 +65,4 @@
 | Sürüm | Tarih | İçerik |
 |---|---|---|
 | v1 | 2026-07-24 | 62 görev (20 kanonik + 42 varyant), Design A tanımlayıcılar, ilk tam matris (868 hücre, n=5) |
+| v2 | 2026-07-24 | 152 görev (50 kanonik + 50 sığ + 52 derin, 50/50 tam aile), zor tier eklendi, ajan fabrikası Design-A'ya güncellendi; matris koşumu beklemede |
